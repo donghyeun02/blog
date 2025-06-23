@@ -5,3 +5,18 @@
 body {
   @apply p-4;
 }
+
+.react-flow__node {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.react-flow__handle {
+  background: #fff !important;
+  border: 2px solid #aaa !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+}

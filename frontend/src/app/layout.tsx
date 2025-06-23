@@ -1,5 +1,6 @@
 import './globals.css';
 import { ReactNode } from 'react';
+import MdxProviderWrapper from '@/components/MdxProvider';
 
 export const metadata = {
   title: '기술 블로그',
@@ -9,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-white text-black">{children}</body>
+      <body className="min-h-screen bg-white text-black">
+        <MdxProviderWrapper>{children}</MdxProviderWrapper>
+      </body>
     </html>
   );
 }
