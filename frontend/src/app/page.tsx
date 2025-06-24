@@ -1,8 +1,24 @@
 import BlogHome from '@/components/BlogHome';
 
 export const metadata = {
-  title: '기술 블로그 - 논리회로 시뮬레이터',
-  description: '인터랙티브한 논리회로 시뮬레이터와 함께하는 기술 블로그',
+  title: 'donghyeun02 기술 블로그',
+  description:
+    'donghyeun02의 CS, 백엔드, Java, Go 등 다양한 개발 지식과 경험을 공유합니다.',
+  openGraph: {
+    title: 'donghyeun02 기술 블로그',
+    description:
+      'donghyeun02의 CS, 백엔드, Java, Go 등 다양한 개발 지식과 경험을 공유합니다.',
+    type: 'website',
+    url: 'https://donghyeun02.com/',
+    images: [
+      {
+        url: 'https://donghyeun02.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'donghyeun02 블로그 썸네일',
+      },
+    ],
+  },
 };
 
 export default function Home() {
