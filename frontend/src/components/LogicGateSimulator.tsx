@@ -714,39 +714,226 @@ export default function LogicGateSimulator() {
   }, []);
 
   return (
-    <div style={{ width: '100vw', height: '80vh' }}>
-      <div style={{ display: 'flex', gap: 8, padding: 8 }}>
-        <button onClick={() => addNode('input')}>입력 추가</button>
-        <button onClick={() => addNode('and')}>AND 추가</button>
-        <button onClick={() => addNode('or')}>OR 추가</button>
-        <button onClick={() => addNode('not')}>NOT 추가</button>
-        <button onClick={() => addNode('xor')}>XOR 추가</button>
-        <button onClick={() => addNode('nand')}>NAND 추가</button>
-        <button onClick={() => addNode('nor')}>NOR 추가</button>
-        <button onClick={() => addNode('xnor')}>XNOR 추가</button>
-        <button onClick={() => addNode('output')}>출력 추가</button>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          padding: 16,
+          background: '#f8fafc',
+          borderRadius: 16,
+          boxShadow: '0 2px 8px #0001',
+          marginBottom: 12,
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          minHeight: 56,
+        }}
+      >
         <button
+          style={{
+            background: '#e0e7ef',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('input')}
+        >
+          ⬤ 입력
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('and')}
+        >
+          ∧ AND
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('or')}
+        >
+          ∨ OR
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('not')}
+        >
+          ¬ NOT
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('xor')}
+        >
+          ⊕ XOR
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('nand')}
+        >
+          ⊼ NAND
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('nor')}
+        >
+          ⊽ NOR
+        </button>
+        <button
+          style={{
+            background: '#f1f5f9',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('xnor')}
+        >
+          ≡ XNOR
+        </button>
+        <button
+          style={{
+            background: '#e0e7ef',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            transition: 'background 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onClick={() => addNode('output')}
+        >
+          ◎ 출력
+        </button>
+        <button
+          style={{
+            background: '#f43f5e',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '8px 18px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: selectedNodes.length === 0 ? 'not-allowed' : 'pointer',
+            opacity: selectedNodes.length === 0 ? 0.5 : 1,
+            marginLeft: 16,
+            transition: 'background 0.2s',
+          }}
           onClick={deleteSelectedNodes}
           disabled={selectedNodes.length === 0}
-          style={{ marginLeft: 16 }}
         >
-          선택 삭제
+          삭제
         </button>
       </div>
-      <ReactFlow
-        nodes={displayNodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        fitView
-        onSelectionChange={onSelectionChange}
-      >
-        <Background />
-        <Controls />
-        <MiniMap />
-      </ReactFlow>
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <ReactFlow
+          nodes={displayNodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          fitView
+          onSelectionChange={onSelectionChange}
+        >
+          <Background />
+          <Controls />
+          <MiniMap />
+        </ReactFlow>
+      </div>
     </div>
   );
 }
