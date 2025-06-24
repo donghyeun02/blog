@@ -1,17 +1,21 @@
-import './globals.css';
-import { ReactNode } from 'react';
-import MdxProviderWrapper from '@/components/MdxProvider';
+import '../styles/globals.css';
+import type { Metadata } from 'next';
+import SiteLayout from '@/components/SiteLayout';
 
-export const metadata = {
-  title: '기술 블로그',
-  description: '백엔드 기반 실습형 기술 블로그',
+export const metadata: Metadata = {
+  title: 'donghyeun.dev - 기술 블로그',
+  description: '백엔드 개발자 동현의 인터랙티브 기술 블로그',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-white text-black">
-        <MdxProviderWrapper>{children}</MdxProviderWrapper>
+      <body>
+        <SiteLayout>{children}</SiteLayout>
       </body>
     </html>
   );

@@ -1,9 +1,88 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@config "../../tailwind.config.js";
+
+:root {
+  --toastify-toast-bd-radius: 0px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply p-4;
+@layer base {
+  html,
+  body {
+    @apply font-sans bg-neutral-50 text-neutral-900;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  * {
+    margin: 0;
+  }
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+  }
+  a:hover {
+    color: #2563eb; /* blue-600 */
+  }
+  code {
+    @apply font-mono text-sm bg-neutral-100 px-1 py-0.5 rounded;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+  }
+  ::selection {
+    background: #dbeafe; /* blue-100 */
+  }
 }
 
 .react-flow__node {

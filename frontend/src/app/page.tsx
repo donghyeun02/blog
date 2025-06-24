@@ -1,12 +1,10 @@
-import Image from 'next/image';
-import styles from './page.module.css';
+import BlogHome from '@/components/BlogHome';
+
+export const metadata = {
+  title: '기술 블로그 - 논리회로 시뮬레이터',
+  description: '인터랙티브한 논리회로 시뮬레이터와 함께하는 기술 블로그',
+};
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600 underline">
-        TailwindCSS 적용 성공!
-      </h1>
-    </main>
-  );
+  return <BlogHome />;
 }
