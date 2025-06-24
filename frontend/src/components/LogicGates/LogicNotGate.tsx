@@ -1,12 +1,9 @@
 'use client';
 
 import React from 'react';
+import { UnaryGateProps } from '@/types/LogicGates';
 
-interface Props {
-  input: number;
-}
-
-export default function LogicNotGate({ input }: Props) {
+export default function LogicNotGate({ input }: UnaryGateProps) {
   const output = input ? 0 : 1;
   const fillColor = output === 1 ? '#22c55e' : '#222';
   return (

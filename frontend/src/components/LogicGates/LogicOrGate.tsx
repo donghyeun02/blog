@@ -1,16 +1,9 @@
 'use client';
 
 import React from 'react';
+import { BinaryGateProps } from '@/types/LogicGates';
 
-interface Props {
-  inputA: number;
-  inputB: number;
-  svgWidth?: number;
-  svgHeight?: number;
-  gateX?: number;
-}
-
-export default function LogicOrGate({ inputA, inputB }: Props) {
+export default function LogicOrGate({ inputA, inputB }: BinaryGateProps) {
   const output = inputA | inputB;
   const fillColor = output === 1 ? '#22c55e' : '#222';
   return (
