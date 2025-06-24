@@ -5,15 +5,10 @@ import React from 'react';
 interface Props {
   inputA: number;
   inputB: number;
-  svgWidth?: number;
-  svgHeight?: number;
-  gateX?: number;
 }
 
-export default function LogicAndGate({ inputA, inputB }: Props) {
-  const output = inputA & inputB;
-  const getColor = (v: number) => (v === 1 ? '#22c55e' : '#aaa');
-
+export default function LogicNandGate({ inputA, inputB }: Props) {
+  const output = inputA & inputB ? 0 : 1;
   return (
     <svg width={180} height={120}>
       <path
@@ -22,6 +17,7 @@ export default function LogicAndGate({ inputA, inputB }: Props) {
         stroke="#fff"
         strokeWidth="2"
       />
+      <circle cx="152" cy="60" r="8" fill="#222" />
       <text
         x={75}
         y={65}

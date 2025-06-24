@@ -21,7 +21,10 @@ import OutputNode from './LogicGates/OutputNode';
 import LogicAndGate from './LogicGates/LogicAndGate';
 import LogicOrGate from './LogicGates/LogicOrGate';
 import LogicNotGate from './LogicGates/LogicNotGate';
-// 추후 LogicNotGate, LogicXorGate 추가
+import LogicXorGate from './LogicGates/LogicXorGate';
+import LogicNandGate from './LogicGates/LogicNandGate';
+import LogicNorGate from './LogicGates/LogicNorGate';
+import LogicXnorGate from './LogicGates/LogicXnorGate';
 
 import { nanoid } from 'nanoid';
 
@@ -32,6 +35,10 @@ const nodeTypes = {
   and: (props: NodeProps) => <LogicAndGateNode {...props} />,
   or: (props: NodeProps) => <LogicOrGateNode {...props} />,
   not: (props: NodeProps) => <LogicNotGateNode {...props} />,
+  xor: (props: NodeProps) => <LogicXorGateNode {...props} />,
+  nand: (props: NodeProps) => <LogicNandGateNode {...props} />,
+  nor: (props: NodeProps) => <LogicNorGateNode {...props} />,
+  xnor: (props: NodeProps) => <LogicXnorGateNode {...props} />,
 };
 
 // AND 게이트 노드
@@ -51,7 +58,7 @@ function LogicAndGateNode({ data, id }: NodeProps) {
         id="a"
         style={{
           top: 40,
-          left: 16,
+          left: 14,
           background: '#fff',
           border: '2px solid #aaa',
           width: 16,
@@ -66,7 +73,7 @@ function LogicAndGateNode({ data, id }: NodeProps) {
         id="b"
         style={{
           top: 80,
-          left: 16,
+          left: 14,
           background: '#fff',
           border: '2px solid #aaa',
           width: 16,
@@ -205,6 +212,246 @@ function LogicNotGateNode({ data, id }: NodeProps) {
     </div>
   );
 }
+// XOR 게이트 노드
+function LogicXorGateNode({ data, id }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 180,
+        height: 120,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 40,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 80,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <LogicXorGate inputA={data.inputA} inputB={data.inputB} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="out"
+        style={{
+          top: 60,
+          right: 15,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+// NAND 게이트 노드
+function LogicNandGateNode({ data, id }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 180,
+        height: 120,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 40,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 80,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <LogicNandGate inputA={data.inputA} inputB={data.inputB} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="out"
+        style={{
+          top: 60,
+          right: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+// NOR 게이트 노드
+function LogicNorGateNode({ data, id }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 180,
+        height: 120,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 40,
+          left: 26,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 80,
+          left: 26,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <LogicNorGate inputA={data.inputA} inputB={data.inputB} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="out"
+        style={{
+          top: 60,
+          right: -2,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+// XNOR 게이트 노드
+function LogicXnorGateNode({ data, id }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 180,
+        height: 120,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 40,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 80,
+          left: 14,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <LogicXnorGate inputA={data.inputA} inputB={data.inputB} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="out"
+        style={{
+          top: 60,
+          right: -2,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
 
 // 샘플 초기 회로: 입력-AND-출력
 const initialNodes: Node[] = [
@@ -271,7 +518,6 @@ function calculateNodeValues(
   let iter = 0;
   while (changed && iter < 10) {
     changed = false;
-    // edge 연결로 nodeInputs 채우기
     edges.forEach((edge) => {
       let sourceVal = 0;
       if (inputValues.hasOwnProperty(edge.source)) {
@@ -283,7 +529,7 @@ function calculateNodeValues(
         nodeInputs[edge.target][edge.targetHandle] = sourceVal;
       }
     });
-    // 게이트/출력 노드의 nodeOutputs 계산
+
     nodes.forEach((node) => {
       let prev = nodeOutputs[node.id];
       if (node.type === 'and') {
@@ -294,6 +540,22 @@ function calculateNodeValues(
         const a = nodeInputs[node.id]['a'] ?? 0;
         const b = nodeInputs[node.id]['b'] ?? 0;
         nodeOutputs[node.id] = a | b;
+      } else if (node.type === 'xor') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        nodeOutputs[node.id] = a ^ b;
+      } else if (node.type === 'nand') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        nodeOutputs[node.id] = a & b ? 0 : 1;
+      } else if (node.type === 'nor') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        nodeOutputs[node.id] = a | b ? 0 : 1;
+      } else if (node.type === 'xnor') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        nodeOutputs[node.id] = a ^ b ? 0 : 1;
       } else if (node.type === 'not') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         nodeOutputs[node.id] = a === 1 ? 0 : 1;
@@ -341,7 +603,6 @@ export default function LogicGateSimulator() {
           },
         };
       } else if (node.type === 'outputCustom') {
-        // 자신에게 들어오는 edge의 source 노드의 출력값을 그대로 표시
         const incoming = edges.find(
           (e) => e.target === node.id && e.targetHandle === 'in'
         );
@@ -351,7 +612,14 @@ export default function LogicGateSimulator() {
             value: incoming ? nodeOutputs[incoming.source] ?? 0 : 0,
           },
         };
-      } else if (node.type === 'and' || node.type === 'or') {
+      } else if (
+        node.type === 'and' ||
+        node.type === 'or' ||
+        node.type === 'xor' ||
+        node.type === 'nand' ||
+        node.type === 'nor' ||
+        node.type === 'xnor'
+      ) {
         return {
           ...node,
           data: {
@@ -411,7 +679,14 @@ export default function LogicGateSimulator() {
         position: { x: 600, y: baseY },
         data: {},
       };
-    } else if (type === 'and' || type === 'or') {
+    } else if (
+      type === 'and' ||
+      type === 'or' ||
+      type === 'xor' ||
+      type === 'nand' ||
+      type === 'nor' ||
+      type === 'xnor'
+    ) {
       node = { id, type, position: { x: 300, y: baseY }, data: {} };
     } else if (type === 'not') {
       node = { id, type: 'not', position: { x: 300, y: baseY }, data: {} };
@@ -440,12 +715,15 @@ export default function LogicGateSimulator() {
 
   return (
     <div style={{ width: '100vw', height: '80vh' }}>
-      {/* 노드 추가/삭제 UI */}
       <div style={{ display: 'flex', gap: 8, padding: 8 }}>
         <button onClick={() => addNode('input')}>입력 추가</button>
         <button onClick={() => addNode('and')}>AND 추가</button>
         <button onClick={() => addNode('or')}>OR 추가</button>
         <button onClick={() => addNode('not')}>NOT 추가</button>
+        <button onClick={() => addNode('xor')}>XOR 추가</button>
+        <button onClick={() => addNode('nand')}>NAND 추가</button>
+        <button onClick={() => addNode('nor')}>NOR 추가</button>
+        <button onClick={() => addNode('xnor')}>XNOR 추가</button>
         <button onClick={() => addNode('output')}>출력 추가</button>
         <button
           onClick={deleteSelectedNodes}
