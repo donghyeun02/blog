@@ -9,15 +9,23 @@ interface Props {
 
 export default function LogicNorGate({ inputA, inputB }: Props) {
   const output = inputA | inputB ? 0 : 1;
+  const fillColor = output === 1 ? '#22c55e' : '#222';
   return (
     <svg width={180} height={120}>
       <path
         d="M 95 100 C 125 95 145 75 150 61 C 145 45 125 25 95 20 L 30 20 Q 62 60 30 100 Z"
-        fill="#222"
+        fill={fillColor}
         stroke="#fff"
         strokeWidth="2"
       />
-      <circle cx="157" cy="60" r="8" fill="#222" />
+      <circle
+        cx="160"
+        cy="60"
+        r="8"
+        fill={fillColor}
+        stroke="#fff"
+        strokeWidth="2"
+      />
       <text
         x={85}
         y={65}

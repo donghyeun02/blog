@@ -25,6 +25,7 @@ import LogicXorGate from './LogicGates/LogicXorGate';
 import LogicNandGate from './LogicGates/LogicNandGate';
 import LogicNorGate from './LogicGates/LogicNorGate';
 import LogicXnorGate from './LogicGates/LogicXnorGate';
+import CustomEdge from './CustomEdge';
 
 import { nanoid } from 'nanoid';
 
@@ -571,6 +572,10 @@ function calculateNodeValues(
   return { nodeInputs, nodeOutputs };
 }
 
+const edgeTypes = {
+  animated: CustomEdge,
+};
+
 export default function LogicGateSimulator() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -712,6 +717,21 @@ export default function LogicGateSimulator() {
   const onSelectionChange = useCallback((params: { nodes: Node[] }) => {
     setSelectedNodes(params.nodes.map((n) => n.id));
   }, []);
+
+  // displayEdges는 그대로, edges에 data.active 추가
+  const displayEdges = useMemo(() => {
+    return edges.map((edge) => {
+      let active = 0;
+      if (edge.source && nodeOutputs[edge.source] !== undefined) {
+        active = nodeOutputs[edge.source];
+      }
+      return {
+        ...edge,
+        type: 'animated',
+        data: { active },
+      };
+    });
+  }, [edges, nodeOutputs]);
 
   return (
     <div
@@ -921,15 +941,18 @@ export default function LogicGateSimulator() {
       <div style={{ flex: 1, minHeight: 0 }}>
         <ReactFlow
           nodes={displayNodes}
-          edges={edges}
+          edges={displayEdges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           onSelectionChange={onSelectionChange}
+          snapToGrid={true}
+          snapGrid={[20, 20]}
         >
-          <Background />
+          <Background gap={20} size={1} color="#d1d5db" />
           <Controls />
           <MiniMap />
         </ReactFlow>
