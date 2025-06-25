@@ -10,7 +10,7 @@ export default function InputNode({
   const toggle = () => {
     const v = value === 1 ? 0 : 1;
     setValue(v);
-    data.onChange && data.onChange(v);
+    if (data.onChange) data.onChange(v);
   };
   return (
     <>

@@ -535,10 +535,6 @@ function calculateNodeValues(
   return { nodeInputs, nodeOutputs };
 }
 
-const edgeTypes = {
-  animated: CustomEdge,
-};
-
 export default function LogicGateSimulator({
   initialNodes = [],
   initialEdges = [],
