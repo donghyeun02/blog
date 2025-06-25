@@ -19,7 +19,7 @@ export default function BlogPostLayout({
 }: BlogPostLayoutProps) {
   return (
     <main>
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4">
         <header className="pt-16 pb-8">
           <Link
             href="/"
@@ -70,9 +70,6 @@ export default function BlogPostLayout({
         <article className="prose prose-lg prose-neutral max-w-none leading-relaxed py-8">
           {children}
         </article>
-        <footer className="py-12 text-center text-xs text-neutral-400">
-          © {new Date().getFullYear()} donghyeun02
-        </footer>
       </div>
     </main>
   );

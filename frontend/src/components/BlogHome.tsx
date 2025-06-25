@@ -85,7 +85,7 @@ export default function BlogHome() {
         ))}
       </aside>
       {/* 우측 글 목록 */}
-      <section className="flex-1 px-8 py-12">
+      <section className="flex-1 px-8 py-12 max-w-4xl mx-auto">
         <h1 className="text-2xl font-mono font-bold mb-8 tracking-tight text-neutral-900">
           {current?.name}{' '}
           <span className="text-base font-normal text-neutral-400 align-middle">
