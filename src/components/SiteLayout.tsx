@@ -31,7 +31,7 @@ export default function SiteLayout({
       </header>
       {/* 본문 */}
       <main className="flex-1 flex flex-col items-center">
-        <div className="w-full max-w-6xl px-4 py-12">{children}</div>
+        <div className="w-full max-w-6xl px-4 py-4 sm:py-12">{children}</div>
       </main>
       {/* 푸터 */}
       <footer className="bg-neutral-50 border-t border-neutral-200 mt-16">
