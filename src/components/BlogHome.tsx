@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
+import { metadata as booleanAlgebraMeta } from '@/app/mdx/boolean-algebra/meta';
 
 const categories = [
   {
@@ -15,21 +17,11 @@ const categories = [
     icon: '📁',
     posts: [
       {
-        id: 'logic-gates',
-        title: '논리게이트 기초와 실습',
-        description:
-          'AND, OR, NOT, XOR 등 기본 논리게이트의 동작 원리를 인터랙티브한 시뮬레이터로 학습해보세요.',
-        date: '2024-01-15',
-        tags: ['논리회로', '시뮬레이터', '기초'],
+        ...logicGatesMeta,
         path: '/mdx/logic-gates',
       },
       {
-        id: 'boolean-algebra',
-        title: '불린 대수 기초',
-        description:
-          '논리게이트의 수학적 기반이 되는 불린 대수의 기본 개념과 법칙들을 학습해보세요.',
-        date: '2024-01-16',
-        tags: ['논리회로', '수학', '기초'],
+        ...booleanAlgebraMeta,
         path: '/mdx/boolean-algebra',
       },
     ],
@@ -95,35 +87,38 @@ export default function BlogHome() {
         <div className="flex flex-col space-y-10">
           {posts.length ? (
             posts.map((post) => (
-              <Link href={post.path} key={post.id} className="group block">
-                <article>
-                  <div className="flex gap-2 mb-1">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-600 rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h2 className="text-xl font-semibold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors">
-                    <span className="align-middle">📄</span> {post.title}
-                  </h2>
-                  <p className="text-neutral-600 text-base mb-2">
-                    {post.description}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs text-neutral-400 font-mono">
-                    <span>
-                      {new Date(post.date).toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+              <article key={post.title}>
+                <div className="flex gap-2 mb-1">
+                  {post.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-600 rounded"
+                    >
+                      {tag}
                     </span>
-                  </div>
-                </article>
-              </Link>
+                  ))}
+                </div>
+                <h2 className="text-xl font-semibold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors">
+                  <Link
+                    href={post.path}
+                    className="align-middle hover:text-blue-700"
+                  >
+                    <span className="align-middle">📄</span> {post.title}
+                  </Link>
+                </h2>
+                <p className="text-neutral-600 text-base mb-2">
+                  {post.summary}
+                </p>
+                <div className="flex items-center gap-2 text-xs text-neutral-400 font-mono">
+                  <span>
+                    {new Date(post.date).toLocaleDateString('ko-KR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </div>
+              </article>
             ))
           ) : (
             <div className="text-neutral-400 font-mono text-base py-12">
