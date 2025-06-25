@@ -607,7 +607,7 @@ export default function LogicGateSimulator({
       }
       return node;
     });
-  }, [nodes, edges, inputValues, nodeOutputs]);
+  }, [nodes, edges, inputValues, nodeOutputs, handleInputChange]);
 
   // 노드 입력값 추출 함수 (포트별)
   function nodeInputs(

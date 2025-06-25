@@ -6,7 +6,6 @@ import { BinaryGateProps } from '@/types/LogicGates';
 export default function LogicAndGate({ inputA, inputB }: BinaryGateProps) {
   const output = inputA & inputB;
   const fillColor = output === 1 ? '#22c55e' : '#222';
-  const getColor = (v: number) => (v === 1 ? '#22c55e' : '#aaa');
 
   return (
     <svg width={180} height={120}>
