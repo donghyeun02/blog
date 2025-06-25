@@ -16,6 +16,31 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* SEO 기본 메타태그 */}
+        <title>donghyeun02 - 기술 블로그</title>
+        <meta
+          name="description"
+          content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, go, java 개발 노트."
+        />
+        <meta
+          name="keywords"
+          content="donghyeun02, 기술 블로그, 개발, Next.js, TypeScript, MDX, 논리회로, CS, 백엔드"
+        />
+        <meta name="author" content="donghyeun02" />
+        {/* Open Graph 태그 */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="donghyeun02 - 기술 블로그" />
+        <meta property="og:title" content="donghyeun02 - 기술 블로그" />
+        <meta
+          property="og:description"
+          content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, 개발 노트."
+        />
+        <meta property="og:url" content="https://donghyeun02.com" />
+        <meta
+          property="og:image"
+          content="https://donghyeun02.com/og-image.png"
+        />
+        {/* GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HNP6KGYLST"
           strategy="afterInteractive"
