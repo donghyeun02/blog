@@ -4,7 +4,6 @@ import React, { useCallback, useState, useMemo } from 'react';
 import ReactFlow, {
   Background,
   Controls,
-  MiniMap,
   addEdge,
   useEdgesState,
   useNodesState,
@@ -54,7 +53,7 @@ const nodeTypes = {
 };
 
 // AND 게이트 노드
-function LogicAndGateNode({ data, id }: NodeProps) {
+function LogicAndGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -114,7 +113,7 @@ function LogicAndGateNode({ data, id }: NodeProps) {
   );
 }
 // OR 게이트 노드
-function LogicOrGateNode({ data, id }: NodeProps) {
+function LogicOrGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -174,7 +173,7 @@ function LogicOrGateNode({ data, id }: NodeProps) {
   );
 }
 // NOT 게이트 노드
-function LogicNotGateNode({ data, id }: NodeProps) {
+function LogicNotGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -219,7 +218,7 @@ function LogicNotGateNode({ data, id }: NodeProps) {
   );
 }
 // XOR 게이트 노드
-function LogicXorGateNode({ data, id }: NodeProps) {
+function LogicXorGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -279,7 +278,7 @@ function LogicXorGateNode({ data, id }: NodeProps) {
   );
 }
 // NAND 게이트 노드
-function LogicNandGateNode({ data, id }: NodeProps) {
+function LogicNandGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -339,7 +338,7 @@ function LogicNandGateNode({ data, id }: NodeProps) {
   );
 }
 // NOR 게이트 노드
-function LogicNorGateNode({ data, id }: NodeProps) {
+function LogicNorGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -399,7 +398,7 @@ function LogicNorGateNode({ data, id }: NodeProps) {
   );
 }
 // XNOR 게이트 노드
-function LogicXnorGateNode({ data, id }: NodeProps) {
+function LogicXnorGateNode({ data }: NodeProps) {
   return (
     <div
       style={{
@@ -459,47 +458,6 @@ function LogicXnorGateNode({ data, id }: NodeProps) {
   );
 }
 
-// 샘플 초기 회로: 입력-AND-출력
-const initialNodes: Node[] = [
-  {
-    id: 'in1',
-    type: 'inputCustom',
-    position: { x: 50, y: 100 },
-    data: { value: 1 },
-  },
-  {
-    id: 'in2',
-    type: 'inputCustom',
-    position: { x: 50, y: 200 },
-    data: { value: 0 },
-  },
-  { id: 'and1', type: 'and', position: { x: 250, y: 150 }, data: {} },
-  { id: 'out1', type: 'outputCustom', position: { x: 450, y: 150 }, data: {} },
-];
-const initialEdges: Edge[] = [
-  {
-    id: 'e1',
-    source: 'in1',
-    sourceHandle: 'out',
-    target: 'and1',
-    targetHandle: 'a',
-  },
-  {
-    id: 'e2',
-    source: 'in2',
-    sourceHandle: 'out',
-    target: 'and1',
-    targetHandle: 'b',
-  },
-  {
-    id: 'e3',
-    source: 'and1',
-    sourceHandle: 'out',
-    target: 'out1',
-    targetHandle: 'in',
-  },
-];
-
 // 회로 전체 신호 흐름 계산
 function calculateNodeValues(
   nodes: Node[],
@@ -537,7 +495,7 @@ function calculateNodeValues(
     });
 
     nodes.forEach((node) => {
-      let prev = nodeOutputs[node.id];
+      const prev = nodeOutputs[node.id];
       if (node.type === 'and') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         const b = nodeInputs[node.id]['b'] ?? 0;

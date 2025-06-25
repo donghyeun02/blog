@@ -7,7 +7,6 @@ interface BlogPostLayoutProps {
   date: string;
   tags?: string[];
   readTime?: string;
-  author?: string;
   children: React.ReactNode;
 }
 
@@ -16,7 +15,6 @@ export default function BlogPostLayout({
   summary,
   date,
   tags = [],
-  author,
   children,
 }: BlogPostLayoutProps) {
   return (
