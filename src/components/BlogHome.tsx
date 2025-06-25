@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
 import { metadata as booleanAlgebraMeta } from '@/app/mdx/boolean-algebra/meta';
-import PostSummaryCard from './PostSummaryCard';
 
 const categories = [
   {
