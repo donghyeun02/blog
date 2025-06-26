@@ -55,6 +55,7 @@ export default function BlogPostLayout({
             {summary}
           </p>
         </header>
+        <hr className="my-6 border-neutral-200" />
         <article className="prose prose-base sm:prose-lg prose-neutral max-w-none leading-relaxed py-2 sm:py-4">
           {children}
         </article>
