@@ -19,7 +19,7 @@ export default function BlogPostLayout({
 }: BlogPostLayoutProps) {
   return (
     <main className="bg-[#FAFAFA] min-h-screen font-sans">
-      <div className="max-w-3xl mx-auto px-4 py-10">
+      <div className="max-w-4xl mx-auto px-4 py-0">
         <header className="mb-4">
           <Link
             href="/"

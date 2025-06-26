@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
-import { metadata as booleanAlgebraMeta } from '@/app/mdx/boolean-algebra/meta';
 import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
 import { meta as cookieSessionMeta } from '@/app/mdx/cookie-session/meta';
 
@@ -21,10 +20,6 @@ const categories = [
       {
         ...logicGatesMeta,
         path: '/mdx/logic-gates',
-      },
-      {
-        ...booleanAlgebraMeta,
-        path: '/mdx/boolean-algebra',
       },
     ],
   },
@@ -108,8 +103,8 @@ export default function BlogHome() {
         ))}
       </div>
       {/* 우측 글 목록 */}
-      <section className="flex-1 px-2 sm:px-4 md:px-8 py-6 sm:py-10 max-w-4xl mx-auto w-full">
-        <h1 className="text-xl sm:text-2xl font-mono font-bold mb-6 sm:mb-8 tracking-tight text-neutral-900">
+      <section className="flex-1 px-2 sm:px-4 md:px-8 py-2 sm:py-4 max-w-4xl mx-auto w-full">
+        <h1 className="text-xl sm:text-2xl font-mono font-bold mb-2 sm:mb-3 tracking-tight text-neutral-900">
           {current?.name}{' '}
           <span className="text-sm sm:text-base font-normal text-neutral-400 align-middle">
             카테고리

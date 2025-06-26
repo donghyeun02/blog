@@ -99,3 +99,56 @@
   border-radius: 50% !important;
   box-shadow: none !important;
 }
+
+@layer components {
+  /* 블로그 본문 인용구 스타일 */
+  .prose blockquote {
+    @apply border-l-4 border-blue-200 bg-blue-50 text-blue-900 px-4 py-2 my-6 rounded-md font-medium;
+  }
+  /* 코드블록 스타일 */
+  .prose pre {
+    @apply bg-neutral-900 text-neutral-100 rounded-lg p-4 my-4 overflow-x-auto text-sm;
+  }
+  .prose code {
+    @apply bg-neutral-100 text-pink-700 px-1.5 py-0.5 rounded font-mono text-sm;
+  }
+  .prose pre code {
+    @apply bg-transparent text-neutral-100 px-0 py-0;
+  }
+  /* 표 스타일 */
+  .prose table {
+    @apply w-full border-collapse my-6;
+  }
+  .prose th {
+    @apply bg-blue-50 text-blue-900 font-semibold px-3 py-2 border-b border-blue-200 border-t border-neutral-300 border-l border-neutral-300;
+  }
+  .prose th:first-child,
+  .prose td:first-child {
+    @apply border-l-0;
+  }
+  .prose th:last-child,
+  .prose td:last-child {
+    @apply border-r-0;
+  }
+  .prose td {
+    @apply px-3 py-2 border-b border-neutral-200 border-t border-neutral-300 border-l border-neutral-300;
+  }
+  /* 이미지 스타일 */
+  .prose img {
+    @apply rounded-lg shadow-sm my-6 mx-auto;
+    max-width: 100%;
+    height: auto;
+  }
+  /* 리스트 스타일 */
+  .prose ul,
+  .prose ol {
+    @apply pl-6 my-3;
+  }
+  .prose li {
+    @apply mb-1;
+  }
+  /* 링크 스타일 */
+  .prose a {
+    @apply text-blue-700 underline underline-offset-2 hover:text-blue-900 transition-colors;
+  }
+}
