@@ -15,14 +15,6 @@ export default function SiteLayout({
             href="/"
             className="flex items-center gap-2 font-mono text-lg font-bold tracking-tight text-neutral-900 select-none hover:text-blue-700 transition-colors"
           >
-            <Image
-              src="/profile.jpg"
-              alt="프로필 사진"
-              width={32}
-              height={32}
-              className="w-8 h-8 rounded-full object-cover border border-neutral-200 shadow-sm"
-              priority={false}
-            />
             donghyeun02
           </Link>
           <nav className="flex gap-6 text-sm font-mono text-neutral-700">
