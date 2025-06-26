@@ -18,30 +18,35 @@ export default function BlogPostLayout({
   children,
 }: BlogPostLayoutProps) {
   return (
-    <main>
-      <div className="max-w-4xl mx-auto px-2 sm:px-4 md:px-4">
-        <header className="mb-8 pt-2 sm:pt-0">
+    <main className="bg-[#FAFAFA] min-h-screen font-sans">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        <header className="mb-4">
           <Link
             href="/"
             className="text-xs sm:text-sm text-neutral-400 hover:text-blue-600 mb-6 inline-block"
           >
             ← 글 목록
           </Link>
-          <div className="flex gap-2 mb-2 flex-wrap">
+          <div className="flex gap-2 mb-4 flex-wrap">
             {tags &&
               tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-600 rounded"
+                  className="px-3 py-1 text-xs bg-blue-50 text-blue-700 rounded-full font-semibold hover:bg-blue-100 transition-colors"
                 >
                   {tag}
                 </span>
               ))}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 mb-2">
-            <span className="align-middle">📄</span> {title}
+          <h1 className="text-4xl font-extrabold font-sans text-neutral-900 mb-4 flex items-center gap-2">
+            <span className="align-middle text-3xl">📄</span> {title}
           </h1>
-          <div className="flex items-center gap-2 text-xs text-neutral-400 font-mono mb-2">
+          {summary && (
+            <blockquote className="border-l-4 border-blue-200 bg-blue-50 px-4 py-2 text-lg text-blue-900 font-medium mb-4">
+              {summary}
+            </blockquote>
+          )}
+          <div className="flex items-center justify-between text-xs text-neutral-400 font-mono mb-3 w-full">
             <span>
               {date &&
                 new Date(date).toLocaleDateString('ko-KR', {
@@ -50,13 +55,21 @@ export default function BlogPostLayout({
                   day: 'numeric',
                 })}
             </span>
+            <span className="ml-auto">
+              by{' '}
+              <a
+                href="https://github.com/donghyeun02"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-700 transition-colors"
+              >
+                donghyeun02
+              </a>
+            </span>
           </div>
-          <p className="text-neutral-600 text-base sm:text-lg mb-2">
-            {summary}
-          </p>
         </header>
-        <hr className="my-6 border-neutral-200" />
-        <article className="prose prose-base sm:prose-lg prose-neutral max-w-none leading-relaxed py-2 sm:py-4">
+        <hr className="my-4 border-blue-200" />
+        <article className="prose prose-lg prose-blue max-w-none leading-loose font-sans">
           {children}
         </article>
       </div>
