@@ -18,16 +18,16 @@ const stepDetails: StepDetail[] = [
     title: '1. 서버가 쿠키를 준다',
     story: '“카페에 처음 가면 스탬프 카드 하나 받는 거야.”',
     http: 'Set-Cookie: userId=User01; Path=/; HttpOnly',
-    action: (setCookies: any, setLog: any, setLoading: any) => {
+    action: (setCookies, setLog, setLoading) => {
       setLoading(true);
-      setLog((prev: any[]) => [
+      setLog((prev) => [
         ...prev,
         '[쿠키] 서버: Set-Cookie 헤더로 쿠키 설정',
         '[쿠키] Set-Cookie: userId=User01; Path=/; HttpOnly',
       ]);
       setTimeout(() => {
         setCookies({ userId: 'User01' });
-        setLog((prev: any[]) => [
+        setLog((prev) => [
           ...prev,
           '[저장] 브라우저: 쿠키 저장 완료',
           '[성공] 쿠키 저장 완료',
@@ -42,15 +42,15 @@ const stepDetails: StepDetail[] = [
     title: '2. 브라우저가 쿠키를 저장',
     story: '“카페에서 받은 스탬프 카드를 주머니에 넣는 거야.”',
     http: '쿠키 저장: userId=User01',
-    action: (setCookies: any, setLog: any, setLoading: any) => {
+    action: (setCookies, setLog, setLoading) => {
       setLoading(true);
-      setLog((prev: any[]) => [
+      setLog((prev) => [
         ...prev,
         '[확인] 브라우저: 쿠키 저장소 확인',
         '[저장소] 저장된 쿠키: userId=User01',
       ]);
       setTimeout(() => {
-        setLog((prev: any[]) => [...prev, '[성공] 쿠키 저장 완료']);
+        setLog((prev) => [...prev, '[성공] 쿠키 저장 완료']);
         setLoading(false);
       }, 600);
     },
@@ -61,15 +61,15 @@ const stepDetails: StepDetail[] = [
     title: '3. 요청 시 쿠키 자동 전송',
     story: '“카페에서 주머니에서 스탬프 카드를 꺼내는 거야.”',
     http: 'Cookie: userId=User01',
-    action: (setCookies: any, setLog: any, setLoading: any) => {
+    action: (setCookies, setLog, setLoading) => {
       setLoading(true);
-      setLog((prev: any[]) => [
+      setLog((prev) => [
         ...prev,
         '[요청] 브라우저: 요청 전송 (쿠키 자동 포함)',
         '[쿠키] Cookie: userId=User01 (자동 포함)',
       ]);
       setTimeout(() => {
-        setLog((prev: any[]) => [
+        setLog((prev) => [
           ...prev,
           '[서버] 서버: 쿠키 수신 및 사용자 식별',
           '[성공] 인증 성공!',
@@ -84,16 +84,16 @@ const stepDetails: StepDetail[] = [
     title: '4. 쿠키 만료/삭제',
     story: '“스탬프 카드를 주머니에서 버리는 거야.”',
     http: '쿠키 삭제: userId=User01',
-    action: (setCookies: any, setLog: any, setLoading: any) => {
+    action: (setCookies, setLog, setLoading) => {
       setLoading(true);
-      setLog((prev: any[]) => [
+      setLog((prev) => [
         ...prev,
         '[삭제] 브라우저: 쿠키 삭제 요청',
         '[만료] 또는 쿠키 만료 시간 도달',
       ]);
       setTimeout(() => {
         setCookies({});
-        setLog((prev: any[]) => [...prev, '[성공] 쿠키 삭제 완료']);
+        setLog((prev) => [...prev, '[성공] 쿠키 삭제 완료']);
         setLoading(false);
       }, 600);
     },
@@ -252,7 +252,9 @@ export default function CookieSimulator() {
       </div>
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          <span>
+            다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          </span>
         </div>
       )}
       <button

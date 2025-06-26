@@ -357,8 +357,8 @@ export default function AuthFlowSimulator() {
           쿠키나 세션이 없으면, 로그인 성공 후에도{' '}
           <b>로그인했다는 사실이 브라우저나 서버에 저장되지 않아요.</b>
           <br />
-          그래서 새로고침하거나, 다음 요청을 보낼 때 서버는 "이 사용자가
-          로그인한 적이 있는지" 전혀 알 수 없습니다.
+          그래서 새로고침하거나, 다음 요청을 보낼 때 서버는 &quot;이 사용자가
+          로그인한 적이 있는지&quot; 전혀 알 수 없습니다.
           <br />
           <b>즉, 매번 다시 로그인해야 하는 불편함</b>이 생깁니다.
           <br />
@@ -404,7 +404,9 @@ export default function AuthFlowSimulator() {
       )}
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          <span>
+            다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          </span>
         </div>
       )}
       <button

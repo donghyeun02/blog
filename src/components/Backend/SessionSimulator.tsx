@@ -8,22 +8,7 @@ interface Session {
   createdAt: string;
 }
 
-interface StepDetail {
-  title: string;
-  story: string;
-  http: string;
-  action: (
-    setSessions: React.Dispatch<React.SetStateAction<Record<string, Session>>>,
-    setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
-    setLog: React.Dispatch<React.SetStateAction<string[]>>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    sessions: Record<string, Session>,
-    currentSessionId?: string | null
-  ) => void;
-  description: string;
-}
-
-const stepDetails: StepDetail[] = [
+const stepDetails = [
   {
     title: '1. 로그인 시 세션 생성',
     story: '“놀이공원에 입장할 때 손목 밴드를 받는 거야.”',
@@ -47,16 +32,16 @@ const stepDetails: StepDetail[] = [
         data: { isLoggedIn: true, lastLogin: new Date().toISOString() },
         createdAt: new Date().toISOString(),
       };
-      setLog((prev: string[]) => [
+      setLog((prev) => [
         ...prev,
         '[로그인] 사용자 로그인 요청',
         '[서버] 서버: 세션 생성',
         '[ID] 세션 ID: ' + sessionId,
       ]);
       setTimeout(() => {
-        setSessions((prev: any) => ({ ...prev, [sessionId]: session }));
+        setSessions((prev) => ({ ...prev, [sessionId]: session }));
         setCurrentSessionId(sessionId);
-        setLog((prev: string[]) => [
+        setLog((prev) => [
           ...prev,
           '[쿠키] Set-Cookie: sessionId=' + sessionId,
           '[성공] 세션 생성 완료',
@@ -78,28 +63,29 @@ const stepDetails: StepDetail[] = [
       setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
       setLog: React.Dispatch<React.SetStateAction<string[]>>,
       setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-      sessions: Record<string, Session>
+      sessions: Record<string, Session>,
+      currentSessionId: string | null
     ) => {
       setLoading(true);
-      setLog((prev: string[]) => [
+      setLog((prev) => [
         ...prev,
         '[저장] 세션에 사용자 데이터 저장',
         '[데이터] 저장 데이터: 로그인 상태, 사용자 정보 등',
       ]);
       setTimeout(() => {
-        setSessions((prev: any) => ({
+        setSessions((prev) => ({
           ...prev,
-          [setCurrentSessionId]: {
-            ...prev[setCurrentSessionId],
+          [currentSessionId!]: {
+            ...prev[currentSessionId!],
             data: {
-              ...prev[setCurrentSessionId].data,
+              ...prev[currentSessionId!].data,
               username: '사용자01',
               role: 'user',
               preferences: { theme: 'dark', language: 'ko' },
             },
           },
         }));
-        setLog((prev: string[]) => [...prev, '[성공] 세션 데이터 저장 완료']);
+        setLog((prev) => [...prev, '[성공] 세션 데이터 저장 완료']);
         setLoading(false);
       }, 600);
     },
@@ -118,17 +104,18 @@ const stepDetails: StepDetail[] = [
       setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
       setLog: React.Dispatch<React.SetStateAction<string[]>>,
       setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-      sessions: Record<string, Session>
+      sessions: Record<string, Session>,
+      currentSessionId: string | null
     ) => {
       setLoading(true);
-      setLog((prev: string[]) => [
+      setLog((prev) => [
         ...prev,
         '[요청] 클라이언트: 요청 (쿠키 포함)',
-        '[쿠키] Cookie: sessionId=' + setCurrentSessionId,
+        '[쿠키] Cookie: sessionId=' + currentSessionId,
       ]);
       setTimeout(() => {
-        const session = sessions[setCurrentSessionId];
-        setLog((prev: string[]) => [
+        const session = sessions[currentSessionId!];
+        setLog((prev) => [
           ...prev,
           '[서버] 서버: 세션 ID 확인',
           '[데이터] 세션 데이터: ' + JSON.stringify(session.data, null, 2),
@@ -152,19 +139,20 @@ const stepDetails: StepDetail[] = [
       setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
       setLog: React.Dispatch<React.SetStateAction<string[]>>,
       setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-      sessions: Record<string, Session>
+      sessions: Record<string, Session>,
+      currentSessionId: string | null
     ) => {
       setLoading(true);
-      setLog((prev: string[]) => [
+      setLog((prev) => [
         ...prev,
         '[로그아웃] 로그아웃 요청',
         '[삭제] 서버: 세션 삭제',
       ]);
       setTimeout(() => {
         const newSessions = { ...sessions };
-        delete newSessions[setCurrentSessionId];
+        delete newSessions[currentSessionId!];
         setSessions(newSessions);
-        setLog((prev: string[]) => [
+        setLog((prev) => [
           ...prev,
           '[쿠키] Set-Cookie: sessionId=; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
           '[성공] 세션 삭제 완료',
@@ -194,11 +182,6 @@ export default function SessionSimulator() {
   }, [log]);
 
   const handleStep = (i: number) => {
-    if (i === stepDetails.length - 1) {
-      setCompleted(true);
-    } else {
-      setStep(i + 1);
-    }
     setShowTip(false);
     if (i === 0) {
       stepDetails[i].action(
@@ -213,12 +196,17 @@ export default function SessionSimulator() {
       if (!currentSessionId) return;
       stepDetails[i].action(
         setSessions,
-        currentSessionId,
+        setCurrentSessionId,
         setLog,
         setLoading,
         sessions,
-        null
+        currentSessionId
       );
+    }
+    if (i === stepDetails.length - 1) {
+      setCompleted(true);
+    } else {
+      setStep(i + 1);
     }
   };
 
@@ -360,7 +348,9 @@ export default function SessionSimulator() {
       </div>
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          <span>
+            다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
+          </span>
         </div>
       )}
       <button
