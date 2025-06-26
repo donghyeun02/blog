@@ -130,23 +130,23 @@ export default function BlogHome() {
             sortedPosts.map((post) => (
               <article
                 key={post.title}
-                className="flex flex-row items-center gap-2 sm:gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-3 sm:p-5 hover:shadow-md hover:bg-neutral-50 hover:border-blue-200 group transition"
+                className="flex flex-row items-center gap-3 sm:gap-6 bg-gradient-to-br from-white to-blue-50/40 rounded-2xl shadow-md border border-neutral-100 p-4 sm:p-6 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300 group transition-all duration-200 ease-in-out"
               >
                 <Image
                   src={post.thumbnail || '/file.svg'}
                   alt={post.title + ' 썸네일'}
-                  width={96}
-                  height={96}
-                  className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-md flex-shrink-0 bg-neutral-100"
+                  width={128}
+                  height={128}
+                  className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-md flex-shrink-0 bg-neutral-100"
                   loading="lazy"
                   priority={false}
                 />
                 <div className="flex-1 flex flex-col min-w-0">
-                  <div className="flex gap-1 sm:gap-2 mb-1 flex-wrap">
+                  <div className="flex gap-1 sm:gap-2 mb-2 flex-wrap">
                     {post.tags.slice(0, 3).map((tag: string) => (
                       <span
                         key={tag}
-                        className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-blue-50 text-blue-700 rounded-full font-semibold hover:bg-blue-100 transition-colors"
+                        className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full font-semibold shadow-sm border border-blue-100"
                       >
                         {tag}
                       </span>
@@ -157,7 +157,7 @@ export default function BlogHome() {
                       </span>
                     )}
                   </div>
-                  <h2 className="text-base sm:text-lg font-semibold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors line-clamp-2">
+                  <h2 className="text-lg sm:text-xl font-extrabold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors line-clamp-2 tracking-tight">
                     <Link
                       href={post.path}
                       className="align-middle hover:text-blue-700"
@@ -165,15 +165,18 @@ export default function BlogHome() {
                       <span className="align-middle">📄</span> {post.title}
                     </Link>
                   </h2>
-                  <p className="text-neutral-600 text-xs sm:text-sm mb-1 line-clamp-2">
+                  <div className="border-b border-neutral-100 mb-2" />
+                  <p className="text-neutral-700 text-xs sm:text-sm mb-2 line-clamp-2 font-medium">
                     {post.summary}
                   </p>
-                  <div className="text-[11px] sm:text-xs text-neutral-400 font-mono mt-auto">
-                    {new Date(post.date).toLocaleDateString('ko-KR', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                  <div className="flex items-center gap-2 mt-auto">
+                    <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
+                      {new Date(post.date).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </span>
                   </div>
                 </div>
               </article>
