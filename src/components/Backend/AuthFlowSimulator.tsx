@@ -54,6 +54,7 @@ export default function AuthFlowSimulator() {
   const [log, setLog] = useState<string[]>([]);
   const [showCookieVuln, setShowCookieVuln] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [prevCompletedMode, setPrevCompletedMode] = useState<string>('none');
   const logRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const ARROWS = isMobile ? ARROWS_VERTICAL : ARROWS_HORIZONTAL;
@@ -73,6 +74,7 @@ export default function AuthFlowSimulator() {
     setServerSession(null);
     setLog([]);
     setShowCookieVuln(false); // 모드 바뀌면 시각화 숨김
+    setCompleted(false); // 모드 바뀌면 안내 메시지도 숨김
   }, [mode]);
 
   // 단계별 동작
@@ -176,6 +178,7 @@ export default function AuthFlowSimulator() {
         ]);
       }
       setCompleted(true); // 로그아웃 후 완료 처리
+      setPrevCompletedMode(mode); // 현재 모드 기억
       return;
     }
     setStep((prev) =>
@@ -412,7 +415,7 @@ export default function AuthFlowSimulator() {
           </span>
         </div>
       )}
-      {completed && (
+      {completed && mode === prevCompletedMode && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
           <span>
             다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
