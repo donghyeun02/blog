@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
 import { metadata as booleanAlgebraMeta } from '@/app/mdx/boolean-algebra/meta';
 import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
+import { meta as cookieSessionMeta } from '@/app/mdx/cookie-session/meta';
 
 const categories = [
   {
@@ -35,6 +36,10 @@ const categories = [
       {
         ...httpFlowMeta,
         path: '/mdx/http-flow',
+      },
+      {
+        ...cookieSessionMeta,
+        path: '/mdx/cookie-session',
       },
     ],
   },
