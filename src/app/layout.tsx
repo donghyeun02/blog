@@ -4,8 +4,8 @@ import SiteLayout from '@/components/SiteLayout';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'donghyeun02 - 기술 블로그',
-  description: '백엔드 개발자 donghyeun02 - 기술 블로그',
+  title: 'donghyeun02',
+  description: '백엔드 개발자 donghyeun02',
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         {/* SEO 기본 메타태그 */}
-        <title>donghyeun02 - 기술 블로그</title>
+        <title>donghyeun02</title>
         <meta
           name="description"
           content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, go, java 개발 노트."
@@ -29,8 +29,8 @@ export default function RootLayout({
         <meta name="author" content="donghyeun02" />
         {/* Open Graph 태그 */}
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="donghyeun02 - 기술 블로그" />
-        <meta property="og:title" content="donghyeun02 - 기술 블로그" />
+        <meta property="og:site_name" content="donghyeun02" />
+        <meta property="og:title" content="donghyeun02" />
         <meta
           property="og:description"
           content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, 개발 노트."
