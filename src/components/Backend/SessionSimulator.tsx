@@ -268,7 +268,7 @@ export default function SessionSimulator() {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
         {stepDetails.map((s, i) => (
           <button
             key={i}
@@ -284,11 +284,11 @@ export default function SessionSimulator() {
           </button>
         ))}
       </div>
-      <div className="mb-4 p-3 bg-neutral-50 rounded border border-neutral-200">
-        <h4 className="font-semibold text-neutral-900 mb-1">
+      <div className="mb-2 p-3 bg-neutral-50 rounded border border-neutral-200">
+        <h4 className="font-semibold text-neutral-900 mb-1 mt-0">
           {stepDetails[step].title}
         </h4>
-        <p className="text-sm text-neutral-700 mb-2">
+        <p className="text-sm text-neutral-700 mb-2 mt-0">
           {stepDetails[step].description}
         </p>
         <div className="flex items-center gap-2 mb-2">

@@ -49,9 +49,9 @@ export default function HttpFlowDemo() {
         버튼을 클릭하면 실제로 어떤 일이 일어나는지 실시간으로 확인해보세요.
       </p>
       {/* 흐름 시각화 */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-row items-center justify-between gap-2 sm:gap-4 mb-6 w-full">
         {/* 클라이언트 */}
-        <div className="flex flex-col items-center w-1/3">
+        <div className="flex flex-col items-center w-1/2 sm:w-1/3 mb-0">
           <div
             className={`rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold border-2 ${
               step === 1
@@ -61,10 +61,12 @@ export default function HttpFlowDemo() {
           >
             🖥️
           </div>
-          <span className="mt-2 text-xs text-neutral-700">클라이언트</span>
+          <span className="mt-2 text-xs sm:text-xs text-neutral-700">
+            클라이언트
+          </span>
         </div>
         {/* 화살표 */}
-        <div className="flex flex-col items-center w-1/3">
+        <div className="flex flex-col items-center w-1/4 sm:w-1/3 my-0">
           <div className="h-2 flex items-center">
             <div
               className={`w-16 h-1 rounded-full ${
@@ -72,7 +74,7 @@ export default function HttpFlowDemo() {
               }`}
             ></div>
           </div>
-          <span className="text-xs text-neutral-400 mt-1">요청</span>
+          <span className="text-xs sm:text-xs text-neutral-400 mt-1">요청</span>
           <div className="h-2 flex items-center mt-2">
             <div
               className={`w-16 h-1 rounded-full ${
@@ -80,10 +82,10 @@ export default function HttpFlowDemo() {
               }`}
             ></div>
           </div>
-          <span className="text-xs text-neutral-400 mt-1">응답</span>
+          <span className="text-xs sm:text-xs text-neutral-400 mt-1">응답</span>
         </div>
         {/* 서버 */}
-        <div className="flex flex-col items-center w-1/3">
+        <div className="flex flex-col items-center w-1/2 sm:w-1/3 mt-0">
           <div
             className={`rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold border-2 ${
               step === 2
@@ -93,7 +95,7 @@ export default function HttpFlowDemo() {
           >
             🗄️
           </div>
-          <span className="mt-2 text-xs text-neutral-700">서버</span>
+          <span className="mt-2 text-xs sm:text-xs text-neutral-700">서버</span>
         </div>
       </div>
       {/* 버튼 및 상태 */}

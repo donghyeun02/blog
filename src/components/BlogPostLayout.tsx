@@ -23,7 +23,7 @@ export default function BlogPostLayout({
 }: BlogPostLayoutProps) {
   return (
     <main className="bg-[#FAFAFA] font-sans">
-      <div className="max-w-4xl mx-auto px-4 py-0">
+      <div className="max-w-4xl mx-auto px-2 sm:px-4 py-0">
         <header className="mb-4">
           <Link
             href="/"
@@ -77,11 +77,11 @@ export default function BlogPostLayout({
           {children}
         </article>
         {(prevPost || nextPost) && (
-          <nav className="flex justify-between gap-4 mt-6 pt-4 border-t border-neutral-200 text-sm">
+          <nav className="flex flex-row justify-between gap-2 sm:gap-4 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-neutral-200 text-sm">
             {prevPost ? (
               <Link
                 href={prevPost.path}
-                className="group flex-1 max-w-[48%] bg-white border border-neutral-200 rounded-lg p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 no-underline"
+                className="group flex-1 min-w-0 h-auto bg-white border border-neutral-200 rounded-lg p-3 sm:p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 no-underline"
               >
                 <div className="text-blue-600 font-bold flex items-center gap-1 mb-1">
                   <span className="text-lg">←</span> 이전 글
@@ -96,7 +96,7 @@ export default function BlogPostLayout({
             {nextPost ? (
               <Link
                 href={nextPost.path}
-                className="group flex-1 max-w-[48%] bg-white border border-neutral-200 rounded-lg p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 text-right no-underline"
+                className="group flex-1 min-w-0 h-auto bg-white border border-neutral-200 rounded-lg p-3 sm:p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 text-right no-underline"
               >
                 <div className="text-blue-600 font-bold flex items-center gap-1 justify-end mb-1">
                   다음 글 <span className="text-lg">→</span>

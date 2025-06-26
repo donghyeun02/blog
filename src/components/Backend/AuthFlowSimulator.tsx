@@ -26,11 +26,19 @@ const STEPS = {
   ],
 };
 
-const ARROWS = {
-  login: '➡️',
-  request: '➡️',
-  logout: '⬅️',
-};
+const ARROWS_HORIZONTAL = { login: '➡️', request: '➡️', logout: '⬅️' };
+const ARROWS_VERTICAL = { login: '⬇️', request: '⬇️', logout: '⬆️' };
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
 
 export default function AuthFlowSimulator() {
   const [mode, setMode] = useState('none');
@@ -47,6 +55,8 @@ export default function AuthFlowSimulator() {
   const [showCookieVuln, setShowCookieVuln] = useState(false);
   const [completed, setCompleted] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const ARROWS = isMobile ? ARROWS_VERTICAL : ARROWS_HORIZONTAL;
 
   useEffect(() => {
     if (logRef.current) {
@@ -232,9 +242,9 @@ export default function AuthFlowSimulator() {
         className="flex flex-col items-center gap-1 mb-2 mt-0 pt-0"
         style={{ marginTop: 0, paddingTop: 0 }}
       >
-        <div className="flex flex-row items-center gap-8 w-full justify-center">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
           {/* 브라우저 상태 */}
-          <div className="flex flex-col items-center w-48">
+          <div className="flex flex-col items-center w-full sm:w-48 mb-4 sm:mb-0">
             <div className="rounded-xl border-2 border-blue-400 bg-blue-50 w-full p-4 mb-2">
               <div className="text-lg font-bold mb-2 flex items-center gap-2">
                 🖥️ <span>브라우저</span>
@@ -269,7 +279,7 @@ export default function AuthFlowSimulator() {
             </div>
           </div>
           {/* 서버 상태 */}
-          <div className="flex flex-col items-center w-48">
+          <div className="flex flex-col items-center w-full sm:w-48 mt-4 sm:mt-0">
             <div className="rounded-xl border-2 border-green-400 bg-green-50 w-full p-4 mb-2">
               <div className="text-lg font-bold mb-2 flex items-center gap-2">
                 🗄️ <span>서버</span>
