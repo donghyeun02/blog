@@ -62,6 +62,9 @@ export default function BlogHome() {
   const [selected, setSelected] = useState(categories[0].id);
   const current = categories.find((c) => c.id === selected);
   const posts = current?.id === 'all' ? getAllPosts() : current?.posts || [];
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
     <main className="flex flex-col md:flex-row gap-0 min-h-[70vh]">
@@ -108,8 +111,8 @@ export default function BlogHome() {
           </span>
         </h1>
         <div className="flex flex-col space-y-6 sm:space-y-10">
-          {posts.length ? (
-            posts.map((post) => (
+          {sortedPosts.length ? (
+            sortedPosts.map((post) => (
               <article
                 key={post.title}
                 className="bg-white rounded-lg shadow-sm p-4 sm:p-6 transition hover:shadow-md"
