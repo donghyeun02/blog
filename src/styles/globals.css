@@ -66,12 +66,12 @@
   }
   a {
     color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    text-decoration: none;
     transition: color 0.15s;
   }
   a:hover {
     color: #2563eb; /* blue-600 */
+    text-decoration: none;
   }
   code {
     @apply font-mono text-sm bg-neutral-100 px-1 py-0.5 rounded;

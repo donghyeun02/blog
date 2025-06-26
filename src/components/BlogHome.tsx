@@ -4,12 +4,23 @@ import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
 import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
 import { meta as cookieSessionMeta } from '@/app/mdx/cookie-session/meta';
+import Image from 'next/image';
+
+type PostMeta = {
+  title: string;
+  path: string;
+  date: string;
+  summary: string;
+  tags: string[];
+  category: string;
+  thumbnail?: string;
+};
 
 const categories = [
   {
     id: 'all',
     name: '전체',
-    icon: '📂',
+    icon: '📁',
     posts: null, // null로 두고, 실제 렌더링 시 모든 글을 합쳐서 보여줌
   },
   {
@@ -20,6 +31,7 @@ const categories = [
       {
         ...logicGatesMeta,
         path: '/mdx/logic-gates',
+        category: 'CS',
       },
     ],
   },
@@ -31,10 +43,12 @@ const categories = [
       {
         ...httpFlowMeta,
         path: '/mdx/http-flow',
+        category: 'Backend',
       },
       {
         ...cookieSessionMeta,
         path: '/mdx/cookie-session',
+        category: 'Backend',
       },
     ],
   },
@@ -61,7 +75,8 @@ const getAllPosts = () =>
 export default function BlogHome() {
   const [selected, setSelected] = useState(categories[0].id);
   const current = categories.find((c) => c.id === selected);
-  const posts = current?.id === 'all' ? getAllPosts() : current?.posts || [];
+  const posts: PostMeta[] =
+    current?.id === 'all' ? getAllPosts() : current?.posts || [];
   const sortedPosts = [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -80,7 +95,7 @@ export default function BlogHome() {
                 : 'hover:bg-neutral-100 text-neutral-700'
             }`}
           >
-            <span>{cat.icon}</span>
+            <span>{selected === cat.id ? '📂' : '📁'}</span>
             <span>{cat.name}</span>
           </button>
         ))}
@@ -97,7 +112,7 @@ export default function BlogHome() {
                 : 'hover:bg-neutral-100 text-neutral-700'
             }`}
           >
-            <span>{cat.icon}</span>
+            <span>{selected === cat.id ? '📂' : '📁'}</span>
             <span>{cat.name}</span>
           </button>
         ))}
@@ -115,37 +130,51 @@ export default function BlogHome() {
             sortedPosts.map((post) => (
               <article
                 key={post.title}
-                className="bg-white rounded-lg shadow-sm p-4 sm:p-6 transition hover:shadow-md"
+                className="flex flex-row items-center gap-2 sm:gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-3 sm:p-5 hover:shadow-md hover:bg-neutral-50 hover:border-blue-200 group transition"
               >
-                <div className="flex gap-2 mb-1 flex-wrap">
-                  {post.tags.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-600 rounded"
+                <Image
+                  src={post.thumbnail || '/file.svg'}
+                  alt={post.title + ' 썸네일'}
+                  width={96}
+                  height={96}
+                  className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-md flex-shrink-0 bg-neutral-100"
+                  loading="lazy"
+                  priority={false}
+                />
+                <div className="flex-1 flex flex-col min-w-0">
+                  <div className="flex gap-1 sm:gap-2 mb-1 flex-wrap">
+                    {post.tags.slice(0, 3).map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-blue-50 text-blue-700 rounded-full font-semibold hover:bg-blue-100 transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {post.tags.length > 3 && (
+                      <span className="px-2 py-0.5 text-[11px] bg-gray-200 text-gray-600 rounded-full font-semibold">
+                        +{post.tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-base sm:text-lg font-semibold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors line-clamp-2">
+                    <Link
+                      href={post.path}
+                      className="align-middle hover:text-blue-700"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <h2 className="text-lg sm:text-xl font-semibold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors">
-                  <Link
-                    href={post.path}
-                    className="align-middle hover:text-blue-700"
-                  >
-                    <span className="align-middle">📄</span> {post.title}
-                  </Link>
-                </h2>
-                <p className="text-neutral-600 text-sm sm:text-base mb-2">
-                  {post.summary}
-                </p>
-                <div className="flex items-center gap-2 text-xs text-neutral-400 font-mono">
-                  <span>
+                      <span className="align-middle">📄</span> {post.title}
+                    </Link>
+                  </h2>
+                  <p className="text-neutral-600 text-xs sm:text-sm mb-1 line-clamp-2">
+                    {post.summary}
+                  </p>
+                  <div className="text-[11px] sm:text-xs text-neutral-400 font-mono mt-auto">
                     {new Date(post.date).toLocaleDateString('ko-KR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
                     })}
-                  </span>
+                  </div>
                 </div>
               </article>
             ))
