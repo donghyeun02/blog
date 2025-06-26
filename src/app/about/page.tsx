@@ -1,10 +1,14 @@
+import Image from 'next/image';
+
 export default function AboutPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
       <div className="flex justify-center mb-6">
-        <img
+        <Image
           src="/profile.jpg"
           alt="프로필 사진"
+          width={160}
+          height={160}
           className="w-40 h-40 rounded-full object-cover shadow-md border border-neutral-200"
         />
       </div>

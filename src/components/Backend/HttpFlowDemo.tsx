@@ -3,9 +3,16 @@ import React, { useState } from 'react';
 
 const SERVER_URL = 'https://jsonplaceholder.typicode.com/todos/1';
 
+type Todo = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
 export default function HttpFlowDemo() {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<Todo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0); // 0:대기, 1:요청중, 2:서버처리, 3:응답완료
 
@@ -21,11 +28,12 @@ export default function HttpFlowDemo() {
       const res = await fetch(SERVER_URL);
       await new Promise((r) => setTimeout(r, 400));
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
+      const json: Todo = await res.json();
       setData(json);
       setStep(3); // 응답 완료
-    } catch (e: any) {
-      setError(e.message || '에러 발생');
+    } catch (e) {
+      if (e instanceof Error) setError(e.message);
+      else setError('에러 발생');
       setStep(0);
     } finally {
       setLoading(false);
