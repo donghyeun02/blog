@@ -54,7 +54,7 @@ const stepDetails = [
   },
   {
     title: '2. 세션 데이터 저장',
-    story: '“세션에는 사용자 정보, 로그인 상태, 사용자 설정 등이 저장됩니다.”',
+    story: '“손목 밴드에 내 이름, 입장 시간 같은 정보가 기록되는 거야.”',
     http: '세션 데이터: { isLoggedIn: true, username: "사용자01" }',
     action: (
       setSessions: React.Dispatch<
@@ -95,7 +95,7 @@ const stepDetails = [
   {
     title: '3. 요청 시 세션 확인',
     story:
-      '“클라이언트가 요청할 때마다 서버는 세션 ID를 확인하고 해당 세션 데이터를 조회합니다.”',
+      '“놀이기구를 탈 때마다 직원이 손목 밴드를 확인해서 입장 자격을 확인해.”',
     http: 'Cookie: sessionId=abc123',
     action: (
       setSessions: React.Dispatch<
@@ -130,7 +130,7 @@ const stepDetails = [
   {
     title: '4. 세션 만료/삭제',
     story:
-      '“로그아웃하거나 세션이 만료되면 서버에서 세션을 삭제하고 쿠키도 만료시킵니다.”',
+      '“놀이공원에서 나가면 손목 밴드를 반납하거나 잘라서 더 이상 사용할 수 없게 돼.”',
     http: 'Set-Cookie: sessionId=; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
     action: (
       setSessions: React.Dispatch<
