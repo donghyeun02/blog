@@ -1,7 +1,19 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 
-const stepDetails = [
+interface StepDetail {
+  title: string;
+  story: string;
+  http: string;
+  action: (
+    setCookies: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>,
+    setLog: React.Dispatch<React.SetStateAction<string[]>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => void;
+  description: string;
+}
+
+const stepDetails: StepDetail[] = [
   {
     title: '1. 서버가 쿠키를 준다',
     story: '“카페에 처음 가면 스탬프 카드 하나 받는 거야.”',
@@ -240,7 +252,7 @@ export default function CookieSimulator() {
       </div>
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 "초기화" 버튼을 눌러주세요.
+          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
         </div>
       )}
       <button

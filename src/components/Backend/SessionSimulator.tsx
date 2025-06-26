@@ -4,21 +4,38 @@ import React, { useState, useRef, useEffect } from 'react';
 interface Session {
   id: string;
   userId: string;
-  data: { [key: string]: any };
+  data: { [key: string]: unknown };
   createdAt: string;
 }
 
-const stepDetails = [
+interface StepDetail {
+  title: string;
+  story: string;
+  http: string;
+  action: (
+    setSessions: React.Dispatch<React.SetStateAction<Record<string, Session>>>,
+    setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
+    setLog: React.Dispatch<React.SetStateAction<string[]>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    sessions: Record<string, Session>,
+    currentSessionId?: string | null
+  ) => void;
+  description: string;
+}
+
+const stepDetails: StepDetail[] = [
   {
     title: '1. 로그인 시 세션 생성',
     story: '“놀이공원에 입장할 때 손목 밴드를 받는 거야.”',
     http: 'Set-Cookie: sessionId=abc123; Path=/; HttpOnly',
     action: (
-      setSessions: any,
-      setCurrentSessionId: any,
-      setLog: any,
-      setLoading: any,
-      sessions: any,
+      setSessions: React.Dispatch<
+        React.SetStateAction<Record<string, Session>>
+      >,
+      setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
+      setLog: React.Dispatch<React.SetStateAction<string[]>>,
+      setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+      sessions: Record<string, Session>,
       currentSessionId: string | null
     ) => {
       if (currentSessionId) return;
@@ -55,11 +72,13 @@ const stepDetails = [
     story: '“세션에는 사용자 정보, 로그인 상태, 사용자 설정 등이 저장됩니다.”',
     http: '세션 데이터: { isLoggedIn: true, username: "사용자01" }',
     action: (
-      setSessions: any,
-      setCurrentSessionId: any,
-      setLog: any,
-      setLoading: any,
-      sessions: any
+      setSessions: React.Dispatch<
+        React.SetStateAction<Record<string, Session>>
+      >,
+      setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
+      setLog: React.Dispatch<React.SetStateAction<string[]>>,
+      setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+      sessions: Record<string, Session>
     ) => {
       setLoading(true);
       setLog((prev: string[]) => [
@@ -93,11 +112,13 @@ const stepDetails = [
       '“클라이언트가 요청할 때마다 서버는 세션 ID를 확인하고 해당 세션 데이터를 조회합니다.”',
     http: 'Cookie: sessionId=abc123',
     action: (
-      setSessions: any,
-      setCurrentSessionId: any,
-      setLog: any,
-      setLoading: any,
-      sessions: any
+      setSessions: React.Dispatch<
+        React.SetStateAction<Record<string, Session>>
+      >,
+      setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
+      setLog: React.Dispatch<React.SetStateAction<string[]>>,
+      setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+      sessions: Record<string, Session>
     ) => {
       setLoading(true);
       setLog((prev: string[]) => [
@@ -125,11 +146,13 @@ const stepDetails = [
       '“로그아웃하거나 세션이 만료되면 서버에서 세션을 삭제하고 쿠키도 만료시킵니다.”',
     http: 'Set-Cookie: sessionId=; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
     action: (
-      setSessions: any,
-      setCurrentSessionId: any,
-      setLog: any,
-      setLoading: any,
-      sessions: any
+      setSessions: React.Dispatch<
+        React.SetStateAction<Record<string, Session>>
+      >,
+      setCurrentSessionId: React.Dispatch<React.SetStateAction<string | null>>,
+      setLog: React.Dispatch<React.SetStateAction<string[]>>,
+      setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+      sessions: Record<string, Session>
     ) => {
       setLoading(true);
       setLog((prev: string[]) => [
@@ -337,7 +360,7 @@ export default function SessionSimulator() {
       </div>
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 "초기화" 버튼을 눌러주세요.
+          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
         </div>
       )}
       <button

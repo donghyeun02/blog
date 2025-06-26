@@ -38,7 +38,11 @@ export default function AuthFlowSimulator() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cookie, setCookie] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [serverSession, setServerSession] = useState<any>(null);
+  const [serverSession, setServerSession] = useState<{
+    id: string;
+    user: string;
+    data: { isLoggedIn: boolean };
+  } | null>(null);
   const [log, setLog] = useState<string[]>([]);
   const [showCookieVuln, setShowCookieVuln] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -400,7 +404,7 @@ export default function AuthFlowSimulator() {
       )}
       {completed && (
         <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
-          다시 진행하려면 아래 "초기화" 버튼을 눌러주세요.
+          다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
         </div>
       )}
       <button
