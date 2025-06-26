@@ -8,6 +8,8 @@ interface BlogPostLayoutProps {
   tags?: string[];
   readTime?: string;
   children: React.ReactNode;
+  prevPost?: { title: string; path: string; date: string };
+  nextPost?: { title: string; path: string; date: string };
 }
 
 export default function BlogPostLayout({
@@ -16,9 +18,11 @@ export default function BlogPostLayout({
   date,
   tags = [],
   children,
+  prevPost,
+  nextPost,
 }: BlogPostLayoutProps) {
   return (
-    <main className="bg-[#FAFAFA] min-h-screen font-sans">
+    <main className="bg-[#FAFAFA] font-sans">
       <div className="max-w-4xl mx-auto px-4 py-0">
         <header className="mb-4">
           <Link
@@ -72,6 +76,40 @@ export default function BlogPostLayout({
         <article className="prose prose-lg prose-blue max-w-none leading-loose font-sans">
           {children}
         </article>
+        {(prevPost || nextPost) && (
+          <nav className="flex justify-between gap-4 mt-6 pt-4 border-t border-neutral-200 text-sm">
+            {prevPost ? (
+              <Link
+                href={prevPost.path}
+                className="group flex-1 max-w-[48%] bg-white border border-neutral-200 rounded-lg p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 no-underline"
+              >
+                <div className="text-blue-600 font-bold flex items-center gap-1 mb-1">
+                  <span className="text-lg">←</span> 이전 글
+                </div>
+                <span className="font-semibold text-neutral-900 group-hover:text-blue-700 line-clamp-2 no-underline">
+                  {prevPost.title}
+                </span>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+            {nextPost ? (
+              <Link
+                href={nextPost.path}
+                className="group flex-1 max-w-[48%] bg-white border border-neutral-200 rounded-lg p-4 shadow-sm hover:shadow-md transition hover:border-blue-300 text-right no-underline"
+              >
+                <div className="text-blue-600 font-bold flex items-center gap-1 justify-end mb-1">
+                  다음 글 <span className="text-lg">→</span>
+                </div>
+                <span className="font-semibold text-neutral-900 group-hover:text-blue-700 line-clamp-2 no-underline">
+                  {nextPost.title}
+                </span>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+          </nav>
+        )}
       </div>
     </main>
   );

@@ -34,7 +34,7 @@ export default function SiteLayout({
         <div className="w-full max-w-6xl px-4 py-4 sm:py-12">{children}</div>
       </main>
       {/* 푸터 */}
-      <footer className="bg-neutral-50 border-t border-neutral-200 mt-16">
+      <footer className="bg-neutral-50 border-t border-neutral-200 mt-4">
         <div className="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-neutral-400 font-mono">
           © {new Date().getFullYear()} donghyeun02
         </div>

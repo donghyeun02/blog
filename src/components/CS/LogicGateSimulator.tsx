@@ -24,7 +24,7 @@ import LogicXorGate from './LogicGates/LogicXorGate';
 import LogicNandGate from './LogicGates/LogicNandGate';
 import LogicNorGate from './LogicGates/LogicNorGate';
 import LogicXnorGate from './LogicGates/LogicXnorGate';
-import CustomEdge from '../CustomEdge';
+import CustomEdge from './CustomEdge';
 
 import { nanoid } from 'nanoid';
 

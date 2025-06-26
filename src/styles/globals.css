@@ -152,3 +152,7 @@
     @apply text-blue-700 underline underline-offset-2 hover:text-blue-900 transition-colors;
   }
 }
+
+.no-underline {
+  text-decoration: none !important;
+}
