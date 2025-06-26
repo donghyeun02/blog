@@ -9,25 +9,22 @@ export default function AboutPage() {
           alt="프로필 사진"
           width={160}
           height={160}
-          className="w-40 h-40 rounded-full object-cover shadow-md border border-neutral-200"
+          className="w-24 h-24 sm:w-40 sm:h-40 rounded-full object-cover shadow-md border border-neutral-200"
         />
       </div>
-      <h1 className="text-3xl font-bold mb-4">소개</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4">소개</h1>
 
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">
+        <h2 className="text-lg sm:text-xl font-semibold mb-2">
           안녕하세요, 백엔드 개발자 신동현입니다 👋
         </h2>
-        <p className="text-neutral-700 leading-relaxed">
+        <p className="text-base sm:text-lg text-neutral-700 leading-relaxed">
           <br />
           백엔드 개발자이자 <b>Go</b>, <b>Java</b> 중심으로 다양한 기술과 컴퓨터
           과학을 탐구하고 있습니다.
           <br />
-          <br />
-          이 블로그는 단순한 개발 기록이 아닌,
-          <br />
-          <b>CS 지식(논리회로, 자료구조, 알고리즘 등)</b>과 <b>백엔드 기술</b>을
-          <br />
+          <br />이 블로그는 단순한 개발 기록이 아닌,{' '}
+          <b>CS 지식(논리회로, 자료구조, 알고리즘 등)</b>과 <b>백엔드 기술</b>을{' '}
           <b>직접 실습하고 시각화하며 체화하는 기술 콘텐츠</b>를 공유하기 위해
           만들었습니다.
         </p>
@@ -82,10 +79,8 @@ export default function AboutPage() {
         <h2 className="text-lg font-semibold mb-2">블로그 목적</h2>
         <p className="text-neutral-700 leading-relaxed">
           이 블로그는 <b>지식의 체화</b>와 <b>공유</b>를 통해 더 깊이 있는
-          개발자로 성장하고,
-          <br />
-          <b>직접 실습하고 시각화할 수 있는 콘텐츠</b>를 제공해 다른 개발자들과
-          함께 성장하는 장을 만드는 것이 목표입니다.
+          개발자로 성장하고, <b>직접 실습하고 시각화할 수 있는 콘텐츠</b>를
+          제공해 다른 개발자들과 함께 성장하는 장을 만드는 것이 목표입니다.
           <br />
           <br />
           방문해주셔서 감사합니다!
