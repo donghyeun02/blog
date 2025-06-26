@@ -1,8 +1,9 @@
 'use client';
 
-import LogicGateSimulator from './LogicGateSimulator';
+import LogicGateSimulator from './CS/LogicGateSimulator';
 import { nanoid } from 'nanoid';
 import React from 'react';
+import HttpFlowDemo from './Backend/HttpFlowDemo';
 
 // AND 게이트 시뮬레이터 (미리 구성된 회로)
 function AndGateSimulator() {
@@ -318,4 +319,5 @@ export const mdxComponents = {
   NotGateSimulator,
   XorGateSimulator,
   FreeSimulator,
+  HttpFlowDemo,
 };

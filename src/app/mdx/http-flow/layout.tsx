@@ -1,4 +1,4 @@
-export default function BooleanAlgebraLayout({
+export default function HTTPFlowLayout({
   children,
 }: {
   children: React.ReactNode;

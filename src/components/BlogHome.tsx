@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
 import { metadata as booleanAlgebraMeta } from '@/app/mdx/boolean-algebra/meta';
+import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
 
 const categories = [
   {
@@ -30,7 +31,12 @@ const categories = [
     id: 'backend',
     name: 'Backend',
     icon: '📁',
-    posts: [],
+    posts: [
+      {
+        ...httpFlowMeta,
+        path: '/mdx/http-flow',
+      },
+    ],
   },
   {
     id: 'java',
