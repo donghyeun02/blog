@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
 import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
 import { meta as cookieSessionMeta } from '@/app/mdx/cookie-session/meta';
+import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
 import Image from 'next/image';
 
 type PostMeta = {
@@ -31,6 +32,11 @@ const categories = [
       {
         ...logicGatesMeta,
         path: '/mdx/logic-gates',
+        category: 'CS',
+      },
+      {
+        ...calculatorMeta,
+        path: '/mdx/calculator',
         category: 'CS',
       },
     ],
