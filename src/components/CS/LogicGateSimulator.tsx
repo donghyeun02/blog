@@ -2,14 +2,10 @@
 
 import React, { useCallback, useState, useMemo } from 'react';
 import ReactFlow, {
-  Background,
   Controls,
   addEdge,
   useEdgesState,
   useNodesState,
-  Handle,
-  Position,
-  NodeProps,
   Edge,
   Connection,
   Node,
@@ -191,6 +187,39 @@ export default function LogicGateSimulator({
     setInputValues((prev) => ({ ...prev, [id]: v }));
   }, []);
 
+  // 노드 입력값 추출 함수 (포트별)
+  const nodeInputs = useCallback(
+    (
+      nodeId: string,
+      edges: Edge[],
+      nodeOutputs: Record<string, number>,
+      port: string
+    ) => {
+      const incoming = edges.find(
+        (e) => e.target === nodeId && e.targetHandle === port
+      );
+      if (incoming) {
+        const sourceNode = nodes.find((n) => n.id === incoming.source);
+        if (sourceNode?.type === 'halfAdder' && incoming.sourceHandle) {
+          if (incoming.sourceHandle === 'sum') {
+            return nodeMultiOutputs[incoming.source]?.sum ?? 0;
+          } else if (incoming.sourceHandle === 'carry') {
+            return nodeMultiOutputs[incoming.source]?.carry ?? 0;
+          }
+        } else if (sourceNode?.type === 'fullAdder' && incoming.sourceHandle) {
+          if (incoming.sourceHandle === 'sum') {
+            return nodeMultiOutputs[incoming.source]?.sum ?? 0;
+          } else if (incoming.sourceHandle === 'cout') {
+            return nodeMultiOutputs[incoming.source]?.cout ?? 0;
+          }
+        }
+        return nodeOutputs[incoming.source] ?? 0;
+      }
+      return 0;
+    },
+    [nodes, nodeMultiOutputs]
+  );
+
   const displayNodes = useMemo(() => {
     return nodes.map((node) => {
       if (node.type === 'inputCustom') {
@@ -291,23 +320,8 @@ export default function LogicGateSimulator({
     nodeOutputs,
     nodeMultiOutputs,
     handleInputChange,
+    nodeInputs,
   ]);
-
-  // 노드 입력값 추출 함수 (포트별)
-  function nodeInputs(
-    nodeId: string,
-    edges: Edge[],
-    nodeOutputs: Record<string, number>,
-    port: string
-  ) {
-    const incoming = edges.find(
-      (e) => e.target === nodeId && e.targetHandle === port
-    );
-    if (incoming) {
-      return nodeOutputs[incoming.source] ?? 0;
-    }
-    return 0;
-  }
 
   const onConnect = useCallback(
     (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -677,7 +691,7 @@ export default function LogicGateSimulator({
           )}
         </div>
       )}
-      <div style={{ flex: 1, background: '#f8fafc' }}>
+      <div style={{ flex: 1, background: '#fafafa' }}>
         <ReactFlow
           nodes={displayNodes}
           edges={displayEdges}
@@ -690,7 +704,7 @@ export default function LogicGateSimulator({
           fitView
           snapToGrid
           snapGrid={[20, 20]}
-          style={{ background: '#f8fafc' }}
+          style={{ background: '#fafafa' }}
           nodesDraggable={interactive}
           nodesConnectable={interactive}
           elementsSelectable={true}
@@ -698,7 +712,6 @@ export default function LogicGateSimulator({
           zoomOnScroll={false}
           zoomOnPinch={false}
         >
-          <Background />
           {interactive && <Controls />}
         </ReactFlow>
       </div>

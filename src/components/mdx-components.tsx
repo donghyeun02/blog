@@ -4,6 +4,7 @@ import LogicGateSimulator from './CS/LogicGateSimulator';
 import {
   createGateSimulator,
   createAdderSimulator,
+  createFullAdderFromHalfAdders,
 } from './CS/SimulatorFactory';
 import React from 'react';
 import type { MDXComponents } from 'mdx/types';
@@ -68,27 +69,42 @@ function FreeSimulator() {
 const HalfAdderSimulator = createAdderSimulator({
   type: 'halfAdder',
   inputs: [
-    { value: 0, position: { x: 140, y: 200 } },
-    { value: 0, position: { x: 140, y: 260 } },
+    { value: 0, position: { x: 100, y: 200 } },
+    { value: 0, position: { x: 100, y: 260 } },
   ],
   gatePosition: { x: 250, y: 140 },
   outputPositions: [
-    { x: 450, y: 200 }, // Sum
-    { x: 450, y: 260 }, // Carry
+    { x: 500, y: 200 }, // Sum
+    { x: 500, y: 260 }, // Carry
   ],
 });
 
 const FullAdderSimulator = createAdderSimulator({
   type: 'fullAdder',
   inputs: [
-    { value: 0, position: { x: 140, y: 160 } },
-    { value: 0, position: { x: 140, y: 200 } },
-    { value: 0, position: { x: 140, y: 300 } },
+    { value: 0, position: { x: 100, y: 160 } },
+    { value: 0, position: { x: 100, y: 200 } },
+    { value: 0, position: { x: 100, y: 300 } },
   ],
   gatePosition: { x: 250, y: 140 },
   outputPositions: [
-    { x: 450, y: 200 }, // Sum
-    { x: 450, y: 260 }, // Cout
+    { x: 500, y: 200 }, // Sum
+    { x: 500, y: 260 }, // Cout
+  ],
+});
+
+const FullAdderFromHalfAddersSimulator = createFullAdderFromHalfAdders({
+  inputs: [
+    { value: 0, position: { x: 50, y: 160 } },
+    { value: 0, position: { x: 50, y: 230 } },
+    { value: 0, position: { x: 50, y: 290 } },
+  ],
+  halfAdder1Position: { x: 150, y: 170 },
+  halfAdder2Position: { x: 350, y: 100 },
+  orGatePosition: { x: 550, y: 240 },
+  outputPositions: [
+    { x: 750, y: 160 },
+    { x: 750, y: 280 },
   ],
 });
 
@@ -149,6 +165,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     FreeSimulator,
     HalfAdderSimulator,
     FullAdderSimulator,
+    FullAdderFromHalfAddersSimulator,
     TruthTable,
     HttpFlowDemo,
     DecimalToBinaryConverter,

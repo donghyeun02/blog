@@ -93,7 +93,7 @@ export default function BlogPostLayout({
                   {title}
                 </h1>
                 {summary && (
-                  <blockquote className="border-l-4 border-blue-200 bg-blue-50 px-4 py-2 text-lg text-blue-900 font-medium mb-4">
+                  <blockquote className="border-l-4 border-blue-200 bg-blue-50 px-3 sm:px-4 py-3 sm:py-2 text-sm sm:text-base lg:text-lg text-blue-900 font-normal sm:font-medium mb-4 rounded-md leading-relaxed">
                     {summary}
                   </blockquote>
                 )}
