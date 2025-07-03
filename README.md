@@ -1,58 +1,59 @@
-## 🧭 프로젝트 소개
+# 📚 donghyeun02's Tech Blog
 
-**인터랙티브 기술 블로그**를 목표로 하는 프로젝트입니다. 논리회로(AND, OR, NOT 등) 시뮬레이터를 시작으로, 백엔드/CS/데이터 등 다양한 실습형 콘텐츠를 MDX 기반으로 확장을 목표로 합니다.
+안녕하세요! 개발자 donghyeun02의 기술 블로그입니다.
 
-- **Next.js + TypeScript + Tailwind CSS + MDX** 기반
-- `.mdx` 파일로 글을 작성하고, 실습 컴포넌트를 직접 포함
-- **react-flow**로 자유롭게 게이트/노드 배치 및 신호 시뮬레이션
-- **CLI 자동화**로 글 생성 및 폴더 구조 관리
+## 🎯 블로그 소개
+
+이 블로그는 **이론을 실습으로 연결하는 것**을 목표로 합니다. 단순히 개념을 설명하는 것을 넘어서, 직접 확인할 수 있는 인터랙티브한 콘텐츠를 제공합니다.
+
+## 📖 주요 콘텐츠
+
+### 💻 Computer Science
+
+- **논리회로 시뮬레이터**: AND, OR, NOT 게이트부터 Half Adder, Full Adder까지 직접 구현하고 시뮬레이션
+- **이진수 변환기**: 10진수를 2진수로 변환하는 과정을 시각적으로 체험
+- **계산기 구조 분석**: 하드웨어 관점에서 계산기가 어떻게 동작하는지 깊이 있게 탐구
+- ...
+
+### 🔧 Backend Development
+
+- **HTTP 통신 흐름**: 클라이언트-서버 간 데이터 전송 과정을 시각적으로 이해
+- **쿠키 & 세션**: 웹 인증 메커니즘을 시뮬레이터로 직접 체험
+- **보안 취약점**: 실제 예제를 통한 웹 보안 이슈 분석
+- ...
+
+### ☕ Java & Go
+
+- 언어별 특징과 실무 활용 경험
+- 성능 최적화 및 베스트 프랙티스
+- ...
+
+## 🌟 블로그의 특징
+
+### 1. 인터랙티브 학습
+
+단순한 텍스트가 아닌, 직접 조작하고 실험할 수 있는 시뮬레이터와 데모를 제공합니다.
+
+### 2. 깊이 있는 분석
+
+표면적인 사용법을 넘어서, 내부 동작 원리와 설계 철학까지 다룹니다.
+
+### 3. 실무 연결
+
+이론을 실제 개발 현장에서 어떻게 활용할 수 있는지 구체적인 예시를 제시합니다.
+
+## 🚀 기술 스택
+
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Interactive Components**: React Flow, Custom Visualizations
+- **Content**: MDX (Markdown + Interactive Components)
+
+## 📬 연락처
+
+이메일 : donghyeun02@gmail.com
+
+개발, 기술, 그리고 이 블로그에 대한 의견이나 질문이 있으시면 언제든 연락주세요!
 
 ---
 
-## 📁 폴더 구조
-
-```
-frontend/
-  src/
-    app/
-      mdx/
-        [post_title]/
-          content.mdx   # 글 본문 (MDX)
-          page.tsx      # 글 페이지
-    components/
-      LogicGates/      # 게이트별 컴포넌트 (AND, OR, NOT 등)
-      LogicGateSimulator.tsx  # 시뮬레이터 메인
-      mdx-components.tsx      # MDX용 컴포넌트 매핑
-    types/             # 타입 명세
-  scripts/
-    create-post.js     # 글 생성 CLI
-  README.md
-```
-
----
-
-## 주요 기능
-
-- **실습형 MDX 블로그**: 글과 실습 컴포넌트(논리 게이트 등)를 함께 작성
-- **논리 게이트 시뮬레이터**: AND, OR, NOT 등 게이트를 자유롭게 배치/연결/실행
-- **신호 전파(Propagation)**: 여러 단계 게이트 연결도 정확히 시뮬레이션
-- **SVG 기반 커스텀 UI**: 전통적인 논리회로 실루엣, 직관적 입출력 단자
-- **CLI 자동화**: `npm run create-post [slug]`로 새 글/폴더 자동 생성
-- **Git Flow 브랜치 전략**: main → develop → feature/\*
-
----
-
-## 🧩 앞으로의 발전 방향
-
-- **게이트 컴포넌트 구조화**: LogicAndGate.tsx, LogicOrGate.tsx 등 완전 분리, Simulator는 배치/연결/신호전파만 담당
-- **게이트 확장**: XOR, NAND, XNOR 등 추가, 공통 로직 추상화
-- **MDX 실습 확장**: REST API, JSON 파싱, Git 시뮬레이터 등 다양한 실습형 컴포넌트 도입
-- **공통 UI 컴포넌트화**: Button, Toggle 등 라이브러리화
-- **문서화 자동화**: MDX 메타데이터 기반 목록/최근글 자동화
-
----
-
-## 🙌 기여/문의
-
-- 개선 아이디어, 버그 제보, PR 모두 환영합니다!
-- 기술/구조/UX 관련 질문은 언제든 이슈로 남겨주세요.
+이 블로그는 제가 학습한 내용을 정리하고 공유하는 공간입니다. 함께 성장해 나가길 바랍니다! 🚀

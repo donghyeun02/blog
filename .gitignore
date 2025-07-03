@@ -40,3 +40,40 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Temporary folders
+tmp/
+temp/
+
+# macOS
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Package manager
+.yarn/install-state.gz
+
+# Blog specific
+drafts/
+*.draft.mdx

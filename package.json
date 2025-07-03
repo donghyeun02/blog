@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new-post": "node scripts/createBlogPost.mjs"
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "new-post": "node scripts/createBlogPost.mjs",
+    "clean": "rm -rf .next out"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -31,6 +36,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
+    "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
