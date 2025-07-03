@@ -17,21 +17,22 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import InputNode from './LogicGates/InputNode';
 import OutputNode from './LogicGates/OutputNode';
-import LogicAndGate from './LogicGates/LogicAndGate';
-import LogicOrGate from './LogicGates/LogicOrGate';
-import LogicNotGate from './LogicGates/LogicNotGate';
-import LogicXorGate from './LogicGates/LogicXorGate';
-import LogicNandGate from './LogicGates/LogicNandGate';
-import LogicNorGate from './LogicGates/LogicNorGate';
-import LogicXnorGate from './LogicGates/LogicXnorGate';
-import LogicBufferGate from './LogicGates/LogicBufferGate';
 import CustomEdge from './CustomEdge';
-import HalfAdder from './LogicGates/HalfAdder';
-import FullAdder from './LogicGates/FullAdder';
+import {
+  LogicAndGateNode,
+  LogicOrGateNode,
+  LogicNotGateNode,
+  LogicXorGateNode,
+  LogicNandGateNode,
+  LogicNorGateNode,
+  LogicXnorGateNode,
+  LogicBufferGateNode,
+  HalfAdderNode,
+  FullAdderNode,
+} from './LogicGateNodes';
 
 import { nanoid } from 'nanoid';
 
-// 시뮬레이터 props 타입 정의
 interface LogicGateSimulatorProps {
   initialNodes?: Node[];
   initialEdges?: Edge[];
@@ -39,656 +40,24 @@ interface LogicGateSimulatorProps {
   showControls?: boolean;
   height?: string;
   width?: string;
-  interactive?: boolean; // 상호작용 가능 여부
+  interactive?: boolean;
 }
 
-// 커스텀 노드 래퍼
 const nodeTypes = {
   inputCustom: InputNode,
   outputCustom: OutputNode,
-  and: (props: NodeProps) => <LogicAndGateNode {...props} />,
-  or: (props: NodeProps) => <LogicOrGateNode {...props} />,
-  not: (props: NodeProps) => <LogicNotGateNode {...props} />,
-  buffer: (props: NodeProps) => <LogicBufferGateNode {...props} />,
-  xor: (props: NodeProps) => <LogicXorGateNode {...props} />,
-  nand: (props: NodeProps) => <LogicNandGateNode {...props} />,
-  nor: (props: NodeProps) => <LogicNorGateNode {...props} />,
-  xnor: (props: NodeProps) => <LogicXnorGateNode {...props} />,
-  halfAdder: (props: NodeProps) => <HalfAdderNode {...props} />,
-  fullAdder: (props: NodeProps) => <FullAdderNode {...props} />,
+  and: LogicAndGateNode,
+  or: LogicOrGateNode,
+  not: LogicNotGateNode,
+  buffer: LogicBufferGateNode,
+  xor: LogicXorGateNode,
+  nand: LogicNandGateNode,
+  nor: LogicNorGateNode,
+  xnor: LogicXnorGateNode,
+  halfAdder: HalfAdderNode,
+  fullAdder: FullAdderNode,
 };
 
-// AND 게이트 노드
-function LogicAndGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicAndGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 20,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// OR 게이트 노드
-function LogicOrGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 26,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 26,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicOrGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 15,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// NOT 게이트 노드
-function LogicNotGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 140,
-        height: 60,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 60,
-          left: 24,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 14,
-          height: 14,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicNotGate input={data.input} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 21,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 14,
-          height: 14,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// XOR 게이트 노드
-function LogicXorGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicXorGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 15,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// NAND 게이트 노드
-function LogicNandGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicNandGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// NOR 게이트 노드
-function LogicNorGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 26,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 26,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicNorGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: -2,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-// XNOR 게이트 노드
-function LogicXnorGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 180,
-        height: 120,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 40,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 80,
-          left: 14,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicXnorGate inputA={data.inputA} inputB={data.inputB} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: -2,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-
-// Buffer 게이트 노드
-function LogicBufferGateNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 140,
-        height: 60,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 60,
-          left: 24,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 14,
-          height: 14,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <LogicBufferGate input={data.input} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="out"
-        style={{
-          top: 60,
-          right: 21,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 14,
-          height: 14,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-
-// Half Adder 노드
-function HalfAdderNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 210,
-        height: 180,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 80,
-          left: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 140,
-          left: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <HalfAdder
-        inputA={data.inputA}
-        inputB={data.inputB}
-        sumOutput={data.sumOutput}
-        carryOutput={data.carryOutput}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="sum"
-        style={{
-          top: 80,
-          right: 33,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="carry"
-        style={{
-          top: 140,
-          right: 33,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-
-// Full Adder 노드
-function FullAdderNode({ data }: NodeProps) {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: 210,
-        height: 180,
-        background: 'none',
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        style={{
-          top: 65,
-          left: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        style={{
-          top: 110,
-          left: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="cin"
-        style={{
-          top: 155,
-          left: 3,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <FullAdder
-        inputA={data.inputA}
-        inputB={data.inputB}
-        inputCin={data.inputCin}
-        sumOutput={data.sumOutput}
-        coutOutput={data.coutOutput}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="sum"
-        style={{
-          top: 80,
-          right: 33,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="cout"
-        style={{
-          top: 140,
-          right: 33,
-          background: '#fff',
-          border: '2px solid #aaa',
-          width: 16,
-          height: 16,
-          borderRadius: 8,
-          zIndex: 2,
-        }}
-      />
-    </div>
-  );
-}
-
-// 회로 전체 신호 흐름 계산
 function calculateNodeValues(
   nodes: Node[],
   edges: Edge[],
@@ -699,9 +68,7 @@ function calculateNodeValues(
     nodeInputs[node.id] = {};
   });
 
-  // 초기 nodeOutputs: input 노드만
   const nodeOutputs: Record<string, number> = {};
-  // Store multiple outputs for HalfAdder and FullAdder
   const nodeMultiOutputs: Record<string, Record<string, number>> = {};
   nodes.forEach((node) => {
     if (node.type === 'inputCustom') {
@@ -712,7 +79,6 @@ function calculateNodeValues(
     }
   });
 
-  // 반복적으로 신호 전파
   let changed = true;
   let iter = 0;
   while (changed && iter < 10) {
@@ -722,7 +88,6 @@ function calculateNodeValues(
       if (inputValues.hasOwnProperty(edge.source)) {
         sourceVal = inputValues[edge.source];
       } else if (nodeOutputs.hasOwnProperty(edge.source)) {
-        // Handle multiple outputs for HalfAdder and FullAdder
         const sourceNode = nodes.find((n) => n.id === edge.source);
         if (sourceNode?.type === 'halfAdder' && edge.sourceHandle) {
           if (edge.sourceHandle === 'sum') {
@@ -780,18 +145,16 @@ function calculateNodeValues(
       } else if (node.type === 'halfAdder') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         const b = nodeInputs[node.id]['b'] ?? 0;
-        // Store both outputs for HalfAdder
         nodeMultiOutputs[node.id]['sum'] = a ^ b;
         nodeMultiOutputs[node.id]['carry'] = a & b;
-        nodeOutputs[node.id] = a ^ b; // sum as default
+        nodeOutputs[node.id] = a ^ b;
       } else if (node.type === 'fullAdder') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         const b = nodeInputs[node.id]['b'] ?? 0;
         const cin = nodeInputs[node.id]['cin'] ?? 0;
-        // Store both outputs for FullAdder
         nodeMultiOutputs[node.id]['sum'] = a ^ b ^ cin;
         nodeMultiOutputs[node.id]['cout'] = (a & b) | (b & cin) | (a & cin);
-        nodeOutputs[node.id] = a ^ b ^ cin; // sum as default
+        nodeOutputs[node.id] = a ^ b ^ cin;
       } else if (node.type === 'outputCustom') {
         const a = nodeInputs[node.id]['in'] ?? 0;
         nodeOutputs[node.id] = a;
@@ -819,18 +182,15 @@ export default function LogicGateSimulator({
     useState<Record<string, number>>(initialInputValues);
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
 
-  // 신호 흐름 계산
   const { nodeOutputs, nodeMultiOutputs } = useMemo(
     () => calculateNodeValues(nodes, edges, inputValues),
     [nodes, edges, inputValues]
   );
 
-  // 입력 노드 값 변경 핸들러
   const handleInputChange = useCallback((id: string, v: number) => {
     setInputValues((prev) => ({ ...prev, [id]: v }));
   }, []);
 
-  // 노드에 입력/출력값 props 전달
   const displayNodes = useMemo(() => {
     return nodes.map((node) => {
       if (node.type === 'inputCustom') {

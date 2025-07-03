@@ -3,15 +3,10 @@
 import { metadata } from './meta';
 import BlogPostLayout from '@/components/BlogPostLayout';
 import LogicGatesContent from './content.mdx';
-import MdxProviderWrapper from '@/components/MdxProvider';
 import { postsMeta } from '@/components/postsMeta';
 
 function MDXContentWithProvider() {
-  return (
-    <MdxProviderWrapper>
-      <LogicGatesContent />
-    </MdxProviderWrapper>
-  );
+  return <LogicGatesContent />;
 }
 
 export default function LogicGatesPage() {

@@ -30,10 +30,10 @@ export default function HalfAdder({
         fontWeight="bold"
         textAnchor="middle"
       >
-        <tspan x={90} dy="20">
+        <tspan x={80} dy="20">
           HALF
         </tspan>
-        <tspan x={90} dy="20">
+        <tspan x={80} dy="20">
           ADDER
         </tspan>
       </text>
@@ -60,7 +60,7 @@ export default function HalfAdder({
         B
       </text>
       <text
-        x={133}
+        x={114}
         y={82}
         fontSize="10"
         fill={sum === 1 ? '#4ade80' : '#fff'}
@@ -71,7 +71,7 @@ export default function HalfAdder({
       </text>
 
       <text
-        x={128}
+        x={108}
         y={144}
         fontSize="10"
         fill={carry === 1 ? '#4ade80' : '#fff'}

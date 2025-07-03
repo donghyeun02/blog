@@ -33,10 +33,10 @@ export default function FullAdder({
         fontWeight="bold"
         textAnchor="middle"
       >
-        <tspan x={90} dy="20">
+        <tspan x={80} dy="20">
           FULL
         </tspan>
-        <tspan x={90} dy="20">
+        <tspan x={80} dy="20">
           ADDER
         </tspan>
       </text>
@@ -75,7 +75,7 @@ export default function FullAdder({
       </text>
 
       <text
-        x={133}
+        x={114}
         y={82}
         fontSize="10"
         fill={sum ? '#4ade80' : '#fff'}
@@ -86,7 +86,7 @@ export default function FullAdder({
       </text>
 
       <text
-        x={133}
+        x={112}
         y={144}
         fontSize="10"
         fill={cout ? '#4ade80' : '#fff'}

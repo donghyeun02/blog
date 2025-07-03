@@ -14,14 +14,7 @@ export default function LogicNorGate({ inputA, inputB }: BinaryGateProps) {
         stroke="#fff"
         strokeWidth="2"
       />
-      <circle
-        cx="160"
-        cy="60"
-        r="8"
-        fill={fillColor}
-        stroke="#fff"
-        strokeWidth="2"
-      />
+      <circle cx="157" cy="60" r="8" fill={fillColor} />
       <text
         x={85}
         y={65}
