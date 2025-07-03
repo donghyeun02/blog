@@ -163,21 +163,21 @@ export default function BlogPostLayout({
           </div>
           {/* 목차(TOC) - 완전히 오른쪽 바깥에 고정 */}
           {toc.length > 0 && showToc && (
-            <aside className="fixed top-24 right-12 w-72 z-30">
+            <aside className="fixed top-24 right-12 w-64 z-30 opacity-60 hover:opacity-100 transition-opacity">
               <nav>
-                <ul className="space-y-4">
+                <ul className="space-y-1">
                   {toc.map((item) => (
                     <li
                       key={item.id}
-                      className={
-                        item.level === 2
-                          ? 'ml-0 font-bold text-xl'
-                          : 'ml-4 text-lg text-neutral-400 font-normal'
-                      }
+                      className={item.level === 2 ? 'ml-0' : 'ml-3'}
                     >
                       <a
                         href={`#${item.id}`}
-                        className="hover:underline hover:text-blue-400 transition-colors"
+                        className={`block text-sm leading-5 transition-colors duration-200 ${
+                          item.level === 2
+                            ? 'font-medium text-neutral-700 hover:text-blue-600 py-1'
+                            : 'font-normal text-neutral-500 hover:text-blue-500 py-0.5'
+                        }`}
                       >
                         {item.text}
                       </a>
