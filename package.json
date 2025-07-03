@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-post": "node scripts/create-post.js"
+    "new-post": "node scripts/createBlogPost.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",

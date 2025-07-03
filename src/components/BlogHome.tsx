@@ -1,9 +1,6 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { metadata as logicGatesMeta } from '@/app/mdx/logic-gates/meta';
-import { metadata as httpFlowMeta } from '@/app/mdx/http-flow/meta';
-import { meta as cookieSessionMeta } from '@/app/mdx/cookie-session/meta';
 import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
 import Image from 'next/image';
 
@@ -30,11 +27,6 @@ const categories = [
     icon: '📁',
     posts: [
       {
-        ...logicGatesMeta,
-        path: '/mdx/logic-gates',
-        category: 'CS',
-      },
-      {
         ...calculatorMeta,
         path: '/mdx/calculator',
         category: 'CS',
@@ -45,18 +37,7 @@ const categories = [
     id: 'backend',
     name: 'Backend',
     icon: '📁',
-    posts: [
-      {
-        ...httpFlowMeta,
-        path: '/mdx/http-flow',
-        category: 'Backend',
-      },
-      {
-        ...cookieSessionMeta,
-        path: '/mdx/cookie-session',
-        category: 'Backend',
-      },
-    ],
+    posts: [],
   },
   {
     id: 'java',
