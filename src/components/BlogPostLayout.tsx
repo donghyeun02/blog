@@ -86,8 +86,11 @@ export default function BlogPostLayout({
                       </span>
                     ))}
                 </div>
-                <h1 className="text-4xl font-extrabold font-sans text-neutral-900 mb-4 flex items-center gap-2">
-                  <span className="align-middle text-3xl">📄</span> {title}
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-sans text-neutral-900 mb-4 flex items-center gap-2">
+                  <span className="align-middle text-xl sm:text-2xl lg:text-3xl">
+                    📄
+                  </span>{' '}
+                  {title}
                 </h1>
                 {summary && (
                   <blockquote className="border-l-4 border-blue-200 bg-blue-50 px-4 py-2 text-lg text-blue-900 font-medium mb-4">

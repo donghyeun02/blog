@@ -32,7 +32,7 @@ const OrGateSimulator = createGateSimulator({
 
 const NotGateSimulator = createGateSimulator({
   type: 'not',
-  inputs: [{ value: 1, position: { x: 100, y: 180 } }],
+  inputs: [{ value: 0, position: { x: 100, y: 180 } }],
   gatePosition: { x: 225, y: 140 },
   outputPosition: { x: 450, y: 180 },
 });
@@ -49,7 +49,7 @@ const XorGateSimulator = createGateSimulator({
 
 const BufferGateSimulator = createGateSimulator({
   type: 'buffer',
-  inputs: [{ value: 1, position: { x: 100, y: 180 } }],
+  inputs: [{ value: 0, position: { x: 100, y: 180 } }],
   gatePosition: { x: 225, y: 140 },
   outputPosition: { x: 450, y: 180 },
 });
@@ -68,7 +68,7 @@ function FreeSimulator() {
 const HalfAdderSimulator = createAdderSimulator({
   type: 'halfAdder',
   inputs: [
-    { value: 1, position: { x: 140, y: 200 } },
+    { value: 0, position: { x: 140, y: 200 } },
     { value: 0, position: { x: 140, y: 260 } },
   ],
   gatePosition: { x: 250, y: 140 },
@@ -81,9 +81,9 @@ const HalfAdderSimulator = createAdderSimulator({
 const FullAdderSimulator = createAdderSimulator({
   type: 'fullAdder',
   inputs: [
-    { value: 1, position: { x: 140, y: 160 } },
+    { value: 0, position: { x: 140, y: 160 } },
     { value: 0, position: { x: 140, y: 200 } },
-    { value: 1, position: { x: 140, y: 300 } },
+    { value: 0, position: { x: 140, y: 300 } },
   ],
   gatePosition: { x: 250, y: 140 },
   outputPositions: [

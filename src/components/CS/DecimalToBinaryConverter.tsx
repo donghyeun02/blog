@@ -32,11 +32,11 @@ const DecimalToBinaryConverter = () => {
       <div className="mb-6">
         <div className="bg-blue-50 p-3 rounded-lg">
           <p className="text-gray-900 mt-2 mb-2">
-            <span className="text-lg font-medium">
-              십진수 값을 입력하여 이진수로 변환해보세요 !
+            <span className="text-base sm:text-lg font-medium">
+              십진수 값을 입력하여 이진수로 변환해보세요!
             </span>
             <br />
-            <span className="text-base">
+            <span className="text-sm sm:text-base">
               0부터 255까지의 숫자를 입력하면 8비트 이진수로 변환됩니다.
             </span>
           </p>
