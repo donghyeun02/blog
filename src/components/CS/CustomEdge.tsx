@@ -1,4 +1,4 @@
-import { getSmoothStepPath, EdgeProps } from 'reactflow';
+import { getBezierPath, EdgeProps, Position } from 'reactflow';
 
 export default function CustomEdge({
   id,
@@ -8,18 +8,15 @@ export default function CustomEdge({
   targetY,
   data,
 }: EdgeProps) {
-  // Y좌표 차이가 8px 이하이면 완전 직선, 그 외에는 부드러운 곡선
-  const isPerfectlyStraight = Math.abs(sourceY - targetY) < 8;
-  const edgePath = isPerfectlyStraight
-    ? `M${sourceX},${sourceY} L${targetX},${targetY}`
-    : getSmoothStepPath({
-        sourceX,
-        sourceY,
-        targetX,
-        targetY,
-        borderRadius: 20,
-        offset: 0,
-      })[0];
+  // 베지어 곡선으로 더 자연스러운 연결선 생성
+  const [edgePath] = getBezierPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  });
   const isActive = data?.active;
 
   return (

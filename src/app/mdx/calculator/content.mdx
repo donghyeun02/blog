@@ -112,12 +112,12 @@ Half Adder(반가산기)는 두 개의 1비트 입력(A, B)을 받아서 합(Sum
 | 1   | 0   | 1   | 0     |
 | 1   | 1   | 0   | 1     |
 
+<HalfAdderSimulator />
+
 **논리식**
 
 - Sum = A ⊕ B (XOR)
 - Carry = A · B (AND)
-
-{/* 여기에 LogicGateSimulator with Half Adder preset 삽입 */}
 
 ---
 
@@ -148,12 +148,12 @@ Full Adder는 A, B 외에도 이전 자리에서 올라온 Carry-in(Cin) 까지 
 | 1   | 1   | 0   | 0   | 1    |
 | 1   | 1   | 1   | 1   | 1    |
 
+<FullAdderSimulator />
+
 **논리식**
 
 - Sum = A ⊕ B ⊕ Cin
 - Cout = (A · B) + (B · Cin) + (A · Cin)
-
-{/* 여기에 FullAdderSimulator 컴포넌트 삽입 */}
 
 ### 여러 비트를 처리하려면?
 

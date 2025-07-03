@@ -378,6 +378,204 @@ function FreeSimulator() {
   );
 }
 
+// Half Adder 시뮬레이터
+function HalfAdderSimulator() {
+  const { initialNodes, initialEdges, initialInputValues, instanceId } =
+    React.useMemo(() => {
+      const instanceId = nanoid(8);
+      const inputAId = `half-${instanceId}-a`;
+      const inputBId = `half-${instanceId}-b`;
+      const halfAdderId = `half-${instanceId}-adder`;
+      const sumOutputId = `half-${instanceId}-sum`;
+      const carryOutputId = `half-${instanceId}-carry`;
+      return {
+        initialNodes: [
+          {
+            id: inputAId,
+            type: 'inputCustom',
+            position: { x: 75, y: 140 },
+            data: { value: 1 },
+          },
+          {
+            id: inputBId,
+            type: 'inputCustom',
+            position: { x: 75, y: 200 },
+            data: { value: 0 },
+          },
+          {
+            id: halfAdderId,
+            type: 'halfAdder',
+            position: { x: 200, y: 80 },
+            data: {},
+          },
+          {
+            id: sumOutputId,
+            type: 'outputCustom',
+            position: { x: 450, y: 140 },
+            data: { label: 'Sum' },
+          },
+          {
+            id: carryOutputId,
+            type: 'outputCustom',
+            position: { x: 450, y: 200 },
+            data: { label: 'Carry' },
+          },
+        ],
+        initialEdges: [
+          {
+            id: `half-${instanceId}-e1`,
+            source: inputAId,
+            target: halfAdderId,
+            sourceHandle: 'out',
+            targetHandle: 'a',
+          },
+          {
+            id: `half-${instanceId}-e2`,
+            source: inputBId,
+            target: halfAdderId,
+            sourceHandle: 'out',
+            targetHandle: 'b',
+          },
+          {
+            id: `half-${instanceId}-e3`,
+            source: halfAdderId,
+            target: sumOutputId,
+            sourceHandle: 'sum',
+            targetHandle: 'in',
+          },
+          {
+            id: `half-${instanceId}-e4`,
+            source: halfAdderId,
+            target: carryOutputId,
+            sourceHandle: 'carry',
+            targetHandle: 'in',
+          },
+        ],
+        initialInputValues: { [inputAId]: 1, [inputBId]: 0 },
+        instanceId,
+      };
+    }, []);
+
+  return (
+    <LogicGateSimulator
+      key={instanceId}
+      initialNodes={initialNodes}
+      initialEdges={initialEdges}
+      initialInputValues={initialInputValues}
+      showControls={false}
+      height="400px"
+      width="100%"
+      interactive={true}
+    />
+  );
+}
+
+// Full Adder 시뮬레이터
+function FullAdderSimulator() {
+  const { initialNodes, initialEdges, initialInputValues, instanceId } =
+    React.useMemo(() => {
+      const instanceId = nanoid(8);
+      const inputAId = `full-${instanceId}-a`;
+      const inputBId = `full-${instanceId}-b`;
+      const inputCinId = `full-${instanceId}-cin`;
+      const fullAdderId = `full-${instanceId}-adder`;
+      const sumOutputId = `full-${instanceId}-sum`;
+      const coutOutputId = `full-${instanceId}-cout`;
+      return {
+        initialNodes: [
+          {
+            id: inputAId,
+            type: 'inputCustom',
+            position: { x: 75, y: 110 },
+            data: { value: 1 },
+          },
+          {
+            id: inputBId,
+            type: 'inputCustom',
+            position: { x: 75, y: 150 },
+            data: { value: 1 },
+          },
+          {
+            id: inputCinId,
+            type: 'inputCustom',
+            position: { x: 75, y: 240 },
+            data: { value: 0 },
+          },
+          {
+            id: fullAdderId,
+            type: 'fullAdder',
+            position: { x: 200, y: 80 },
+            data: {},
+          },
+          {
+            id: sumOutputId,
+            type: 'outputCustom',
+            position: { x: 450, y: 140 },
+            data: { label: 'Sum' },
+          },
+          {
+            id: coutOutputId,
+            type: 'outputCustom',
+            position: { x: 450, y: 200 },
+            data: { label: 'Cout' },
+          },
+        ],
+        initialEdges: [
+          {
+            id: `full-${instanceId}-e1`,
+            source: inputAId,
+            target: fullAdderId,
+            sourceHandle: 'out',
+            targetHandle: 'a',
+          },
+          {
+            id: `full-${instanceId}-e2`,
+            source: inputBId,
+            target: fullAdderId,
+            sourceHandle: 'out',
+            targetHandle: 'b',
+          },
+          {
+            id: `full-${instanceId}-e3`,
+            source: inputCinId,
+            target: fullAdderId,
+            sourceHandle: 'out',
+            targetHandle: 'cin',
+          },
+          {
+            id: `full-${instanceId}-e4`,
+            source: fullAdderId,
+            target: sumOutputId,
+            sourceHandle: 'sum',
+            targetHandle: 'in',
+          },
+          {
+            id: `full-${instanceId}-e5`,
+            source: fullAdderId,
+            target: coutOutputId,
+            sourceHandle: 'cout',
+            targetHandle: 'in',
+          },
+        ],
+        initialInputValues: { [inputAId]: 1, [inputBId]: 1, [inputCinId]: 0 },
+        instanceId,
+      };
+    }, []);
+
+  return (
+    <LogicGateSimulator
+      key={instanceId}
+      initialNodes={initialNodes}
+      initialEdges={initialEdges}
+      initialInputValues={initialInputValues}
+      showControls={false}
+      height="400px"
+      width="100%"
+      interactive={true}
+    />
+  );
+}
+
 export const mdxComponents = {
   DecimalToBinaryConverter,
   HttpFlowDemo,
@@ -388,6 +586,8 @@ export const mdxComponents = {
   XorGateSimulator,
   BufferGateSimulator,
   FreeSimulator,
+  HalfAdderSimulator,
+  FullAdderSimulator,
 };
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {

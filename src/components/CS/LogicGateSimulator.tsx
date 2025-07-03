@@ -26,6 +26,8 @@ import LogicNorGate from './LogicGates/LogicNorGate';
 import LogicXnorGate from './LogicGates/LogicXnorGate';
 import LogicBufferGate from './LogicGates/LogicBufferGate';
 import CustomEdge from './CustomEdge';
+import HalfAdder from './LogicGates/HalfAdder';
+import FullAdder from './LogicGates/FullAdder';
 
 import { nanoid } from 'nanoid';
 
@@ -52,6 +54,8 @@ const nodeTypes = {
   nand: (props: NodeProps) => <LogicNandGateNode {...props} />,
   nor: (props: NodeProps) => <LogicNorGateNode {...props} />,
   xnor: (props: NodeProps) => <LogicXnorGateNode {...props} />,
+  halfAdder: (props: NodeProps) => <HalfAdderNode {...props} />,
+  fullAdder: (props: NodeProps) => <FullAdderNode {...props} />,
 };
 
 // AND 게이트 노드
@@ -506,6 +510,184 @@ function LogicBufferGateNode({ data }: NodeProps) {
   );
 }
 
+// Half Adder 노드
+function HalfAdderNode({ data }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 210,
+        height: 180,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 80,
+          left: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 140,
+          left: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <HalfAdder
+        inputA={data.inputA}
+        inputB={data.inputB}
+        sumOutput={data.sumOutput}
+        carryOutput={data.carryOutput}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="sum"
+        style={{
+          top: 80,
+          right: 33,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="carry"
+        style={{
+          top: 140,
+          right: 33,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+
+// Full Adder 노드
+function FullAdderNode({ data }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 210,
+        height: 180,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 65,
+          left: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="b"
+        style={{
+          top: 110,
+          left: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="cin"
+        style={{
+          top: 155,
+          left: 3,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <FullAdder
+        inputA={data.inputA}
+        inputB={data.inputB}
+        inputCin={data.inputCin}
+        sumOutput={data.sumOutput}
+        coutOutput={data.coutOutput}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="sum"
+        style={{
+          top: 80,
+          right: 33,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="cout"
+        style={{
+          top: 140,
+          right: 33,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 16,
+          height: 16,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+
 // 회로 전체 신호 흐름 계산
 function calculateNodeValues(
   nodes: Node[],
@@ -519,9 +701,14 @@ function calculateNodeValues(
 
   // 초기 nodeOutputs: input 노드만
   const nodeOutputs: Record<string, number> = {};
+  // Store multiple outputs for HalfAdder and FullAdder
+  const nodeMultiOutputs: Record<string, Record<string, number>> = {};
   nodes.forEach((node) => {
     if (node.type === 'inputCustom') {
       nodeOutputs[node.id] = inputValues[node.id] ?? node.data.value ?? 0;
+    }
+    if (node.type === 'halfAdder' || node.type === 'fullAdder') {
+      nodeMultiOutputs[node.id] = {};
     }
   });
 
@@ -535,7 +722,23 @@ function calculateNodeValues(
       if (inputValues.hasOwnProperty(edge.source)) {
         sourceVal = inputValues[edge.source];
       } else if (nodeOutputs.hasOwnProperty(edge.source)) {
-        sourceVal = nodeOutputs[edge.source];
+        // Handle multiple outputs for HalfAdder and FullAdder
+        const sourceNode = nodes.find((n) => n.id === edge.source);
+        if (sourceNode?.type === 'halfAdder' && edge.sourceHandle) {
+          if (edge.sourceHandle === 'sum') {
+            sourceVal = nodeMultiOutputs[edge.source]?.sum ?? 0;
+          } else if (edge.sourceHandle === 'carry') {
+            sourceVal = nodeMultiOutputs[edge.source]?.carry ?? 0;
+          }
+        } else if (sourceNode?.type === 'fullAdder' && edge.sourceHandle) {
+          if (edge.sourceHandle === 'sum') {
+            sourceVal = nodeMultiOutputs[edge.source]?.sum ?? 0;
+          } else if (edge.sourceHandle === 'cout') {
+            sourceVal = nodeMultiOutputs[edge.source]?.cout ?? 0;
+          }
+        } else {
+          sourceVal = nodeOutputs[edge.source];
+        }
       }
       if (edge.target in nodeInputs && edge.targetHandle) {
         nodeInputs[edge.target][edge.targetHandle] = sourceVal;
@@ -574,6 +777,21 @@ function calculateNodeValues(
       } else if (node.type === 'buffer') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         nodeOutputs[node.id] = a;
+      } else if (node.type === 'halfAdder') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        // Store both outputs for HalfAdder
+        nodeMultiOutputs[node.id]['sum'] = a ^ b;
+        nodeMultiOutputs[node.id]['carry'] = a & b;
+        nodeOutputs[node.id] = a ^ b; // sum as default
+      } else if (node.type === 'fullAdder') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        const b = nodeInputs[node.id]['b'] ?? 0;
+        const cin = nodeInputs[node.id]['cin'] ?? 0;
+        // Store both outputs for FullAdder
+        nodeMultiOutputs[node.id]['sum'] = a ^ b ^ cin;
+        nodeMultiOutputs[node.id]['cout'] = (a & b) | (b & cin) | (a & cin);
+        nodeOutputs[node.id] = a ^ b ^ cin; // sum as default
       } else if (node.type === 'outputCustom') {
         const a = nodeInputs[node.id]['in'] ?? 0;
         nodeOutputs[node.id] = a;
@@ -583,7 +801,7 @@ function calculateNodeValues(
     iter++;
   }
 
-  return { nodeInputs, nodeOutputs };
+  return { nodeInputs, nodeOutputs, nodeMultiOutputs };
 }
 
 export default function LogicGateSimulator({
@@ -602,7 +820,7 @@ export default function LogicGateSimulator({
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
 
   // 신호 흐름 계산
-  const { nodeOutputs } = useMemo(
+  const { nodeOutputs, nodeMultiOutputs } = useMemo(
     () => calculateNodeValues(nodes, edges, inputValues),
     [nodes, edges, inputValues]
   );
@@ -627,10 +845,32 @@ export default function LogicGateSimulator({
         const incoming = edges.find(
           (e) => e.target === node.id && e.targetHandle === 'in'
         );
+        let value = 0;
+        if (incoming) {
+          const sourceNode = nodes.find((n) => n.id === incoming.source);
+          if (sourceNode?.type === 'halfAdder' && incoming.sourceHandle) {
+            if (incoming.sourceHandle === 'sum') {
+              value = nodeMultiOutputs[incoming.source]?.sum ?? 0;
+            } else if (incoming.sourceHandle === 'carry') {
+              value = nodeMultiOutputs[incoming.source]?.carry ?? 0;
+            }
+          } else if (
+            sourceNode?.type === 'fullAdder' &&
+            incoming.sourceHandle
+          ) {
+            if (incoming.sourceHandle === 'sum') {
+              value = nodeMultiOutputs[incoming.source]?.sum ?? 0;
+            } else if (incoming.sourceHandle === 'cout') {
+              value = nodeMultiOutputs[incoming.source]?.cout ?? 0;
+            }
+          } else {
+            value = nodeOutputs[incoming.source] ?? 0;
+          }
+        }
         return {
           ...node,
           data: {
-            value: incoming ? nodeOutputs[incoming.source] ?? 0 : 0,
+            value,
           },
         };
       } else if (
@@ -648,24 +888,50 @@ export default function LogicGateSimulator({
             inputB: nodeInputs(node.id, edges, nodeOutputs, 'b'),
           },
         };
-      } else if (node.type === 'not') {
+      } else if (node.type === 'not' || node.type === 'buffer') {
         return {
           ...node,
           data: {
             input: nodeInputs(node.id, edges, nodeOutputs, 'a'),
           },
         };
-      } else if (node.type === 'buffer') {
+      } else if (node.type === 'halfAdder') {
+        const inputA = nodeInputs(node.id, edges, nodeOutputs, 'a');
+        const inputB = nodeInputs(node.id, edges, nodeOutputs, 'b');
         return {
           ...node,
           data: {
-            input: nodeInputs(node.id, edges, nodeOutputs, 'a'),
+            inputA,
+            inputB,
+            sumOutput: nodeMultiOutputs[node.id]?.sum ?? 0,
+            carryOutput: nodeMultiOutputs[node.id]?.carry ?? 0,
+          },
+        };
+      } else if (node.type === 'fullAdder') {
+        const inputA = nodeInputs(node.id, edges, nodeOutputs, 'a');
+        const inputB = nodeInputs(node.id, edges, nodeOutputs, 'b');
+        const inputCin = nodeInputs(node.id, edges, nodeOutputs, 'cin');
+        return {
+          ...node,
+          data: {
+            inputA,
+            inputB,
+            inputCin,
+            sumOutput: nodeMultiOutputs[node.id]?.sum ?? 0,
+            coutOutput: nodeMultiOutputs[node.id]?.cout ?? 0,
           },
         };
       }
       return node;
     });
-  }, [nodes, edges, inputValues, nodeOutputs, handleInputChange]);
+  }, [
+    nodes,
+    edges,
+    inputValues,
+    nodeOutputs,
+    nodeMultiOutputs,
+    handleInputChange,
+  ]);
 
   // 노드 입력값 추출 함수 (포트별)
   function nodeInputs(
@@ -720,6 +986,20 @@ export default function LogicGateSimulator({
       node = { id, type: 'not', position: { x: 300, y: baseY }, data: {} };
     } else if (type === 'buffer') {
       node = { id, type: 'buffer', position: { x: 300, y: baseY }, data: {} };
+    } else if (type === 'halfAdder') {
+      node = {
+        id,
+        type: 'halfAdder',
+        position: { x: 300, y: baseY },
+        data: {},
+      };
+    } else if (type === 'fullAdder') {
+      node = {
+        id,
+        type: 'fullAdder',
+        position: { x: 300, y: baseY },
+        data: {},
+      };
     } else {
       return;
     }
@@ -748,7 +1028,23 @@ export default function LogicGateSimulator({
     return edges.map((edge) => {
       let active = 0;
       if (edge.source && nodeOutputs[edge.source] !== undefined) {
-        active = nodeOutputs[edge.source];
+        const sourceNode = nodes.find((n) => n.id === edge.source);
+
+        if (sourceNode?.type === 'halfAdder') {
+          if (edge.sourceHandle === 'sum') {
+            active = nodeMultiOutputs[edge.source]?.sum ?? 0;
+          } else if (edge.sourceHandle === 'carry') {
+            active = nodeMultiOutputs[edge.source]?.carry ?? 0;
+          }
+        } else if (sourceNode?.type === 'fullAdder') {
+          if (edge.sourceHandle === 'sum') {
+            active = nodeMultiOutputs[edge.source]?.sum ?? 0;
+          } else if (edge.sourceHandle === 'cout') {
+            active = nodeMultiOutputs[edge.source]?.cout ?? 0;
+          }
+        } else {
+          active = nodeOutputs[edge.source];
+        }
       }
       return {
         ...edge,
@@ -756,7 +1052,7 @@ export default function LogicGateSimulator({
         data: { active },
       };
     });
-  }, [edges, nodeOutputs]);
+  }, [edges, nodeOutputs, nodeMultiOutputs, nodes]);
 
   return (
     <div
@@ -961,6 +1257,42 @@ export default function LogicGateSimulator({
             onClick={() => addNode('xnor')}
           >
             XNOR
+          </button>
+          <button
+            style={{
+              background: '#e0e7ef',
+              border: 'none',
+              borderRadius: 8,
+              padding: '8px 18px',
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+            onClick={() => addNode('halfAdder')}
+          >
+            Half Adder
+          </button>
+          <button
+            style={{
+              background: '#e0e7ef',
+              border: 'none',
+              borderRadius: 8,
+              padding: '8px 18px',
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+            onClick={() => addNode('fullAdder')}
+          >
+            Full Adder
           </button>
           {selectedNodes.length > 0 && (
             <button
