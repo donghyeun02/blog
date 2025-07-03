@@ -708,9 +708,12 @@ export default function LogicGateSimulator({
           nodesDraggable={interactive}
           nodesConnectable={interactive}
           elementsSelectable={true}
-          panOnDrag={false}
-          zoomOnScroll={false}
-          zoomOnPinch={false}
+          panOnDrag={true}
+          zoomOnScroll={true}
+          zoomOnPinch={true}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
+          minZoom={0.3}
+          maxZoom={2}
         >
           {interactive && <Controls />}
         </ReactFlow>
