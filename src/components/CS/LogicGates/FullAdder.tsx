@@ -76,18 +76,18 @@ export default function FullAdder({
 
       <text
         x={133}
-        y={79}
+        y={82}
         fontSize="10"
         fill={sum ? '#4ade80' : '#fff'}
         fontWeight="bold"
         textAnchor="start"
       >
-        SUM
+        Sum
       </text>
 
       <text
         x={133}
-        y={149}
+        y={144}
         fontSize="10"
         fill={cout ? '#4ade80' : '#fff'}
         fontWeight="bold"

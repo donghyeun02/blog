@@ -61,24 +61,24 @@ export default function HalfAdder({
       </text>
       <text
         x={133}
-        y={79}
+        y={82}
         fontSize="10"
         fill={sum === 1 ? '#4ade80' : '#fff'}
         fontWeight="bold"
         textAnchor="start"
       >
-        SUM
+        Sum
       </text>
 
       <text
-        x={122}
-        y={149}
+        x={128}
+        y={144}
         fontSize="10"
         fill={carry === 1 ? '#4ade80' : '#fff'}
         fontWeight="bold"
         textAnchor="start"
       >
-        CARRY
+        Carry
       </text>
     </svg>
   );

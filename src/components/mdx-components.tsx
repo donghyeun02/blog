@@ -576,6 +576,46 @@ function FullAdderSimulator() {
   );
 }
 
+// Truth Table 컴포넌트
+interface TruthTableProps {
+  headers: string[];
+  rows: (string | number)[][];
+  outputStartIndex: number;
+}
+
+function TruthTable({ headers, rows, outputStartIndex }: TruthTableProps) {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {headers.map((header, index) => (
+            <th
+              key={index}
+              className={index === outputStartIndex ? 'output-start' : ''}
+            >
+              {header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <td
+                key={cellIndex}
+                className={cellIndex === outputStartIndex ? 'output-start' : ''}
+              >
+                {cell}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 export const mdxComponents = {
   DecimalToBinaryConverter,
   HttpFlowDemo,
@@ -588,6 +628,7 @@ export const mdxComponents = {
   FreeSimulator,
   HalfAdderSimulator,
   FullAdderSimulator,
+  TruthTable,
 };
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
