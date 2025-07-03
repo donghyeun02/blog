@@ -24,6 +24,7 @@ import LogicXorGate from './LogicGates/LogicXorGate';
 import LogicNandGate from './LogicGates/LogicNandGate';
 import LogicNorGate from './LogicGates/LogicNorGate';
 import LogicXnorGate from './LogicGates/LogicXnorGate';
+import LogicBufferGate from './LogicGates/LogicBufferGate';
 import CustomEdge from './CustomEdge';
 
 import { nanoid } from 'nanoid';
@@ -46,6 +47,7 @@ const nodeTypes = {
   and: (props: NodeProps) => <LogicAndGateNode {...props} />,
   or: (props: NodeProps) => <LogicOrGateNode {...props} />,
   not: (props: NodeProps) => <LogicNotGateNode {...props} />,
+  buffer: (props: NodeProps) => <LogicBufferGateNode {...props} />,
   xor: (props: NodeProps) => <LogicXorGateNode {...props} />,
   nand: (props: NodeProps) => <LogicNandGateNode {...props} />,
   nor: (props: NodeProps) => <LogicNorGateNode {...props} />,
@@ -458,6 +460,52 @@ function LogicXnorGateNode({ data }: NodeProps) {
   );
 }
 
+// Buffer 게이트 노드
+function LogicBufferGateNode({ data }: NodeProps) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 140,
+        height: 60,
+        background: 'none',
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="a"
+        style={{
+          top: 60,
+          left: 24,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 14,
+          height: 14,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+      <LogicBufferGate input={data.input} />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="out"
+        style={{
+          top: 60,
+          right: 21,
+          background: '#fff',
+          border: '2px solid #aaa',
+          width: 14,
+          height: 14,
+          borderRadius: 8,
+          zIndex: 2,
+        }}
+      />
+    </div>
+  );
+}
+
 // 회로 전체 신호 흐름 계산
 function calculateNodeValues(
   nodes: Node[],
@@ -523,6 +571,9 @@ function calculateNodeValues(
       } else if (node.type === 'not') {
         const a = nodeInputs[node.id]['a'] ?? 0;
         nodeOutputs[node.id] = a === 1 ? 0 : 1;
+      } else if (node.type === 'buffer') {
+        const a = nodeInputs[node.id]['a'] ?? 0;
+        nodeOutputs[node.id] = a;
       } else if (node.type === 'outputCustom') {
         const a = nodeInputs[node.id]['in'] ?? 0;
         nodeOutputs[node.id] = a;
@@ -604,6 +655,13 @@ export default function LogicGateSimulator({
             input: nodeInputs(node.id, edges, nodeOutputs, 'a'),
           },
         };
+      } else if (node.type === 'buffer') {
+        return {
+          ...node,
+          data: {
+            input: nodeInputs(node.id, edges, nodeOutputs, 'a'),
+          },
+        };
       }
       return node;
     });
@@ -660,6 +718,8 @@ export default function LogicGateSimulator({
       node = { id, type, position: { x: 300, y: baseY }, data: {} };
     } else if (type === 'not') {
       node = { id, type: 'not', position: { x: 300, y: baseY }, data: {} };
+    } else if (type === 'buffer') {
+      node = { id, type: 'buffer', position: { x: 300, y: baseY }, data: {} };
     } else {
       return;
     }
@@ -757,6 +817,24 @@ export default function LogicGateSimulator({
             onClick={() => addNode('output')}
           >
             ⬤ 출력
+          </button>
+          <button
+            style={{
+              background: '#e0e7ef',
+              border: 'none',
+              borderRadius: 8,
+              padding: '8px 18px',
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+            onClick={() => addNode('buffer')}
+          >
+            BUFFER
           </button>
           <button
             style={{

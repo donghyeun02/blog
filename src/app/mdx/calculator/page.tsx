@@ -5,18 +5,12 @@ import BlogPostLayout from '@/components/BlogPostLayout';
 import CalculatorContent from './content.mdx';
 import MdxProviderWrapper from '@/components/MdxProvider';
 import { postsMeta } from '@/components/postsMeta';
-import DecimalToBinaryConverter from '@/components/CS/DecimalToBinaryConverter';
-import { MDXProvider } from '@mdx-js/react';
-
-const components = {
-  DecimalToBinaryConverter,
-};
 
 function MDXContentWithProvider() {
   return (
-    <MDXProvider components={components}>
+    <MdxProviderWrapper>
       <CalculatorContent />
-    </MDXProvider>
+    </MdxProviderWrapper>
   );
 }
 

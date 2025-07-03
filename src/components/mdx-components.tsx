@@ -300,6 +300,70 @@ function XorGateSimulator() {
   );
 }
 
+// Buffer 게이트 시뮬레이터
+function BufferGateSimulator() {
+  const { initialNodes, initialEdges, initialInputValues, instanceId } =
+    React.useMemo(() => {
+      const instanceId = nanoid(8);
+      const inputId = `buffer-${instanceId}-in`;
+      const bufferGateId = `buffer-${instanceId}-gate`;
+      const outputId = `buffer-${instanceId}-out`;
+      return {
+        initialNodes: [
+          {
+            id: inputId,
+            type: 'inputCustom',
+            position: { x: 100, y: 180 },
+            data: { value: 1 },
+          },
+          {
+            id: bufferGateId,
+            type: 'buffer',
+            position: { x: 225, y: 140 },
+            data: {},
+          },
+          {
+            id: outputId,
+            type: 'outputCustom',
+            position: { x: 450, y: 180 },
+            data: {},
+          },
+        ],
+        initialEdges: [
+          {
+            id: `buffer-${instanceId}-e1`,
+            source: inputId,
+            target: bufferGateId,
+            sourceHandle: 'out',
+            targetHandle: 'a',
+          },
+          {
+            id: `buffer-${instanceId}-e2`,
+            source: bufferGateId,
+            target: outputId,
+            sourceHandle: 'out',
+            targetHandle: 'in',
+          },
+        ],
+        initialInputValues: { [inputId]: 1 },
+        instanceId,
+      };
+    }, []);
+
+  return (
+    <LogicGateSimulator
+      key={instanceId}
+      initialNodes={initialNodes}
+      initialEdges={initialEdges}
+      initialInputValues={initialInputValues}
+      showControls={false}
+      height="400px"
+      width="100%"
+      interactive={true}
+    />
+  );
+}
+
 // 자유 시뮬레이터 (기존과 동일)
 function FreeSimulator() {
   const instanceId = React.useMemo(() => nanoid(8), []);
@@ -322,12 +386,15 @@ export const mdxComponents = {
   OrGateSimulator,
   NotGateSimulator,
   XorGateSimulator,
+  BufferGateSimulator,
   FreeSimulator,
 };
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    ...mdxComponents,
     ...components,
+    HttpFlowDemo,
+    DecimalToBinaryConverter,
+    LogicGateSimulator,
   };
 }
