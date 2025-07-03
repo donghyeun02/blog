@@ -3,7 +3,9 @@
 import LogicGateSimulator from './CS/LogicGateSimulator';
 import { nanoid } from 'nanoid';
 import React from 'react';
+import type { MDXComponents } from 'mdx/types';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
+import DecimalToBinaryConverter from './CS/DecimalToBinaryConverter';
 
 // AND 게이트 시뮬레이터 (미리 구성된 회로)
 function AndGateSimulator() {
@@ -313,11 +315,19 @@ function FreeSimulator() {
 }
 
 export const mdxComponents = {
+  DecimalToBinaryConverter,
+  HttpFlowDemo,
   LogicGateSimulator: FreeSimulator,
   AndGateSimulator,
   OrGateSimulator,
   NotGateSimulator,
   XorGateSimulator,
   FreeSimulator,
-  HttpFlowDemo,
 };
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...mdxComponents,
+    ...components,
+  };
+}
