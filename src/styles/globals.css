@@ -103,7 +103,30 @@
 @layer components {
   /* 블로그 본문 인용구 스타일 */
   .prose blockquote {
-    @apply border-l-4 border-blue-200 bg-blue-50 text-blue-900 px-4 py-2 my-6 rounded-md font-medium;
+    @apply border-l-4 border-blue-200 bg-blue-50 text-blue-900 px-4 py-2 rounded-md font-medium;
+    quotes: none !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+  /* 더 구체적인 선택자로 강제 적용 */
+  article .prose blockquote,
+  .prose-lg blockquote,
+  .prose-xl blockquote,
+  div .prose blockquote,
+  * blockquote {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    margin: 4px 0 !important;
+  }
+  .prose blockquote::before,
+  .prose blockquote::after {
+    content: '' !important;
+    display: none !important;
+  }
+  .prose blockquote p::before,
+  .prose blockquote p::after {
+    content: '' !important;
+    display: none !important;
   }
   /* 코드블록 스타일 */
   .prose pre {
