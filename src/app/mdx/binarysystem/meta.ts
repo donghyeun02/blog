@@ -4,5 +4,6 @@ export const metadata = {
   date: '2025-07-05',
   tags: ['이진수', 'CS기초', '컴퓨터구조'],
   category: 'CS',
-  thumbnail: '/file.svg',
+  thumbnail:
+    'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/binaryforPC.jpg',
 };

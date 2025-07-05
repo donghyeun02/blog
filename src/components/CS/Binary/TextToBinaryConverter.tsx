@@ -99,7 +99,7 @@ const TextToBinaryConverter = () => {
                   {conversions.map((conversion, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="border border-gray-300 px-2 sm:px-3 py-1 sm:py-2 text-center font-bold text-sm sm:text-base">
-                        '{conversion.char}'
+                        &apos;{conversion.char}&apos;
                       </td>
                       <td className="border border-gray-300 px-2 sm:px-3 py-1 sm:py-2 text-center text-sm sm:text-base">
                         {conversion.ascii}
