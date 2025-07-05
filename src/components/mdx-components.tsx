@@ -11,6 +11,7 @@ import type { MDXComponents } from 'mdx/types';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
 import DecimalToBinaryConverter from './CS/Binary/DecimalToBinaryConverter';
 import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
+import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -171,5 +172,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     HttpFlowDemo,
     DecimalToBinaryConverter,
     TextToBinaryConverter,
+    ColorToBinaryConverter,
   };
 }
