@@ -9,7 +9,8 @@ import {
 import React from 'react';
 import type { MDXComponents } from 'mdx/types';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
-import DecimalToBinaryConverter from './CS/DecimalToBinaryConverter';
+import DecimalToBinaryConverter from './CS/Binary/DecimalToBinaryConverter';
+import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -169,5 +170,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     TruthTable,
     HttpFlowDemo,
     DecimalToBinaryConverter,
+    TextToBinaryConverter,
   };
 }
