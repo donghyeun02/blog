@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
+import { metadata as binarySystemMeta } from '@/app/mdx/binarysystem/meta';
 import Image from 'next/image';
 
 type PostMeta = {
@@ -29,6 +30,12 @@ const categories = [
       {
         ...calculatorMeta,
         path: '/mdx/calculator',
+        category: 'CS',
+      },
+
+      {
+        ...binarySystemMeta,
+        path: '/mdx/binarysystem',
         category: 'CS',
       },
     ],

@@ -1,5 +1,14 @@
 export const postsMeta = [
   {
+    title: '"컴퓨터는 왜 0과 1만 알까?"',
+    path: '/mdx/binarysystem',
+    date: '2025-07-05',
+    summary: '왜 컴퓨터는 우리처럼 0~9를 사용하지 않고 0과 1만 사용할까?',
+    tags: ['이진수', 'CS기초', '컴퓨터구조'],
+    category: 'CS',
+    thumbnail: '/file.svg',
+  },
+  {
     title: '계산기는 작은 디지털 교과서다',
     path: '/mdx/calculator',
     date: '2025-07-02',
