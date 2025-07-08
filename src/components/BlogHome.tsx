@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
+import { metadata as floatingpointMeta } from '@/app/mdx/floatingpoint/meta';
 import { metadata as binarySystemMeta } from '@/app/mdx/binarysystem/meta';
 import Image from 'next/image';
 
@@ -38,7 +39,12 @@ const categories = [
         path: '/mdx/binarysystem',
         category: 'CS',
       },
-    ],
+    
+      {
+        ...floatingpointMeta,
+        path: '/mdx/floatingpoint',
+        category: 'CS',
+      },],
   },
   {
     id: 'backend',

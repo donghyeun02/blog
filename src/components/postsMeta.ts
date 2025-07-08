@@ -10,6 +10,15 @@ export const postsMeta = [
       'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/binaryforPC.jpg',
   },
   {
+    title: '컴퓨터는 0.1 + 0.2도 계산을 못해요',
+    path: '/mdx/floatingpoint',
+    date: '2025-06-06',
+    summary: '0.1 + 0.2는 0.3이 아닙니다.',
+    tags: ['부동소수점', '컴퓨터오차', '이진수', 'CS기초', 'IEEE754'],
+    category: 'CS',
+    thumbnail: '/file.svg',
+  },
+  {
     title: '계산기는 작은 디지털 교과서다',
     path: '/mdx/calculator',
     date: '2025-07-06',
