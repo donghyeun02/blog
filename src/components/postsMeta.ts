@@ -16,7 +16,8 @@ export const postsMeta = [
     summary: '0.1 + 0.2는 0.3이 아닙니다.',
     tags: ['부동소수점', '컴퓨터오차', '이진수', 'CS기초', 'IEEE754'],
     category: 'CS',
-    thumbnail: '/file.svg',
+    thumbnail:
+      'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/0.1%2B0.2.png',
   },
   {
     title: '계산기는 작은 디지털 교과서다',
