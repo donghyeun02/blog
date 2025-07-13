@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
+import { metadata as nftMeta } from '@/app/mdx/nft/meta';
 import { metadata as floatingpointMeta } from '@/app/mdx/floatingpoint/meta';
 import { metadata as binarySystemMeta } from '@/app/mdx/binarysystem/meta';
 import Image from 'next/image';
@@ -57,7 +58,12 @@ const categories = [
     id: 'blockchain',
     name: 'Blockchain',
     icon: '📁',
-    posts: [],
+    posts: [
+      {
+        ...nftMeta,
+        path: '/mdx/nft',
+        category: 'Blockchain',
+      },],
   },
   {
     id: 'java',
