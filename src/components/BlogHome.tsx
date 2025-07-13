@@ -39,16 +39,23 @@ const categories = [
         path: '/mdx/binarysystem',
         category: 'CS',
       },
-    
+
       {
         ...floatingpointMeta,
         path: '/mdx/floatingpoint',
         category: 'CS',
-      },],
+      },
+    ],
   },
   {
     id: 'backend',
     name: 'Backend',
+    icon: '📁',
+    posts: [],
+  },
+  {
+    id: 'blockchain',
+    name: 'Blockchain',
     icon: '📁',
     posts: [],
   },
