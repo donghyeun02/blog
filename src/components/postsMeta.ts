@@ -37,6 +37,7 @@ export const postsMeta = [
     summary: 'NFT 시장은 거품일 지라도, 블록체인 기술 자체는 혁신이다.',
     tags: ['NFT', '블록체인', '스마트컨트랙트', 'ERC-721'],
     category: 'Blockchain',
-    thumbnail: '/file.svg',
+    thumbnail:
+      'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/nft.jpg',
   },
 ];

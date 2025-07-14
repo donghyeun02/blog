@@ -4,5 +4,5 @@ export const metadata = {
   date: '2025-07-13',
   tags: ['NFT', '블록체인', '스마트컨트랙트', 'ERC-721'],
   category: 'Blockchain',
-  thumbnail: '/file.svg',
+  thumbnail: 'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/nft.jpg',
 };
