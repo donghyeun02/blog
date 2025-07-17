@@ -143,6 +143,18 @@ Selenium 자동화는 항상 예외 상황(팝업, 로딩, 동적 요소 등)에
 
 ## 사용법
 
+```
+// application.properties 세팅
+
+springdoc.swagger-ui.path = /swagger
+springdoc.swagger-ui.tags-sorter=alpha
+springdoc.swagger-ui.operations-sorter=alpha
+springdoc.api-docs.path=/api-docs
+
+springdoc.default-consumes-media-type=application/json;charset=UTF-8
+springdoc.default-produces-media-type=applicionation/json;charset=UTF-8
+```
+
 1. 프로젝트를 로컬에서 실행합니다.
 2. 브라우저에서 [`/swagger`](http://localhost:8080/swagger)로 접속합니다.
 3. 필요한 값을 입력하고 API를 실행하면 자동 예매가 진행됩니다.
