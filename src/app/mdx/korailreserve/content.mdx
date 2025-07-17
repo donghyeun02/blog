@@ -1,0 +1,162 @@
+2024년 6월, 코레일 홈페이지가 대대적으로 리뉴얼되면서 기존 자동 예매 코드가 더 이상 동작하지 않게 되었습니다.  
+[이전 글](https://velog.io/@bandh/ktx-%EC%9E%90%EB%8F%99-%EC%98%88%EB%A7%A4)에서 소개했던 방식이 막히면서, 새롭게 구조를 뜯어고치고, 최신 Selenium과 Spring Boot로 다시 구현했습니다.
+
+<img
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/korailreserve.gif"
+  width="800"
+/>
+
+## 주요 변경점
+
+- **홈페이지 구조 변화** : React 기반 모달, 동적 로딩, 버튼 클래스명 변경 등으로 인해 기존 셀렉터가 모두 무효화됨.
+- **코드 구조 리팩토링** : MVC 패턴에 맞춰 Controller/Service/Util로 분리, 각 역할별 책임 명확화
+- **팝업/모달 처리** : 팝업이 완전히 사라질 때까지 기다리는 로직 추가, JavaScript 클릭 활용
+- **Safari/Chrome 드라이버** : SafariDriver, ChromeDriver 사용
+
+## 코드 구조, 리팩토링
+
+기존에는 모든 로직이 한 클래스에 몰려 있어 유지보수가 어려웠습니다.  
+이번에는 **Controller / Service / Util**로 역할을 분리했습니다.
+
+### 구조
+
+```
+src/main/java/org/prac/korailreserve/
+├── controller/
+│    └── TicketController.java
+├── service/
+│    ├── TicketService.java
+│    ├── WebDriverService.java
+│    ├── KorailWebService.java
+│    └── TicketSearchService.java
+└── util/
+     └── SmsSender.java
+```
+
+- **Controller**: API 엔드포인트 및 파라미터 검증
+- **Service**: 비즈니스 로직(예매, 웹드라이버 관리, 코레일 웹사이트 상호작용, 티켓 검색/예약)
+- **Util**: SMS 발송 등 부가 기능
+
+---
+
+
+
+## 주요 코드 스니펫 & 설명
+
+### (1) WebDriver 초기화
+
+SafariDriver, ChromeDriver를 사용하도록 분기할 수 있습니다.  
+Safari는 headless 모드가 안 되므로 창 크기 지정이 필수입니다.
+
+```java
+// Safari WebDriver 설정
+@Service
+public class WebDriverService {
+    public WebDriver initializeWebDriver() {
+        System.setProperty("webdriver.safari.driver", "/System/Cryptexes/App/usr/bin/safaridriver");
+        WebDriver driver = new SafariDriver();
+        driver.manage().window().setSize(new Dimension(1600, 1200));
+        return driver;
+    }
+}
+```
+
+💡 Safari Driver의 경우, 직접 설치하여 실행하여야 합니다. (Safari의 경우 headless 모드를 지원하지 않습니다.)  
+💡 headless 모드 사용을 하지 않을 경우는 옵션부분을 지우면 됩니다.  
+💡 Selenium 4.0 버전 이상부터는 WebDriverManager를 사용하면 드라이버가 저절로 실행됩니다.
+
+```java
+// Chrome WebDriver 설정
+@Service
+public class WebDriverService {
+    public WebDriver initializeWebDriver() {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions(); 
+        options.addArguments("--headless");                        <-  chrome headless
+
+        WebDriver driver = new ChromeDriver(options);
+        // driver.manage().window().setSize(new Dimension(1600, 1200));  <-  chrome window size
+        return driver;
+    }
+}
+```
+
+
+### (2) 팝업(React 모달) 닫기
+
+팝업이 완전히 사라질 때까지 기다리지 않으면, 뒤의 버튼 클릭이 실패할 수 있습니다.
+
+```java
+private void handleKorailPopup(WebDriver driver) {
+    try {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement popup = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector(".layerWrap.emer_pop")));
+        WebElement closeButton = popup.findElement(By.cssSelector(".btn_by-blue.btn_pop-close"));
+        closeButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(popup));
+    } catch (Exception e) {
+        System.out.println("팝업 없음 또는 이미 닫힘: " + e.getMessage());
+    }
+}
+```
+
+### (3) 티켓 검색 및 예약
+
+- 출발/도착역, 날짜, 시간 등 조건을 입력
+- 조건에 맞는 열차가 나타날 때까지 반복적으로 새로고침
+- 예약 가능한 열차가 있으면 바로 예약 버튼 클릭
+
+- 추가적으로, 이전 코드에서는 
+
+```java
+public boolean checkAndReserveTicket(...) {
+    // ... 생략 ...
+    while (!isTicketFound && retryCount < maxRetries) {
+        // 열차 리스트 로딩 대기
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".tckList.clear")));
+        isTicketFound = findAndReserveAvailableTicket(...);
+        if (!isTicketFound) {
+            Thread.sleep(3000);
+            driver.navigate().refresh();
+            retryCount++;
+        }
+    }
+    // ...
+}
+```
+
+---
+
+## 마치며
+
+코레일 홈페이지가 바뀌면 크롤러도 반드시 점검/수정이 필요합니다.  
+Selenium 자동화는 항상 예외 상황(팝업, 로딩, 동적 요소 등)에 대비해야 하며,  
+충분한 wait와 예외 처리, 다양한 환경에서의 테스트가 필수입니다.
+
+이번 리뉴얼 대응을 통해  
+- **코드 구조를 MVC로 리팩토링**  
+- **팝업/모달 등 실전 문제를 해결**  
+- **유지보수성과 안정성을 모두 잡는 방법**  
+
+을 경험할 수 있었습니다.
+
+## 사용법
+
+1. 프로젝트를 로컬에서 실행합니다.
+2. 브라우저에서 [`/swagger`](http://localhost:8080/swagger)로 접속합니다.
+3. 필요한 값을 입력하고 API를 실행하면 자동 예매가 진행됩니다.
+
+<img
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/korailswagger.png"
+  width="800"
+/>
+
+> Swagger UI를 통해 모든 기능을 손쉽게 테스트할 수 있습니다!
+
+전체 코드는 [GitHub 링크](https://github.com/donghyeun02/KTX_auto_reserve)에 공개되어 있습니다.  
+질문이나 피드백은 이메일(donghyeun02@gmail.com)로 남겨주세요!
+
+> ⚠️  해당 프로젝트는 개인적인 용도로만 사용하여 주시고, 불법적인 거래나 행위는 엄격히 금지됩니다.  
+> 본 프로젝트 사용 시 관련 법률, 규정 및 서비스 약관을 준수하는 것은 사용자의 책임입니다.  
+> 본 프로젝트의 사용으로 인한 어떠한 문제에 대해서도 본 프로젝트 개발자는 책임을 지지 않습니다.

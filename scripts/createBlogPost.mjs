@@ -199,6 +199,9 @@ function updateBlogHome(slug, category, title) {
   } else if (categoryLower === 'go') {
     categoryPattern =
       /(id: 'go',\s*name: 'Go',\s*icon: '📁',\s*posts: \[)(],\s*},)/;
+  } else if (categoryLower === 'dev') {
+    categoryPattern =
+      /(id: 'dev',\s*name: 'Dev',\s*icon: '📁',\s*posts: \[)(],\s*},)/;
   }
 
   const newPost = `      {
@@ -261,13 +264,13 @@ async function main() {
   const tags = await question('🏷️  태그를 입력하세요 (쉼표로 구분): ');
 
   // 2. 카테고리 선택
-  const categories = ['CS', 'Backend', 'Blockchain', 'Java', 'Go'];
+  const categories = ['CS', 'Backend', 'Blockchain', 'Java', 'Go', 'Dev'];
   console.log('\n📂 카테고리를 선택하세요:');
   categories.forEach((cat, index) => {
     console.log(`${index + 1}. ${cat}`);
   });
 
-  const categoryChoice = await question('\n선택 (1-5): ');
+  const categoryChoice = await question('\n선택 (1-6): ');
   const selectedCategory = categories[parseInt(categoryChoice) - 1] || 'CS';
 
   // 3. 기본 템플릿 사용
