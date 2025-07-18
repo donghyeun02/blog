@@ -13,6 +13,7 @@ import DecimalToBinaryConverter from './CS/Binary/DecimalToBinaryConverter';
 import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
 import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
 import CentralizedVsDecentralized from './Blockchain/CentralizedVsDecentralized';
+import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -175,5 +176,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     TextToBinaryConverter,
     ColorToBinaryConverter,
     CentralizedVsDecentralized,
+    SmartContractLegalQuiz,
   };
 }
