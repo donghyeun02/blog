@@ -51,4 +51,15 @@ export const postsMeta = [
     thumbnail:
       'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/%E1%84%92%E1%85%B4%E1%86%AB%E1%84%83%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%B5.jpg',
   },
+  {
+    title: '블록체인 위에서 돌아가는 자동화된 계약, 스마트컨트랙트',
+    path: '/mdx/smartcontract',
+    date: '2025-07-18',
+    summary:
+      '중간 기관이나 제3자 없이도 신뢰할 수 있는 거래를 가능하게 하는 이 혁신적인 기술',
+    tags: ['스마트컨트랙트', '블록체인', 'Web3', '자동화', '탈중앙화'],
+    category: 'Blockchain',
+    thumbnail:
+      'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/smartContract.jpg',
+  },
 ];

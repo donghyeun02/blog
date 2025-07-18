@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
+import { metadata as smartcontractMeta } from '@/app/mdx/smartcontract/meta';
 import { metadata as korailreserveMeta } from '@/app/mdx/korailreserve/meta';
 import { metadata as nftMeta } from '@/app/mdx/nft/meta';
 import { metadata as floatingpointMeta } from '@/app/mdx/floatingpoint/meta';
@@ -65,6 +66,11 @@ const categories = [
         path: '/mdx/nft',
         category: 'Blockchain',
       },
+      {
+        ...smartcontractMeta,
+        path: '/mdx/smartcontract',
+        category: 'Blockchain',
+      },
     ],
   },
   {
@@ -88,7 +94,8 @@ const categories = [
         ...korailreserveMeta,
         path: '/mdx/korailreserve',
         category: 'Dev',
-      },],
+      },
+    ],
   },
 ];
 
