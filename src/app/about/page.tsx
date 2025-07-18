@@ -186,7 +186,10 @@ export default function AboutPage() {
             <b>인프라 & DevOps</b>: Docker, 클라우드, 모니터링
           </li>
           <li>
-            <b>개발 철학</b>: 클린 코드, 테스트, 생산성
+            <b>블록체인(Blockchain)</b>: 스마트컨트랙트, Web3, 탈중앙화
+          </li>
+          <li>
+            <b>Dev(개발 일반)</b>: 클린 코드, 테스트, 생산성
           </li>
         </ul>
       </section>
