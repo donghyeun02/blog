@@ -20,7 +20,7 @@ export default function RootLayout({
         <title>donghyeun02</title>
         <meta
           name="description"
-          content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, go, java 개발 노트."
+          content="백엔드 개발자 donghyeun02, 기술 블로그. Blockchain, SmartContract, 논리회로, CS, go, java, 개발 노트."
         />
         <meta
           name="keywords"
@@ -33,7 +33,7 @@ export default function RootLayout({
         <meta property="og:title" content="donghyeun02" />
         <meta
           property="og:description"
-          content="백엔드 개발자 donghyeun02, 기술 블로그. Next.js, TypeScript, MDX, 논리회로, CS, 개발 노트."
+          content="백엔드 개발자 donghyeun02, 기술 블로그. Blockchain, SmartContract, 논리회로, CS, go, java, 개발 노트."
         />
         <meta property="og:url" content="https://donghyeun02.com" />
         <meta

@@ -3,11 +3,11 @@ import BlogHome from '@/components/BlogHome';
 export const metadata = {
   title: 'donghyeun02',
   description:
-    'donghyeun02의 CS, 백엔드, Java, Go 등 다양한 개발 지식과 경험을 공유합니다.',
+    'donghyeun02의 CS, 백엔드, 블록체인 등 다양한 개발 지식과 경험을 공유합니다.',
   openGraph: {
     title: 'donghyeun02',
     description:
-      'donghyeun02의 CS, 백엔드, Java, Go 등 다양한 개발 지식과 경험을 공유합니다.',
+      'donghyeun02의 CS, 백엔드, 블록체인 등 다양한 개발 지식과 경험을 공유합니다.',
     type: 'website',
     url: 'https://donghyeun02.com/',
     images: [
