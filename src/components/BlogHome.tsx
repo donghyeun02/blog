@@ -1,12 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { metadata as calculatorMeta } from '@/app/mdx/calculator/meta';
-import { metadata as smartcontractMeta } from '@/app/mdx/smartcontract/meta';
-import { metadata as korailreserveMeta } from '@/app/mdx/korailreserve/meta';
-import { metadata as nftMeta } from '@/app/mdx/nft/meta';
-import { metadata as floatingpointMeta } from '@/app/mdx/floatingpoint/meta';
-import { metadata as binarySystemMeta } from '@/app/mdx/binarysystem/meta';
+import { postsMeta } from './postsMeta';
 import Image from 'next/image';
 
 type PostMeta = {
@@ -30,72 +25,37 @@ const categories = [
     id: 'cs',
     name: 'CS',
     icon: '📁',
-    posts: [
-      {
-        ...calculatorMeta,
-        path: '/mdx/calculator',
-        category: 'CS',
-      },
-
-      {
-        ...binarySystemMeta,
-        path: '/mdx/binarysystem',
-        category: 'CS',
-      },
-
-      {
-        ...floatingpointMeta,
-        path: '/mdx/floatingpoint',
-        category: 'CS',
-      },
-    ],
+    posts: postsMeta.filter((post) => post.category === 'CS'),
   },
   {
     id: 'backend',
     name: 'Backend',
     icon: '📁',
-    posts: [],
+    posts: postsMeta.filter((post) => post.category === 'Backend'),
   },
   {
     id: 'blockchain',
     name: 'Blockchain',
     icon: '📁',
-    posts: [
-      {
-        ...nftMeta,
-        path: '/mdx/nft',
-        category: 'Blockchain',
-      },
-      {
-        ...smartcontractMeta,
-        path: '/mdx/smartcontract',
-        category: 'Blockchain',
-      },
-    ],
+    posts: postsMeta.filter((post) => post.category === 'Blockchain'),
   },
   {
     id: 'java',
     name: 'Java',
     icon: '📁',
-    posts: [],
+    posts: postsMeta.filter((post) => post.category === 'Java'),
   },
   {
     id: 'go',
     name: 'Go',
     icon: '📁',
-    posts: [],
+    posts: postsMeta.filter((post) => post.category === 'Go'),
   },
   {
     id: 'dev',
     name: 'Dev',
     icon: '📁',
-    posts: [
-      {
-        ...korailreserveMeta,
-        path: '/mdx/korailreserve',
-        category: 'Dev',
-      },
-    ],
+    posts: postsMeta.filter((post) => post.category === 'Dev'),
   },
 ];
 
