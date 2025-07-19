@@ -3,6 +3,7 @@ import BlogPostLayout from '@/components/BlogPostLayout';
 import { postsMeta } from '@/components/postsMeta';
 import MDXWrapper from '@/components/MDXWrapper';
 import { generatePostMetadata } from '@/utils/metadata';
+import { notFound } from 'next/navigation';
 
 export function createMDXPage(slug: string) {
   const currentPost = postsMeta.find((p) => p.path === `/mdx/${slug}`);
@@ -13,7 +14,7 @@ export function createMDXPage(slug: string) {
 
   function MDXPage() {
     if (!currentPost) {
-      return <div>페이지를 찾을 수 없습니다.</div>;
+      notFound();
     }
 
     const currentPath = currentPost.path;

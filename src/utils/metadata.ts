@@ -19,6 +19,7 @@ export function generatePostMetadata(
   }
 
   return {
+    metadataBase: new URL('https://donghyeun02.com'),
     title: currentPost.title,
     description: currentPost.summary,
     keywords: currentPost.tags.join(', '),
