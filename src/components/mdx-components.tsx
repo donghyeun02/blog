@@ -1,13 +1,13 @@
 'use client';
 
+import React from 'react';
+
 import LogicGateSimulator from './CS/LogicGateSimulator';
 import {
   createGateSimulator,
   createAdderSimulator,
   createFullAdderFromHalfAdders,
 } from './CS/SimulatorFactory';
-import React from 'react';
-import type { MDXComponents } from 'mdx/types';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
 import DecimalToBinaryConverter from './CS/Binary/DecimalToBinaryConverter';
 import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
@@ -112,7 +112,6 @@ const FullAdderFromHalfAddersSimulator = createFullAdderFromHalfAdders({
   ],
 });
 
-// 진리표 컴포넌트
 interface TruthTableProps {
   headers: string[];
   rows: (string | number)[][];
@@ -158,24 +157,21 @@ function TruthTable({ headers, rows, outputStartIndex }: TruthTableProps) {
   );
 }
 
-export function useMDXComponents(components: MDXComponents): MDXComponents {
-  return {
-    ...components,
-    AndGateSimulator,
-    OrGateSimulator,
-    NotGateSimulator,
-    XorGateSimulator,
-    BufferGateSimulator,
-    FreeSimulator,
-    HalfAdderSimulator,
-    FullAdderSimulator,
-    FullAdderFromHalfAddersSimulator,
-    TruthTable,
-    HttpFlowDemo,
-    DecimalToBinaryConverter,
-    TextToBinaryConverter,
-    ColorToBinaryConverter,
-    CentralizedVsDecentralized,
-    SmartContractLegalQuiz,
-  };
-}
+export const mdxComponents = {
+  AndGateSimulator,
+  OrGateSimulator,
+  NotGateSimulator,
+  XorGateSimulator,
+  BufferGateSimulator,
+  FreeSimulator,
+  HalfAdderSimulator,
+  FullAdderSimulator,
+  FullAdderFromHalfAddersSimulator,
+  TruthTable,
+  HttpFlowDemo,
+  DecimalToBinaryConverter,
+  TextToBinaryConverter,
+  ColorToBinaryConverter,
+  CentralizedVsDecentralized,
+  SmartContractLegalQuiz,
+};

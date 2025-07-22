@@ -19,7 +19,7 @@ const categories = [
     id: 'all',
     name: '전체',
     icon: '📁',
-    posts: null, // null로 두고, 실제 렌더링 시 모든 글을 합쳐서 보여줌
+    posts: null,
   },
   {
     id: 'cs',
@@ -77,7 +77,7 @@ export default function BlogHome() {
 
   return (
     <main className="flex flex-col md:flex-row gap-0 min-h-[70vh]">
-      {/* 좌측 카테고리(디렉토리) 패널 - 모바일에서는 상단에 버튼으로 */}
+      {/* 좌측 카테고리 패널*/}
       <aside className="hidden md:flex w-48 border-r border-neutral-200 bg-neutral-50 py-8 px-2 flex-col gap-1 font-mono text-sm select-none">
         {categories.map((cat) => (
           <button

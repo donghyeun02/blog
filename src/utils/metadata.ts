@@ -37,11 +37,5 @@ export function generatePostMetadata(
         },
       ],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: currentPost.title,
-      description: currentPost.summary,
-      images: [currentPost.thumbnail],
-    },
   };
 }
