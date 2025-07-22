@@ -1,6 +1,3 @@
-import type { MDXComponents } from 'mdx/types';
-import { useMDXComponents as getComponents } from './src/components/mdx-components';
-
-export function useMDXComponents(components: MDXComponents): MDXComponents {
-  return getComponents(components);
-}
+export const mdxComponents = {
+  // ... 기존 컴포넌트들 ...
+};
