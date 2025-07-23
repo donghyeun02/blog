@@ -16,6 +16,16 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <link
+          rel="icon"
+          href="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/profile.jpg"
+          type="image/jpeg"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/profile.jpg"
+        />
+
         {/* SEO 기본 메타태그 */}
         <title>donghyeun02</title>
         <meta
