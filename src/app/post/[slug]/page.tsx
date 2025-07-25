@@ -1,6 +1,6 @@
 import { postsMeta } from '@/components/postsMeta';
-import DynamicMdxViewer from '@/components/DynamicMdxViewer';
 import BlogPostLayout from '@/components/BlogPostLayout';
+import ClientMdxLoader from './ClientMdxLoader';
 
 type PostNavInfo =
   | { slug: string; title: string; path: string; date: string }
@@ -39,11 +39,7 @@ export default async function PostPage({
       prevPost={post.prevPost}
       nextPost={post.nextPost}
     >
-      {post.mdxUrl ? (
-        <DynamicMdxViewer initialUrl={post.mdxUrl} />
-      ) : (
-        <div>아직 동적 MDX 렌더링이 적용되지 않은 글입니다.</div>
-      )}
+      <ClientMdxLoader slug={post.slug} />
     </BlogPostLayout>
   );
 }

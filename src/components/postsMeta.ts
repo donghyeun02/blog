@@ -1,5 +1,4 @@
 const IMAGE_BASE = process.env.NEXT_PUBLIC_IMAGE_BASE || '';
-const IPFS_GATEWAY = process.env.NEXT_PUBLIC_IPFS_GATEWAY || '';
 
 export let postsMeta = [
   {
@@ -11,9 +10,6 @@ export let postsMeta = [
     tags: ['부동소수점', '컴퓨터오차', '이진수', 'CS기초', 'IEEE754'],
     category: 'CS',
     thumbnail: IMAGE_BASE + '0.1%2B0.2.png',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreifd5rv67jq454drymqn275sb7bsjpxcgpabrnsvcc5le7ei3g3qlm',
   },
   {
     title: '"컴퓨터는 왜 0과 1만 알까?"',
@@ -24,9 +20,6 @@ export let postsMeta = [
     tags: ['이진수', 'CS기초', '컴퓨터구조'],
     category: 'CS',
     thumbnail: IMAGE_BASE + 'binaryforPC.jpg',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreihxpei57vd5sovh32vgvrhqapxinpaltejeuap5xjn7yinxdaayk4',
   },
   {
     title: '계산기는 작은 디지털 교과서다',
@@ -40,9 +33,6 @@ export let postsMeta = [
     thumbnail:
       IMAGE_BASE +
       '%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2025-07-02+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+11.25.22.png',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreift5xmhh6m6tz2j34k2z3eivcurjkf6ldf4rq6bxfa5eq53dxk54i',
   },
   {
     slug: 'nft',
@@ -53,9 +43,6 @@ export let postsMeta = [
     tags: ['NFT', '블록체인', '스마트컨트랙트', 'ERC-721'],
     category: 'Blockchain',
     thumbnail: IMAGE_BASE + 'nft.jpg',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreiaje6weafi63k47xebi77kui7b6aaecqsabi47qrnjhvcqyfqawfm',
   },
   {
     title: '코레일 홈페이지 리뉴얼에 대응하기',
@@ -69,9 +56,6 @@ export let postsMeta = [
     thumbnail:
       IMAGE_BASE +
       '%E1%84%92%E1%85%B4%E1%86%AB%E1%84%83%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%B5.jpg',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreiflua3rawazx6fm4ow3e5jqtlvtlymlxxa5vukptxtmfozfalw3x4',
   },
   {
     title: '블록체인 위에서 돌아가는 자동화된 계약, 스마트컨트랙트',
@@ -83,9 +67,6 @@ export let postsMeta = [
     tags: ['스마트컨트랙트', '블록체인', 'Web3', '자동화', '탈중앙화'],
     category: 'Blockchain',
     thumbnail: IMAGE_BASE + 'smartContract.jpg',
-    mdxUrl:
-      IPFS_GATEWAY +
-      'bafkreihm5vshmbdmecnxwj7vvhfmfwdfisiig3wxpq3hmgsckfimmaa6gq',
   },
 ];
 
