@@ -28,9 +28,7 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
         const provider = new ethers.providers.JsonRpcProvider(
           process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
         );
-        const contract = getBlogRegistryContract(
-          provider as ethers.providers.Provider
-        );
+        const contract = getBlogRegistryContract(provider);
         const cids: string[] = await contract.getAllPosts();
         const foundCid = cids[postIndex] || null;
         setCid(foundCid);

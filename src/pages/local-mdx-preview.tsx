@@ -1,4 +1,4 @@
-import SampleMdx from '../app/local-mdx/sample.mdx';
+import SampleMdx from '../local-mdx/sample.mdx';
 
 export default function LocalMdxPreviewPage() {
   return (

@@ -331,7 +331,10 @@ export const CONTRACT_ABI = [
 ];
 
 export function getBlogRegistryContract(
-  signerOrProvider: ethers.Signer | ethers.providers.Web3Provider
+  signerOrProvider:
+    | ethers.Signer
+    | ethers.providers.Web3Provider
+    | ethers.providers.JsonRpcProvider
 ) {
   return new ethers.Contract(CONTRACT_ADDRESS!, CONTRACT_ABI, signerOrProvider);
 }
