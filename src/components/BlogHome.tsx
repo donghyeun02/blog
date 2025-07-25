@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { postsMeta } from './postsMeta';
 import Image from 'next/image';
@@ -68,6 +69,13 @@ const getAllPosts = () =>
 export default function BlogHome() {
   const [selected, setSelected] = useState(categories[0].id);
   const [viewType, setViewType] = useState<'card' | 'thumbnail'>('card');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 640) {
+      setViewType('thumbnail');
+    }
+  }, []);
+
   const current = categories.find((c) => c.id === selected);
   const posts: PostMeta[] =
     current?.id === 'all' ? getAllPosts() : current?.posts || [];
@@ -170,7 +178,7 @@ export default function BlogHome() {
                     priority={false}
                   />
                   <div className="flex-1 flex flex-col min-w-0">
-                    <div className="flex gap-1 sm:gap-2 mb-2 flex-wrap">
+                    <div className="flex gap-1 sm:gap-2 mb-2 flex-nowrap overflow-hidden whitespace-nowrap">
                       {post.tags.slice(0, 3).map((tag: string) => (
                         <span
                           key={tag}
