@@ -12,6 +12,10 @@ interface BlogPostLayoutProps {
   children: React.ReactNode;
   prevPost?: { title: string; path: string; date: string };
   nextPost?: { title: string; path: string; date: string };
+  integrityStatus?: {
+    isValid: boolean;
+    message: string;
+  };
 }
 
 export default function BlogPostLayout({
@@ -22,6 +26,7 @@ export default function BlogPostLayout({
   children,
   prevPost,
   nextPost,
+  integrityStatus,
 }: BlogPostLayoutProps) {
   // 목차 추출 로직
   const [toc, setToc] = useState<{ id: string; text: string; level: number }[]>(
@@ -77,16 +82,56 @@ export default function BlogPostLayout({
                 >
                   ← 글 목록
                 </Link>
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  {tags &&
-                    tags.map((tag) => (
+                <div className="flex gap-2 mb-4 flex-wrap items-center justify-between">
+                  <div className="flex gap-2 flex-wrap">
+                    {tags &&
+                      tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 text-xs bg-blue-50 text-blue-700 rounded-full font-semibold hover:bg-blue-100 transition-colors"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                  </div>
+
+                  {/* 무결성 검증 상태 표시 - 오른쪽 끝 */}
+                  {integrityStatus && (
+                    <div className="relative group">
                       <span
-                        key={tag}
-                        className="px-3 py-1 text-xs bg-blue-50 text-blue-700 rounded-full font-semibold hover:bg-blue-100 transition-colors"
+                        className={`inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full font-medium transition-colors ${
+                          integrityStatus.isValid
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                            : 'bg-red-100 text-red-700 hover:bg-red-200'
+                        }`}
                       >
-                        {tag}
+                        <span className="text-xs">
+                          {integrityStatus.isValid ? '✅' : '❌'}
+                        </span>
+                        <span className="text-xs">
+                          {integrityStatus.isValid
+                            ? '무결성 검증 성공'
+                            : '무결성 검증 실패'}
+                        </span>
                       </span>
-                    ))}
+
+                      {/* 호버 툴팁 */}
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                        <div className="text-center">
+                          <div className="font-medium mb-1">
+                            {integrityStatus.isValid
+                              ? '🔒 검증 완료'
+                              : '⚠️ 검증 실패'}
+                          </div>
+                          <div className="text-gray-300">
+                            {integrityStatus.message}
+                          </div>
+                        </div>
+                        {/* 화살표 */}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-sans text-neutral-900 mb-4 flex items-center gap-2">
                   <span className="align-middle text-xl sm:text-2xl lg:text-3xl">
@@ -163,30 +208,28 @@ export default function BlogPostLayout({
               )}
             </div>
           </div>
-          {/* 목차(TOC) - 완전히 오른쪽 바깥에 고정 */}
-          {toc.length > 0 && showToc && (
-            <aside className="fixed top-24 right-12 w-64 z-30 opacity-60 hover:opacity-100 transition-opacity">
-              <nav>
-                <ul className="space-y-1">
+
+          {/* 목차: 큰 화면에서만 표시 */}
+          {showToc && toc.length > 0 && (
+            <aside className="hidden xl:block w-64 flex-shrink-0">
+              <div className="sticky top-8">
+                <h3 className="text-sm font-semibold text-neutral-900 mb-3">
+                  목차
+                </h3>
+                <nav className="space-y-1">
                   {toc.map((item) => (
-                    <li
+                    <a
                       key={item.id}
-                      className={item.level === 2 ? 'ml-0' : 'ml-3'}
+                      href={`#${item.id}`}
+                      className={`block text-sm text-neutral-600 hover:text-blue-600 transition-colors ${
+                        item.level === 3 ? 'ml-4' : ''
+                      }`}
                     >
-                      <a
-                        href={`#${item.id}`}
-                        className={`block text-sm leading-5 transition-colors duration-200 ${
-                          item.level === 2
-                            ? 'font-medium text-neutral-700 hover:text-blue-600 py-1'
-                            : 'font-normal text-neutral-500 hover:text-blue-500 py-0.5'
-                        }`}
-                      >
-                        {item.text}
-                      </a>
-                    </li>
+                      {item.text}
+                    </a>
                   ))}
-                </ul>
-              </nav>
+                </nav>
+              </div>
             </aside>
           )}
         </div>

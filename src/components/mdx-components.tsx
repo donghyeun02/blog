@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import LogicGateSimulator from './CS/LogicGateSimulator';
 import {
   createGateSimulator,
@@ -113,46 +112,45 @@ const FullAdderFromHalfAddersSimulator = createFullAdderFromHalfAdders({
 });
 
 interface TruthTableProps {
+  title: string;
   headers: string[];
   rows: (string | number)[][];
-  outputStartIndex: number;
 }
 
-function TruthTable({ headers, rows, outputStartIndex }: TruthTableProps) {
+function TruthTable({ title, headers, rows }: TruthTableProps) {
   return (
-    <div className="overflow-x-auto my-4">
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead>
-          <tr>
-            {headers.map((header, index) => (
-              <th
-                key={index}
-                className={`border border-gray-300 px-4 py-3 bg-gray-50 text-center font-semibold ${
-                  index === outputStartIndex ? 'output-start' : ''
-                }`}
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIndex) => (
-            <tr key={rowIndex} className="hover:bg-gray-50">
-              {row.map((cell, cellIndex) => (
-                <td
-                  key={cellIndex}
-                  className={`border border-gray-300 px-4 py-2.5 text-center ${
-                    cellIndex === outputStartIndex ? 'output-start' : ''
-                  }`}
+    <div className="my-6">
+      <h4 className="text-lg font-semibold mb-3">{title}</h4>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border border-gray-300">
+          <thead>
+            <tr>
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold text-left"
                 >
-                  {cell}
-                </td>
+                  {header}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td
+                    key={cellIndex}
+                    className="border border-gray-300 px-4 py-2"
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

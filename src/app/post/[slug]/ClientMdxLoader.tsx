@@ -8,11 +8,26 @@ import {
   handleBlockchainError,
 } from '@/utils/blockchain';
 import { createResponsiveStyles } from '@/utils/styles';
+import { quickIntegrityCheck, IntegrityResult } from '@/utils/integrity';
 
-export default function ClientMdxLoader({ slug }: { slug: string }) {
+interface ClientMdxLoaderProps {
+  slug: string;
+  onIntegrityStatusChange?: (status: {
+    isValid: boolean;
+    message: string;
+  }) => void;
+}
+
+export default function ClientMdxLoader({
+  slug,
+  onIntegrityStatusChange,
+}: ClientMdxLoaderProps) {
   const [cid, setCid] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [integrityResult, setIntegrityResult] =
+    useState<IntegrityResult | null>(null);
+  const [integrityLoading, setIntegrityLoading] = useState(false);
 
   // 반응형 레이아웃을 위한 상태
   const [isMobile, setIsMobile] = useState(false);
@@ -33,6 +48,12 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
         const contract = createContractWithJsonRpc(provider);
         const cids: string[] = await contract.getAllPosts();
         const foundCid = cids[postIndex] || null;
+
+        // CID 디버깅을 위한 로그
+        console.log('Found CID:', foundCid);
+        console.log('CID type:', typeof foundCid);
+        console.log('CID length:', foundCid?.length);
+
         setCid(foundCid);
       } catch (e: unknown) {
         const blockchainError = handleBlockchainError(e);
@@ -43,6 +64,69 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
     }
     fetchCid();
   }, [slug]);
+
+  // CID가 설정되면 무결성 검증 실행
+  useEffect(() => {
+    if (cid) {
+      verifyIntegrity();
+    }
+  }, [cid]);
+
+  const verifyIntegrity = async () => {
+    if (!cid) return;
+
+    setIntegrityLoading(true);
+    try {
+      const quickCheck = await quickIntegrityCheck(cid);
+      if (!quickCheck.isValid) {
+        const result = {
+          isValid: false,
+          checks: {
+            cidValid: false,
+            blockchainValid: false,
+            hashValid: false,
+            timestampValid: false,
+          },
+          details: {},
+          errors: [quickCheck.error || '무결성 검증 실패'],
+        };
+        setIntegrityResult(result);
+
+        // 상위 컴포넌트에 상태 전달
+        onIntegrityStatusChange?.({
+          isValid: false,
+          message: quickCheck.error || '무결성 검증에 실패했습니다.',
+        });
+      } else {
+        const result = {
+          isValid: true,
+          checks: {
+            cidValid: true,
+            blockchainValid: true,
+            hashValid: true,
+            timestampValid: true,
+          },
+          details: { cid },
+          errors: [],
+        };
+        setIntegrityResult(result);
+
+        // 상위 컴포넌트에 상태 전달
+        onIntegrityStatusChange?.({
+          isValid: true,
+          message: '블록체인에서 검증된 안전한 콘텐츠입니다.',
+        });
+      }
+    } catch (error) {
+      console.error('무결성 검증 오류:', error);
+      onIntegrityStatusChange?.({
+        isValid: false,
+        message: '무결성 검증 중 오류가 발생했습니다.',
+      });
+    } finally {
+      setIntegrityLoading(false);
+    }
+  };
 
   const ipfsGateway =
     process.env.NEXT_PUBLIC_IPFS_GATEWAY ||
@@ -83,6 +167,7 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
         </div>
       </div>
     );
+
   if (error)
     return (
       <div style={styles.errorBox}>
@@ -118,6 +203,7 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
         </div>
       </div>
     );
+
   if (!mdxUrl)
     return (
       <div style={styles.notFoundBox}>
@@ -144,5 +230,6 @@ export default function ClientMdxLoader({ slug }: { slug: string }) {
         </div>
       </div>
     );
+
   return <DynamicMdxViewer initialUrl={mdxUrl} />;
 }

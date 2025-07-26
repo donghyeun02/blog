@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { postsMeta } from '@/components/postsMeta';
 import BlogPostLayout from '@/components/BlogPostLayout';
 import ClientMdxLoader from './ClientMdxLoader';
@@ -19,16 +22,34 @@ type PostWithNav = {
   nextPost: PostNavInfo;
 };
 
-export default async function PostPage({
+export default function PostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const [slug, setSlug] = useState<string>('');
+  const [integrityStatus, setIntegrityStatus] = useState<{
+    isValid: boolean;
+    message: string;
+  } | null>(null);
+
+  // params를 비동기로 처리
+  useEffect(() => {
+    params.then(({ slug }) => setSlug(slug));
+  }, [params]);
+
   const post = postsMeta.find((p) => p.slug === slug) as
     | PostWithNav
     | undefined;
-  if (!post) return <div>글을 찾을 수 없습니다.</div>;
+
+  if (!slug || !post) return <div>글을 찾을 수 없습니다.</div>;
+
+  const handleIntegrityStatusChange = (status: {
+    isValid: boolean;
+    message: string;
+  }) => {
+    setIntegrityStatus(status);
+  };
 
   return (
     <BlogPostLayout
@@ -38,8 +59,12 @@ export default async function PostPage({
       tags={post.tags}
       prevPost={post.prevPost}
       nextPost={post.nextPost}
+      integrityStatus={integrityStatus || undefined}
     >
-      <ClientMdxLoader slug={post.slug} />
+      <ClientMdxLoader
+        slug={post.slug}
+        onIntegrityStatusChange={handleIntegrityStatusChange}
+      />
     </BlogPostLayout>
   );
 }
