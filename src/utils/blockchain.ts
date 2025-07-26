@@ -13,7 +13,7 @@ export function createWeb3Provider(): ethers.providers.Web3Provider {
 
 // JsonRPC provider 생성
 export function createJsonRpcProvider(): ethers.providers.JsonRpcProvider {
-  const rpcUrl = process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL;
+  const rpcUrl = process.env.NEXT_PUBLIC_POLYGON_RPC_URL;
   if (!rpcUrl) {
     throw new Error('RPC URL이 설정되지 않았습니다.');
   }

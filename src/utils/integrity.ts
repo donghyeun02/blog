@@ -73,7 +73,7 @@ export async function getBlockchainCidInfo(cid: string): Promise<{
 } | null> {
   try {
     const provider = new ethers.providers.JsonRpcProvider(
-      process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
+      process.env.NEXT_PUBLIC_POLYGON_RPC_URL
     );
     const contract = getBlogRegistryContract(provider);
 
