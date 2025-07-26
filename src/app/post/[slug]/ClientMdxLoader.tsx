@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { postsMeta } from '@/components/postsMeta';
 import DynamicMdxViewer from '@/components/DynamicMdxViewer';
 import {
@@ -8,7 +8,7 @@ import {
   handleBlockchainError,
 } from '@/utils/blockchain';
 import { createResponsiveStyles } from '@/utils/styles';
-import { quickIntegrityCheck, IntegrityResult } from '@/utils/integrity';
+import { quickIntegrityCheck } from '@/utils/integrity';
 
 interface ClientMdxLoaderProps {
   slug: string;
@@ -25,11 +25,7 @@ export default function ClientMdxLoader({
   const [cid, setCid] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [integrityResult, setIntegrityResult] =
-    useState<IntegrityResult | null>(null);
-  const [integrityLoading, setIntegrityLoading] = useState(false);
 
-  // 반응형 레이아웃을 위한 상태
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 600);
@@ -49,7 +45,6 @@ export default function ClientMdxLoader({
         const cids: string[] = await contract.getAllPosts();
         const foundCid = cids[postIndex] || null;
 
-        // CID 디버깅을 위한 로그
         console.log('Found CID:', foundCid);
         console.log('CID type:', typeof foundCid);
         console.log('CID length:', foundCid?.length);
@@ -65,53 +60,17 @@ export default function ClientMdxLoader({
     fetchCid();
   }, [slug]);
 
-  // CID가 설정되면 무결성 검증 실행
-  useEffect(() => {
-    if (cid) {
-      verifyIntegrity();
-    }
-  }, [cid]);
-
-  const verifyIntegrity = async () => {
+  const verifyIntegrity = useCallback(async () => {
     if (!cid) return;
 
-    setIntegrityLoading(true);
     try {
       const quickCheck = await quickIntegrityCheck(cid);
       if (!quickCheck.isValid) {
-        const result = {
-          isValid: false,
-          checks: {
-            cidValid: false,
-            blockchainValid: false,
-            hashValid: false,
-            timestampValid: false,
-          },
-          details: {},
-          errors: [quickCheck.error || '무결성 검증 실패'],
-        };
-        setIntegrityResult(result);
-
-        // 상위 컴포넌트에 상태 전달
         onIntegrityStatusChange?.({
           isValid: false,
           message: quickCheck.error || '무결성 검증에 실패했습니다.',
         });
       } else {
-        const result = {
-          isValid: true,
-          checks: {
-            cidValid: true,
-            blockchainValid: true,
-            hashValid: true,
-            timestampValid: true,
-          },
-          details: { cid },
-          errors: [],
-        };
-        setIntegrityResult(result);
-
-        // 상위 컴포넌트에 상태 전달
         onIntegrityStatusChange?.({
           isValid: true,
           message: '블록체인에서 검증된 안전한 콘텐츠입니다.',
@@ -123,17 +82,20 @@ export default function ClientMdxLoader({
         isValid: false,
         message: '무결성 검증 중 오류가 발생했습니다.',
       });
-    } finally {
-      setIntegrityLoading(false);
     }
-  };
+  }, [cid, onIntegrityStatusChange]);
+
+  useEffect(() => {
+    if (cid) {
+      verifyIntegrity();
+    }
+  }, [cid, verifyIntegrity]);
 
   const ipfsGateway =
     process.env.NEXT_PUBLIC_IPFS_GATEWAY ||
     'https://gateway.pinata.cloud/ipfs/';
   const mdxUrl = cid ? ipfsGateway + cid : null;
 
-  // 스타일 유틸리티 사용
   const styles = createResponsiveStyles(isMobile);
 
   if (loading)
