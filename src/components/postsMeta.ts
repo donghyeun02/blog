@@ -1,6 +1,8 @@
+import { PostMeta } from '@/types';
+
 const IMAGE_BASE = process.env.NEXT_PUBLIC_IMAGE_BASE || '';
 
-export let postsMeta = [
+export let postsMeta: PostMeta[] = [
   {
     title: '컴퓨터는 0.1 + 0.2도 계산을 못해요',
     path: '/post/floatingpoint',

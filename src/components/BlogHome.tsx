@@ -4,16 +4,8 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { postsMeta } from './postsMeta';
 import Image from 'next/image';
-
-type PostMeta = {
-  title: string;
-  path: string;
-  date: string;
-  summary: string;
-  tags: string[];
-  category: string;
-  thumbnail?: string;
-};
+import { PostMeta, ViewType } from '@/types';
+import { renderTags, formatDate } from '@/utils/styles';
 
 const categories = [
   {
@@ -68,7 +60,7 @@ const getAllPosts = () =>
 
 export default function BlogHome() {
   const [selected, setSelected] = useState(categories[0].id);
-  const [viewType, setViewType] = useState<'card' | 'thumbnail'>('card');
+  const [viewType, setViewType] = useState<ViewType>('card');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 640) {
@@ -99,9 +91,15 @@ export default function BlogHome() {
           >
             <span>{selected === cat.id ? '📂' : '📁'}</span>
             <span>{cat.name}</span>
+            {cat.posts && (
+              <span className="ml-auto text-xs text-neutral-500">
+                {cat.posts.length}
+              </span>
+            )}
           </button>
         ))}
       </aside>
+
       {/* 모바일 카테고리 버튼 */}
       <div className="flex md:hidden w-full overflow-x-auto gap-2 px-2 py-2 bg-neutral-50 border-b border-neutral-200">
         {categories.map((cat) => (
@@ -119,6 +117,7 @@ export default function BlogHome() {
           </button>
         ))}
       </div>
+
       {/* 우측 글 목록 */}
       <section className="flex-1 px-2 sm:px-4 md:px-8 py-2 sm:py-4 max-w-4xl mx-auto w-full">
         <div className="flex items-center justify-between mb-4">
@@ -154,6 +153,7 @@ export default function BlogHome() {
             </button>
           </div>
         </div>
+
         <div
           className={
             viewType === 'card'
@@ -179,7 +179,7 @@ export default function BlogHome() {
                   />
                   <div className="flex-1 flex flex-col min-w-0">
                     <div className="flex gap-1 sm:gap-2 mb-2 flex-nowrap overflow-hidden whitespace-nowrap">
-                      {post.tags.slice(0, 3).map((tag: string) => (
+                      {renderTags(post.tags).displayTags.map((tag) => (
                         <span
                           key={tag}
                           className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full font-semibold shadow-sm border border-blue-100"
@@ -187,9 +187,9 @@ export default function BlogHome() {
                           {tag}
                         </span>
                       ))}
-                      {post.tags.length > 3 && (
+                      {renderTags(post.tags).hasMore && (
                         <span className="px-2 py-0.5 text-[11px] bg-gray-200 text-gray-600 rounded-full font-semibold">
-                          +{post.tags.length - 3}
+                          +{renderTags(post.tags).remainingCount}
                         </span>
                       )}
                     </div>
@@ -207,11 +207,7 @@ export default function BlogHome() {
                     </p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
-                        {new Date(post.date).toLocaleDateString('ko-KR', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
+                        {formatDate(post.date)}
                       </span>
                     </div>
                   </div>
@@ -232,7 +228,7 @@ export default function BlogHome() {
                   />
                   <div className="flex flex-col flex-1 min-w-0 px-4 py-4">
                     <div className="flex gap-1 sm:gap-2 mb-2 flex-wrap">
-                      {post.tags.slice(0, 3).map((tag: string) => (
+                      {renderTags(post.tags).displayTags.map((tag) => (
                         <span
                           key={tag}
                           className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-blue-50 text-blue-700 rounded-full font-semibold border border-blue-100"
@@ -240,9 +236,9 @@ export default function BlogHome() {
                           {tag}
                         </span>
                       ))}
-                      {post.tags.length > 3 && (
+                      {renderTags(post.tags).hasMore && (
                         <span className="px-2 py-0.5 text-[11px] bg-gray-200 text-gray-600 rounded-full font-semibold">
-                          +{post.tags.length - 3}
+                          +{renderTags(post.tags).remainingCount}
                         </span>
                       )}
                     </div>
@@ -259,11 +255,7 @@ export default function BlogHome() {
                     </p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
-                        {new Date(post.date).toLocaleDateString('ko-KR', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
+                        {formatDate(post.date)}
                       </span>
                     </div>
                   </div>

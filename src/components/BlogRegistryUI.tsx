@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ethers } from 'ethers';
-import { getBlogRegistryContract } from '@/contracts/blogRegistry';
-
-// 타입 선언 추가
-interface EthereumProvider {
-  request: (args: { method: string }) => Promise<unknown>;
-}
-interface EthereumWindow extends Window {
-  ethereum?: EthereumProvider;
-}
+import {
+  createWeb3Provider,
+  createContractWithProvider,
+  createContractWithSigner,
+  handleBlockchainError,
+} from '@/utils/blockchain';
 
 export default function BlogRegistryUI() {
   const [cid, setCid] = useState('');
@@ -23,17 +19,10 @@ export default function BlogRegistryUI() {
     setLoading(true);
 
     try {
-      const ethWindow = window as EthereumWindow;
-      if (!ethWindow.ethereum)
-        throw new Error('MetaMask가 설치되어 있지 않습니다.');
-
-      await ethWindow.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-
-      const provider = new ethers.providers.Web3Provider(ethWindow.ethereum);
+      const provider = createWeb3Provider();
+      await provider.send('eth_requestAccounts', []);
       const signer = await provider.getSigner();
-      const contract = getBlogRegistryContract(signer);
+      const contract = await createContractWithSigner(signer);
       const tx = await contract.registerPost(cid);
 
       await tx.wait();
@@ -41,11 +30,8 @@ export default function BlogRegistryUI() {
 
       await fetchCids();
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message || '등록 실패');
-      } else {
-        setError('알 수 없는 오류가 발생했습니다.');
-      }
+      const blockchainError = handleBlockchainError(e);
+      setError(blockchainError.message);
     } finally {
       setLoading(false);
     }
@@ -56,21 +42,14 @@ export default function BlogRegistryUI() {
     setLoading(true);
 
     try {
-      const ethWindow = window as EthereumWindow;
-      if (!ethWindow.ethereum)
-        throw new Error('MetaMask가 설치되어 있지 않습니다.');
-
-      const provider = new ethers.providers.Web3Provider(ethWindow.ethereum);
-      const contract = getBlogRegistryContract(provider);
+      const provider = createWeb3Provider();
+      const contract = createContractWithProvider(provider);
       const result = await contract.getAllPosts();
 
       setCids(result);
     } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message || '조회 실패');
-      } else {
-        setError('알 수 없는 오류가 발생했습니다.');
-      }
+      const blockchainError = handleBlockchainError(e);
+      setError(blockchainError.message);
     } finally {
       setLoading(false);
     }
@@ -101,26 +80,24 @@ export default function BlogRegistryUI() {
       </div>
       <div style={{ marginBottom: 16 }}>
         <button onClick={fetchCids} disabled={loading}>
-          {loading ? '불러오는 중...' : '온체인 CID 목록 조회'}
+          {loading ? '조회 중...' : 'CID 목록 조회'}
         </button>
       </div>
-      {error && <div style={{ color: 'red', marginBottom: 16 }}>{error}</div>}
-      <div>
-        <h4>온체인에 등록된 CID 목록</h4>
-        <ul>
-          {cids.map((c, i) => (
-            <li key={i} style={{ wordBreak: 'break-all' }}>
-              <a
-                href={`https://emerald-urban-anglerfish-862.mypinata.cloud/ipfs/${c}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {c}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {error && (
+        <div style={{ color: 'red', marginBottom: 16 }}>오류: {error}</div>
+      )}
+      {cids.length > 0 && (
+        <div>
+          <h3>등록된 CID 목록:</h3>
+          <ul>
+            {cids.map((cid, index) => (
+              <li key={index} style={{ marginBottom: 8 }}>
+                {cid}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
