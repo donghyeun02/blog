@@ -209,27 +209,30 @@ export default function BlogPostLayout({
             </div>
           </div>
 
-          {/* 목차: 큰 화면에서만 표시 */}
-          {showToc && toc.length > 0 && (
-            <aside className="hidden xl:block w-64 flex-shrink-0">
-              <div className="sticky top-8">
-                <h3 className="text-sm font-semibold text-neutral-900 mb-3">
-                  목차
-                </h3>
-                <nav className="space-y-1">
+          {/* 목차(TOC) - 완전히 오른쪽 바깥에 고정 */}
+          {toc.length > 0 && showToc && (
+            <aside className="fixed top-24 right-24 w-64 z-30">
+              <nav>
+                <ul className="space-y-2">
                   {toc.map((item) => (
-                    <a
+                    <li
                       key={item.id}
-                      href={`#${item.id}`}
-                      className={`block text-sm text-neutral-600 hover:text-blue-600 transition-colors ${
-                        item.level === 3 ? 'ml-4' : ''
-                      }`}
+                      className={
+                        item.level === 2
+                          ? 'ml-0 font-semibold text-base'
+                          : 'ml-3 text-sm text-neutral-500 font-normal'
+                      }
                     >
-                      {item.text}
-                    </a>
+                      <a
+                        href={`#${item.id}`}
+                        className="hover:underline hover:text-blue-600 transition-colors"
+                      >
+                        {item.text}
+                      </a>
+                    </li>
                   ))}
-                </nav>
-              </div>
+                </ul>
+              </nav>
             </aside>
           )}
         </div>
