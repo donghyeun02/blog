@@ -1,5 +1,5 @@
 import BlogRegistryUI from '@/components/BlogRegistryUI';
 
-export default function TestPage() {
+export default function ContractRegistryPage() {
   return <BlogRegistryUI />;
 }
