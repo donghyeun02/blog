@@ -13,6 +13,10 @@ import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
 import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
 import CentralizedVsDecentralized from './Blockchain/CentralizedVsDecentralized';
 import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
+import SplitSection from './SplitSection';
+import SlideSection from './SlideSection';
+import SlideDeck from './SlideDeck';
+import { Slide, CodeSlide, MainSlide } from './SlideComponents';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -77,8 +81,8 @@ const HalfAdderSimulator = createAdderSimulator({
   ],
   gatePosition: { x: 250, y: 140 },
   outputPositions: [
-    { x: 500, y: 200 }, // Sum
-    { x: 500, y: 260 }, // Carry
+    { x: 500, y: 200 },
+    { x: 500, y: 260 },
   ],
 });
 
@@ -91,8 +95,8 @@ const FullAdderSimulator = createAdderSimulator({
   ],
   gatePosition: { x: 250, y: 140 },
   outputPositions: [
-    { x: 500, y: 200 }, // Sum
-    { x: 500, y: 260 }, // Cout
+    { x: 500, y: 200 },
+    { x: 500, y: 260 },
   ],
 });
 
@@ -155,7 +159,21 @@ function TruthTable({ title, headers, rows }: TruthTableProps) {
   );
 }
 
-export const mdxComponents = {
+import type { MDXComponents } from 'mdx/types';
+
+export const mdxComponents: MDXComponents = {
+  SplitSection,
+  SlideDeck,
+  SlideSection,
+  Slide,
+  CodeSlide,
+  MainSlide,
+  HttpFlowDemo,
+  DecimalToBinaryConverter,
+  TextToBinaryConverter,
+  ColorToBinaryConverter,
+  CentralizedVsDecentralized,
+  SmartContractLegalQuiz,
   AndGateSimulator,
   OrGateSimulator,
   NotGateSimulator,
@@ -166,10 +184,79 @@ export const mdxComponents = {
   FullAdderSimulator,
   FullAdderFromHalfAddersSimulator,
   TruthTable,
-  HttpFlowDemo,
-  DecimalToBinaryConverter,
-  TextToBinaryConverter,
-  ColorToBinaryConverter,
-  CentralizedVsDecentralized,
-  SmartContractLegalQuiz,
+  p: ({ children, ...props }) => {
+    // children이 React 요소인지 확인하고 blockquote가 포함되어 있는지 체크
+    const hasBlockquote = React.Children.toArray(children).some(
+      (child) => React.isValidElement(child) && child.type === 'blockquote'
+    );
+
+    if (hasBlockquote) {
+      // blockquote가 포함되어 있으면 p 태그를 사용하지 않고 div로 감싸기
+      return <div {...props}>{children}</div>;
+    }
+
+    return <p {...props}>{children}</p>;
+  },
+  blockquote: ({ children, ...props }) => (
+    <blockquote
+      {...props}
+      style={{
+        borderLeft: '4px solid #bfdbfe',
+        backgroundColor: '#eff6ff',
+        color: '#1e40af',
+        padding: '1rem',
+        borderRadius: '0.375rem',
+        fontWeight: '500',
+        margin: '1rem 0',
+        display: 'block',
+      }}
+    >
+      {children}
+    </blockquote>
+  ),
 };
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...components,
+    SplitSection,
+    SlideDeck,
+    SlideSection,
+    Slide,
+    CodeSlide,
+    MainSlide,
+    HttpFlowDemo,
+    DecimalToBinaryConverter,
+    TextToBinaryConverter,
+    ColorToBinaryConverter,
+    CentralizedVsDecentralized,
+    SmartContractLegalQuiz,
+    AndGateSimulator,
+    OrGateSimulator,
+    NotGateSimulator,
+    XorGateSimulator,
+    BufferGateSimulator,
+    FreeSimulator,
+    HalfAdderSimulator,
+    FullAdderSimulator,
+    FullAdderFromHalfAddersSimulator,
+    TruthTable,
+    blockquote: ({ children, ...props }) => (
+      <blockquote
+        {...props}
+        style={{
+          borderLeft: '4px solid #bfdbfe',
+          backgroundColor: '#eff6ff',
+          color: '#1e40af',
+          padding: '1rem',
+          borderRadius: '0.375rem',
+          fontWeight: '500',
+          margin: '1rem 0',
+          display: 'block',
+        }}
+      >
+        {children}
+      </blockquote>
+    ),
+  };
+}

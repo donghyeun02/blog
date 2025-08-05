@@ -53,6 +53,8 @@
   }
   p {
     text-wrap: pretty;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
   }
   h1,
   h2,
@@ -75,6 +77,12 @@
   }
   code {
     @apply font-mono text-sm bg-neutral-100 px-1 py-0.5 rounded;
+  }
+  pre {
+    margin: 0 !important;
+    padding: 8px 12px !important;
+    overflow: auto;
+    white-space: pre;
   }
   pre code {
     background: none;
@@ -107,6 +115,13 @@
     quotes: none !important;
     margin-top: 8px !important;
     margin-bottom: 8px !important;
+    display: block !important;
+  }
+
+  /* p 태그 안의 blockquote 방지 */
+  .prose p blockquote {
+    display: block !important;
+    margin: 1rem 0 !important;
   }
   /* 더 구체적인 선택자로 강제 적용 */
   article .prose blockquote,
@@ -193,6 +208,41 @@
   }
 }
 
+/* 커스텀 스크롤바 스타일 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: #1e293b;
+}
+
+/* 모바일에서 li 요소만 왼쪽 정렬 */
+@media (max-width: 768px) {
+  .prose ul li,
+  .prose ol li,
+  ul li,
+  ol li {
+    text-align: left !important;
+  }
+}
+
 .no-underline {
   text-decoration: none !important;
 }
@@ -227,6 +277,8 @@
   }
   .prose blockquote {
     font-size: 1rem !important;
+    padding: 8px 12px !important;
+    margin: 8px 0 !important;
   }
   button,
   .prose button {

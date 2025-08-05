@@ -1,3 +1,5 @@
+import SplitSection from '@/components/SplitSection';
+
 export const mdxComponents = {
-  // ... 기존 컴포넌트들 ...
+  SplitSection,
 };

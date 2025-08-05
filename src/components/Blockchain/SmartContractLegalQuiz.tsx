@@ -88,7 +88,6 @@ export default function SmartContractLegalQuiz() {
 
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-4 border border-gray-200 text-center mb-6">
-      <h2 className="text-lg font-bold mt-0 mb-2">스마트컨트랙트 법적 해석</h2>
       <div
         className="mb-4 text-base font-medium"
         dangerouslySetInnerHTML={{ __html: quiz.question }}

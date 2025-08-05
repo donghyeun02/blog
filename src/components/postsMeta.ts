@@ -2,7 +2,7 @@ import { PostMeta } from '@/types';
 
 const IMAGE_BASE = process.env.NEXT_PUBLIC_IMAGE_BASE || '';
 
-export let postsMeta: PostMeta[] = [
+export const postsMeta: PostMeta[] = [
   {
     title: '컴퓨터는 0.1 + 0.2도 계산을 못해요',
     path: '/post/floatingpoint',
@@ -60,34 +60,23 @@ export let postsMeta: PostMeta[] = [
       '%E1%84%92%E1%85%B4%E1%86%AB%E1%84%83%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%B5.jpg',
   },
   {
-    title: '블록체인 위에서 돌아가는 자동화된 계약, 스마트컨트랙트',
+    title: '블록체인 위에서 자동으로 실행되는 계약',
     path: '/post/smartContract',
     slug: 'smartContract',
     date: '2025-07-18',
-    summary:
-      '중간 기관이나 제3자 없이도 신뢰할 수 있는 거래를 가능하게 하는 이 혁신적인 기술',
-    tags: ['스마트컨트랙트', '블록체인', 'Web3', '자동화', '탈중앙화'],
+    summary: '중간 기관 없이도 신뢰할 수 있는 거래를 가능하게 하는 기술',
+    tags: ['스마트컨트랙트', '블록체인', 'Web3', '탈중앙화'],
     category: 'Blockchain',
     thumbnail: IMAGE_BASE + 'smartContract.jpg',
   },
+  {
+    title: '블록 하나가 바뀌면 다 날라간다',
+    path: '/post/immutability',
+    slug: 'immutability',
+    date: '2025-08-05',
+    summary: '근데 블록 데이터를 바꿀 수 있나요?',
+    tags: ['블록체인', '해시체인', '불변성', '보안'],
+    category: 'Blockchain',
+    thumbnail: IMAGE_BASE + 'blockchainValid.png',
+  },
 ];
-
-postsMeta = postsMeta.map((post, idx, arr) => ({
-  ...post,
-  prevPost:
-    idx > 0
-      ? {
-          slug: arr[idx - 1].slug,
-          title: arr[idx - 1].title,
-          path: arr[idx - 1].path,
-        }
-      : null,
-  nextPost:
-    idx < arr.length - 1
-      ? {
-          slug: arr[idx + 1].slug,
-          title: arr[idx + 1].title,
-          path: arr[idx + 1].path,
-        }
-      : null,
-}));

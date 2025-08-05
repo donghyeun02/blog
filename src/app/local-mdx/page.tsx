@@ -5,7 +5,6 @@ import { evaluate } from '@mdx-js/mdx';
 import * as runtime from 'react/jsx-runtime';
 import remarkGfm from 'remark-gfm';
 import { mdxComponents } from '@/components/mdx-components';
-import BlogPostLayout from '@/components/BlogPostLayout';
 
 export default function LocalMdxPage() {
   const [mdxContent, setMdxContent] = useState<React.ReactElement | null>(null);
@@ -45,14 +44,13 @@ export default function LocalMdxPage() {
 
   if (mdxContent) {
     return (
-      <BlogPostLayout
-        title="Sample MDX Post"
-        date="2002-08-01"
-        tags={['local', 'mdx', 'sample']}
-        summary="MDX Sample Post for Local"
-      >
-        {mdxContent}
-      </BlogPostLayout>
+      <div className="fixed inset-0 bg-[#FAFAFA] font-sans overflow-hidden">
+        <div className="w-full h-full">
+          <div className="prose prose-lg prose-blue max-w-none leading-loose font-sans h-full">
+            {mdxContent}
+          </div>
+        </div>
+      </div>
     );
   }
 
