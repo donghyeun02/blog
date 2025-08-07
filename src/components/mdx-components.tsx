@@ -208,7 +208,7 @@ export const mdxComponents: MDXComponents = {
         padding: '1rem',
         borderRadius: '0.375rem',
         fontWeight: '500',
-        margin: '1rem 0',
+        margin: '0.5rem 0',
         display: 'block',
       }}
     >
@@ -253,7 +253,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           padding: '1rem',
           borderRadius: '0.375rem',
           fontWeight: '500',
-          margin: '1rem 0',
+          margin: '0.5rem 0',
           display: 'block',
         }}
       >

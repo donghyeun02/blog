@@ -1,17 +1,21 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function SlideSection({
   visual,
   content,
   title,
+  isFirstSlide = false,
 }: {
   visual?: React.ReactNode;
   content: React.ReactNode;
   title?: string;
+  isFirstSlide?: boolean;
 }) {
   const [isMobile, setIsMobile] = useState(false);
+  const [needsShrink, setNeedsShrink] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -20,68 +24,99 @@ export default function SlideSection({
 
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
-
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      const parentHeight = contentRef.current.parentElement?.clientHeight || 0;
+      const contentHeight = contentRef.current.scrollHeight;
+
+      // 기준: 부모 높이의 90% 넘으면 축소
+      setNeedsShrink(contentHeight > parentHeight * 0.9);
+    }
+  }, [content, isMobile]);
 
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: visual ? (isMobile ? 'column' : 'row') : 'column',
-        gap: visual ? (isMobile ? '0' : 'clamp(2rem, 6vw, 4rem)') : '0',
-        margin: isMobile
-          ? 'clamp(1rem, 3vw, 2rem) 0'
-          : 'clamp(2rem, 6vw, 4rem) 0',
+        gap: '0',
+        margin: '0',
         alignItems: visual ? 'center' : 'stretch',
-        minHeight: isMobile
-          ? 'clamp(500px, 70vh, 600px)'
-          : 'clamp(400px, 55vh, 500px)',
-        padding: isMobile
-          ? 'clamp(0.5rem, 2vw, 1rem)'
-          : 'clamp(1rem, 4vw, 2rem)',
-        borderBottom: visual ? 'none' : 'none',
+        height: isMobile ? 'auto' : '100vh',
+        minHeight: isMobile ? 'calc(100vh - 120px)' : 'auto',
+        padding: isFirstSlide
+          ? isMobile
+            ? '0 20px 40px 20px'
+            : '0 40px 60px 40px'
+          : isMobile
+            ? '40px 20px'
+            : '60px 40px',
+        borderBottom: 'none',
       }}
     >
       {visual && (
         <div
           style={{
-            flex: isMobile ? '1 1 100%' : '1 1 50%',
+            flex: isMobile ? '0 0 auto' : '0 0 35%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            minHeight: isMobile
-              ? 'clamp(200px, 30vh, 300px)'
-              : 'clamp(120px, 25vh, 250px)',
-            height: isMobile ? 'clamp(200px, 30vh, 300px)' : 'fit-content',
-            overflow: 'visible',
+            width: isMobile ? '100%' : '35%',
+            height: isMobile ? 'auto' : '100%',
+            maxHeight: isMobile ? '150px' : '100%',
+            overflow: 'hidden',
             order: isMobile ? 1 : 'unset',
-            width: isMobile ? '100%' : '50%',
           }}
         >
-          {visual}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            {visual}
+          </div>
         </div>
       )}
       <div
         style={{
-          flex: visual ? (isMobile ? '1 1 100%' : '1 1 50%') : '1 1 100%',
+          flex: visual ? (isMobile ? '1 1 auto' : '0 0 65%') : '1 1 100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           minWidth: 0,
-          minHeight: isMobile
-            ? 'clamp(120px, 25vh, 200px)'
-            : 'clamp(220px, 40vh, 400px)',
+          minHeight: visual ? 'auto' : '100%',
           order: visual ? (isMobile ? 2 : 'unset') : 'unset',
-          width: visual ? (isMobile ? '100%' : '50%') : '100%',
+          width: visual ? (isMobile ? '100%' : '65%') : '100%',
+          overflow: 'hidden',
+          padding: visual
+            ? isMobile
+              ? '10px'
+              : '20px'
+            : isMobile
+              ? '20px'
+              : '30px',
+          boxSizing: 'border-box',
         }}
       >
         {title && (
           <h2
             style={{
-              marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
+              marginBottom: '1rem',
               color: '#1f2937',
-              fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
+              fontSize: visual
+                ? isMobile
+                  ? 'clamp(0.8rem, 2vw, 1rem)'
+                  : 'clamp(1rem, 2.5vw, 1.3rem)'
+                : isMobile
+                  ? 'clamp(1rem, 3vw, 1.2rem)'
+                  : 'clamp(1.2rem, 4vw, 1.5rem)',
               fontWeight: 'bold',
               textAlign: isMobile ? 'center' : 'left',
             }}
@@ -90,9 +125,19 @@ export default function SlideSection({
           </h2>
         )}
         <div
+          ref={contentRef}
           style={{
-            lineHeight: 'clamp(1.5, 1.8, 1.7)',
+            fontSize: needsShrink
+              ? isMobile
+                ? 'clamp(0.8rem, 1.6vw, 0.9rem)'
+                : 'clamp(0.9rem, 1.4vw, 1rem)'
+              : isMobile
+                ? 'clamp(0.95rem, 2vw, 1.05rem)'
+                : 'clamp(1rem, 2vw, 1.2rem)',
+            lineHeight: '1.5',
             textAlign: isMobile ? 'center' : 'left',
+            overflowY: 'auto',
+            maxHeight: '100%',
           }}
         >
           {content}

@@ -113,6 +113,8 @@ export default function SlideDeck({
         WebkitOverflowScrolling: 'touch',
         backgroundColor: '#FAFAFA',
         scrollSnapStop: 'always',
+        paddingTop: '60px',
+        paddingBottom: isMobile ? '180px' : '60px',
       }}
     >
       <style jsx>{`
@@ -130,9 +132,9 @@ export default function SlideDeck({
             height: '100vh',
             width: '100%',
             display: 'flex',
-            alignItems: index === 0 ? 'stretch' : 'center',
-            justifyContent: index === 0 ? 'stretch' : 'center',
-            scrollSnapAlign: 'start',
+            alignItems: 'center',
+            justifyContent: 'center',
+            scrollSnapAlign: 'center',
             scrollSnapStop: 'always',
             boxSizing: 'border-box',
             flexShrink: 0,
@@ -140,9 +142,10 @@ export default function SlideDeck({
             transition: 'opacity 0.2s ease',
             opacity: isScrolling ? 0.95 : 1,
             margin: 0,
-            padding: 0,
-            minHeight: isMobile ? '100vh' : 'auto',
+            padding: index === 0 ? '0 0 60px 0' : '60px 0 60px 0',
+            minHeight: '100vh',
             borderBottom: '1px solid transparent',
+            overflow: 'hidden',
           }}
         >
           {child}

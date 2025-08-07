@@ -60,7 +60,7 @@ export function MainSlide({
           zIndex: 10,
           maxWidth: '64rem',
           margin: '0',
-          padding: '0',
+          padding: '60px 20px 40px 20px',
           textAlign: 'center',
           width: '100%',
           height: '100vh',
@@ -68,6 +68,7 @@ export function MainSlide({
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          overflow: 'auto',
         }}
       >
         {/* 태그들과 무결성 검증 */}
@@ -270,7 +271,7 @@ export function Slide({
           {title && (
             <h2
               style={{
-                marginBottom: '1.5rem',
+                margin: '0.5rem 0',
                 color: '#1f2937',
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
@@ -294,8 +295,9 @@ export function Slide({
               src={image}
               alt={imageAlt}
               style={{
-                width: 'clamp(300px, 80vw, 600px)',
+                width: 'clamp(200px, 50vw, 400px)',
                 height: 'auto',
+                maxHeight: 'clamp(150px, 40vh, 300px)',
                 borderRadius: '12px',
                 boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
                 objectFit: 'contain',
@@ -334,9 +336,9 @@ export function Slide({
             src={image}
             alt={imageAlt}
             style={{
-              width: 'clamp(300px, 80vw, 600px)',
+              width: 'clamp(200px, 50vw, 400px)',
               height: 'auto',
-              maxHeight: 'clamp(200px, 50vh, 400px)',
+              maxHeight: 'clamp(150px, 40vh, 300px)',
               borderRadius: '12px',
               boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
               objectFit: 'contain',
@@ -386,16 +388,30 @@ export function TextSlide({
   title?: string;
   children: React.ReactNode;
 }) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
   return (
     <div
       style={{
         display: 'flex',
-        gap: '4rem',
-        margin: '4rem 0',
+        gap: isMobile ? '2rem' : '4rem',
+        margin: isMobile ? '2rem 0' : '4rem 0',
         alignItems: 'center',
-        minHeight: '500px',
-        padding: '2rem',
+        minHeight: '100vh',
+        padding: isMobile ? '60px 20px 40px 20px' : '60px 40px 40px 40px',
         borderBottom: 'none',
+        flexDirection: isMobile ? 'column' : 'row',
       }}
     >
       <div
@@ -405,22 +421,33 @@ export function TextSlide({
           flexDirection: 'column',
           justifyContent: 'center',
           minWidth: 0,
-          minHeight: '400px',
+          minHeight: '100vh',
+          width: '100%',
         }}
       >
         {title && (
           <h2
             style={{
-              marginBottom: '1.5rem',
+              margin: '0.5rem 0',
               color: '#1f2937',
               fontSize: '1.5rem',
               fontWeight: 'bold',
+              textAlign: isMobile ? 'center' : 'left',
             }}
           >
             {title}
           </h2>
         )}
-        <div style={{ lineHeight: '1.7' }}>{children}</div>
+        <div
+          style={{
+            lineHeight: '1.7',
+            textAlign: isMobile ? 'center' : 'left',
+            overflow: 'auto',
+            maxHeight: 'calc(70vh - 60px)',
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
