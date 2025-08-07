@@ -79,4 +79,16 @@ export const postsMeta: PostMeta[] = [
     category: 'Blockchain',
     thumbnail: IMAGE_BASE + 'blockchainValid.png',
   },
+  {
+    title: '당신의 서버를 믿으시나요?',
+    path: '/post/trust-your-server',
+    slug: 'trust-your-server',
+    date: '2025-08-07',
+    summary: '믿었던 서버가 해킹당하고, 로그가 사라진다면...',
+    tags: ['블록체인', '탈중앙화', '불변성'],
+    category: 'Blockchain',
+    thumbnail:
+      IMAGE_BASE +
+      '%E1%84%87%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%E1%84%89%E1%85%A6%E1%86%AF%E1%84%85%E1%85%A5.png',
+  },
 ];
