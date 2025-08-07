@@ -9,7 +9,7 @@ export const postsMeta: PostMeta[] = [
     slug: 'floatingpoint',
     date: '2025-06-06',
     summary: '0.1 + 0.2는 0.3이 아닙니다.',
-    tags: ['부동소수점', '컴퓨터오차', '이진수', 'CS기초', 'IEEE754'],
+    tags: ['부동소수점', '컴퓨터오차', '이진수', 'IEEE754'],
     category: 'CS',
     thumbnail: IMAGE_BASE + '0.1%2B0.2.png',
   },
@@ -30,7 +30,7 @@ export const postsMeta: PostMeta[] = [
     date: '2025-07-09',
     summary:
       '계산기는 버튼 몇 개로 컴퓨터의 본질을 보여주는 작은 디지털 교과서다.',
-    tags: ['논리회로', '계산기', '디지털', '컴퓨터구조', 'ALU', '이진수'],
+    tags: ['논리회로', '계산기', '컴퓨터구조'],
     category: 'CS',
     thumbnail:
       IMAGE_BASE +
@@ -40,7 +40,7 @@ export const postsMeta: PostMeta[] = [
     slug: 'nft',
     title: 'NFT는 사기일 수 있지만, 블록체인은 아니다',
     path: '/post/nft',
-    date: '2025-07-13',
+    date: '2025-07-14',
     summary: 'NFT 시장은 거품일 지라도, 블록체인 기술 자체는 혁신이다.',
     tags: ['NFT', '블록체인', '스마트컨트랙트', 'ERC-721'],
     category: 'Blockchain',

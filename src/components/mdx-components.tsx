@@ -16,7 +16,7 @@ import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
 import SplitSection from './SplitSection';
 import SlideSection from './SlideSection';
 import SlideDeck from './SlideDeck';
-import { Slide, CodeSlide, MainSlide } from './SlideComponents';
+import { Slide, CodeSlide, MainSlide, TextSlide } from './SlideComponents';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -168,6 +168,7 @@ export const mdxComponents: MDXComponents = {
   Slide,
   CodeSlide,
   MainSlide,
+  TextSlide,
   HttpFlowDemo,
   DecimalToBinaryConverter,
   TextToBinaryConverter,
@@ -225,6 +226,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Slide,
     CodeSlide,
     MainSlide,
+    TextSlide,
     HttpFlowDemo,
     DecimalToBinaryConverter,
     TextToBinaryConverter,

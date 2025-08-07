@@ -336,6 +336,7 @@ export function Slide({
             style={{
               width: 'clamp(300px, 80vw, 600px)',
               height: 'auto',
+              maxHeight: 'clamp(200px, 50vh, 400px)',
               borderRadius: '12px',
               boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
               objectFit: 'contain',
@@ -378,6 +379,53 @@ export function Slide({
   );
 }
 
+export function TextSlide({
+  title,
+  children,
+}: {
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: '4rem',
+        margin: '4rem 0',
+        alignItems: 'center',
+        minHeight: '500px',
+        padding: '2rem',
+        borderBottom: 'none',
+      }}
+    >
+      <div
+        style={{
+          flex: '1 1 100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          minWidth: 0,
+          minHeight: '400px',
+        }}
+      >
+        {title && (
+          <h2
+            style={{
+              marginBottom: '1.5rem',
+              color: '#1f2937',
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {title}
+          </h2>
+        )}
+        <div style={{ lineHeight: '1.7' }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
 export function CodeSlide({
   title,
   code,
@@ -404,8 +452,8 @@ export function CodeSlide({
             color: '#e2e8f0',
             overflowX: 'hidden',
             overflowY: 'auto',
-            minHeight: 'clamp(150px, 30vh, 300px)',
-            maxHeight: 'clamp(250px, 50vh, 400px)',
+            minHeight: 'clamp(100px, 20vh, 200px)',
+            maxHeight: 'clamp(200px, 40vh, 300px)',
             lineHeight: '1.5',
             cursor: 'text',
             userSelect: 'text',

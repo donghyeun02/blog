@@ -69,16 +69,12 @@ const CentralizedVsDecentralized: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-lg">
-      <h3 className="text-xl font-bold text-center mb-4 mt-0">
-        중앙화 vs 탈중앙화 거래 시스템
-      </h3>
-
+    <div className="w-full max-w-4xl mx-auto p-1 md:p-4 bg-white rounded-lg shadow-lg">
       {/* 탭 선택 */}
-      <div className="flex mb-4 bg-gray-100 rounded-lg p-1">
+      <div className="flex mb-1 md:mb-4 bg-gray-100 rounded-lg p-1">
         <button
           onClick={() => setCurrentSystem('centralized')}
-          className={`flex-1 py-1.5 px-3 text-sm rounded-md transition-all duration-300 ${
+          className={`flex-1 py-1 md:py-1.5 px-2 md:px-3 text-xs md:text-sm rounded-md transition-all duration-300 ${
             currentSystem === 'centralized'
               ? 'bg-blue-500 text-white shadow-md'
               : 'text-gray-600 hover:text-gray-800'
@@ -88,7 +84,7 @@ const CentralizedVsDecentralized: React.FC = () => {
         </button>
         <button
           onClick={() => setCurrentSystem('decentralized')}
-          className={`flex-1 py-1.5 px-3 text-sm rounded-md transition-all duration-300 ${
+          className={`flex-1 py-1 md:py-1.5 px-2 md:px-3 text-xs md:text-sm rounded-md transition-all duration-300 ${
             currentSystem === 'decentralized'
               ? 'bg-purple-500 text-white shadow-md'
               : 'text-gray-600 hover:text-gray-800'
@@ -105,11 +101,11 @@ const CentralizedVsDecentralized: React.FC = () => {
             🏦 중앙화 시스템 (은행)
           </h4>
 
-          <div className="flex items-center justify-center h-32 md:h-48 mb-4 md:mb-6">
+          <div className="flex items-center justify-center h-16 md:h-32 lg:h-48 mb-1 md:mb-4 lg:mb-6">
             {/* 유저 1 */}
             <div className="flex flex-col items-center">
               <div
-                className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-pink-300 flex items-center justify-center text-xl md:text-2xl transition-all duration-300 ${
+                className={`w-8 h-8 md:w-16 md:h-16 rounded-full bg-pink-300 flex items-center justify-center text-lg md:text-2xl transition-all duration-300 ${
                   centralizedStatus === 'processing' && animationStep >= 1
                     ? 'animate-pulse ring-2 md:ring-4 ring-blue-300'
                     : ''
@@ -124,7 +120,7 @@ const CentralizedVsDecentralized: React.FC = () => {
 
             {/* Arrow 1 */}
             <div
-              className={`mx-4 md:mx-6 transition-all duration-500 text-2xl md:text-4xl ${
+              className={`mx-2 md:mx-6 transition-all duration-500 text-xl md:text-4xl ${
                 centralizedStatus === 'processing' && animationStep >= 1
                   ? 'text-blue-500'
                   : 'text-gray-300'
@@ -136,7 +132,7 @@ const CentralizedVsDecentralized: React.FC = () => {
             {/* Bank */}
             <div className="flex flex-col items-center">
               <div
-                className={`w-14 h-12 md:w-20 md:h-16 rounded-lg flex items-center justify-center text-xl md:text-3xl transition-all duration-300 ${
+                className={`w-10 h-8 md:w-20 md:h-16 rounded-lg flex items-center justify-center text-lg md:text-3xl transition-all duration-300 ${
                   bankStatus === 'down'
                     ? 'bg-red-500 text-white animate-pulse'
                     : centralizedStatus === 'processing' && animationStep >= 2
@@ -153,7 +149,7 @@ const CentralizedVsDecentralized: React.FC = () => {
 
             {/* Arrow 2 */}
             <div
-              className={`mx-4 md:mx-6 transition-all duration-500 text-2xl md:text-4xl ${
+              className={`mx-2 md:mx-6 transition-all duration-500 text-xl md:text-4xl ${
                 centralizedStatus === 'processing' && animationStep >= 3
                   ? 'text-blue-500'
                   : 'text-gray-300'
@@ -165,7 +161,7 @@ const CentralizedVsDecentralized: React.FC = () => {
             {/* 유저 2 */}
             <div className="flex flex-col items-center">
               <div
-                className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-green-300 flex items-center justify-center text-xl md:text-2xl transition-all duration-300 ${
+                className={`w-8 h-8 md:w-16 md:h-16 rounded-full bg-green-300 flex items-center justify-center text-lg md:text-2xl transition-all duration-300 ${
                   centralizedStatus === 'success'
                     ? 'animate-bounce ring-2 md:ring-4 ring-green-300'
                     : ''
@@ -198,17 +194,17 @@ const CentralizedVsDecentralized: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-1 md:gap-2 justify-center">
             <button
               onClick={simulateCentralizedTransaction}
               disabled={centralizedStatus === 'processing'}
-              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-colors"
+              className="px-3 md:px-6 py-2 md:py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-colors text-xs md:text-sm"
             >
               송금하기
             </button>
             <button
               onClick={toggleBankStatus}
-              className={`px-6 py-3 rounded-lg text-white transition-colors ${
+              className={`px-3 md:px-6 py-2 md:py-3 rounded-lg text-white transition-colors text-xs md:text-sm ${
                 bankStatus === 'down'
                   ? 'bg-green-500 hover:bg-green-600'
                   : 'bg-red-500 hover:bg-red-600'
@@ -239,11 +235,11 @@ const CentralizedVsDecentralized: React.FC = () => {
             🔗 탈중앙화 시스템 (블록체인)
           </h4>
 
-          <div className="flex items-center justify-center h-32 md:h-48 mb-4 md:mb-6">
+          <div className="flex items-center justify-center h-16 md:h-32 lg:h-48 mb-1 md:mb-4 lg:mb-6">
             {/* 유저 1 */}
             <div className="flex flex-col items-center">
               <div
-                className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-pink-300 flex items-center justify-center text-xl md:text-2xl transition-all duration-300 ${
+                className={`w-8 h-8 md:w-16 md:h-16 rounded-full bg-pink-300 flex items-center justify-center text-lg md:text-2xl transition-all duration-300 ${
                   decentralizedStatus === 'processing' && animationStep >= 1
                     ? 'animate-pulse ring-2 md:ring-4 ring-purple-300'
                     : ''
@@ -258,7 +254,7 @@ const CentralizedVsDecentralized: React.FC = () => {
 
             {/* Arrow 1 */}
             <div
-              className={`mx-4 md:mx-6 transition-all duration-500 text-2xl md:text-4xl ${
+              className={`mx-2 md:mx-6 transition-all duration-500 text-xl md:text-4xl ${
                 decentralizedStatus === 'processing' && animationStep >= 1
                   ? 'text-purple-500'
                   : 'text-gray-300'
@@ -269,11 +265,11 @@ const CentralizedVsDecentralized: React.FC = () => {
 
             {/* Network */}
             <div className="mx-4 flex flex-col items-center">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1 md:gap-2 mb-3">
                 {[...Array(9)].map((_, i) => (
                   <div
                     key={i}
-                    className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm transition-all duration-300 ${
+                    className={`w-3 h-3 md:w-5 md:h-5 lg:w-7 lg:h-7 rounded-full flex items-center justify-center text-xs md:text-sm transition-all duration-300 ${
                       nodesStatus === 'attacked' && [2, 5, 7].includes(i)
                         ? 'bg-red-400 text-white animate-pulse'
                         : decentralizedStatus === 'processing'
@@ -285,14 +281,16 @@ const CentralizedVsDecentralized: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <span className="text-xs md:text-sm mt-1 md:mt-2 font-medium">
-                블록체인 네트워크
-              </span>
+              <div className="text-center">
+                <span className="text-xs md:text-sm font-medium block">
+                  블록체인 네트워크
+                </span>
+              </div>
             </div>
 
             {/* Arrow 2 */}
             <div
-              className={`mx-4 md:mx-6 transition-all duration-500 text-2xl md:text-4xl ${
+              className={`mx-2 md:mx-6 transition-all duration-500 text-xl md:text-4xl ${
                 decentralizedStatus === 'processing' && animationStep >= 2
                   ? 'text-purple-500'
                   : 'text-gray-300'
@@ -304,7 +302,7 @@ const CentralizedVsDecentralized: React.FC = () => {
             {/* 유저 2 */}
             <div className="flex flex-col items-center">
               <div
-                className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-green-300 flex items-center justify-center text-xl md:text-2xl transition-all duration-300 ${
+                className={`w-8 h-8 md:w-16 md:h-16 rounded-full bg-green-300 flex items-center justify-center text-lg md:text-2xl transition-all duration-300 ${
                   decentralizedStatus === 'success'
                     ? 'animate-bounce ring-2 md:ring-4 ring-green-300'
                     : ''
@@ -336,17 +334,17 @@ const CentralizedVsDecentralized: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-1 md:gap-2 justify-center">
             <button
               onClick={simulateDecentralizedTransaction}
               disabled={decentralizedStatus === 'processing'}
-              className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors"
+              className="px-3 md:px-6 py-2 md:py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors text-xs md:text-sm"
             >
               송금하기
             </button>
             <button
               onClick={simulateNodeAttack}
-              className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+              className="px-3 md:px-6 py-2 md:py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-xs md:text-sm"
             >
               노드 공격
             </button>

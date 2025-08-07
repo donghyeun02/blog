@@ -7,7 +7,7 @@ export default function SlideSection({
   content,
   title,
 }: {
-  visual: React.ReactNode;
+  visual?: React.ReactNode;
   content: React.ReactNode;
   title?: string;
 }) {
@@ -28,41 +28,43 @@ export default function SlideSection({
     <div
       style={{
         display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? '0' : 'clamp(2rem, 6vw, 4rem)',
+        flexDirection: visual ? (isMobile ? 'column' : 'row') : 'column',
+        gap: visual ? (isMobile ? '0' : 'clamp(2rem, 6vw, 4rem)') : '0',
         margin: isMobile
           ? 'clamp(1rem, 3vw, 2rem) 0'
           : 'clamp(2rem, 6vw, 4rem) 0',
-        alignItems: 'center',
+        alignItems: visual ? 'center' : 'stretch',
         minHeight: isMobile
           ? 'clamp(500px, 70vh, 600px)'
           : 'clamp(400px, 55vh, 500px)',
         padding: isMobile
           ? 'clamp(0.5rem, 2vw, 1rem)'
           : 'clamp(1rem, 4vw, 2rem)',
-        borderBottom: 'none',
+        borderBottom: visual ? 'none' : 'none',
       }}
     >
+      {visual && (
+        <div
+          style={{
+            flex: isMobile ? '1 1 100%' : '1 1 50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: isMobile
+              ? 'clamp(200px, 30vh, 300px)'
+              : 'clamp(120px, 25vh, 250px)',
+            height: isMobile ? 'clamp(200px, 30vh, 300px)' : 'fit-content',
+            overflow: 'visible',
+            order: isMobile ? 1 : 'unset',
+            width: isMobile ? '100%' : '50%',
+          }}
+        >
+          {visual}
+        </div>
+      )}
       <div
         style={{
-          flex: isMobile ? '1 1 100%' : '1 1 50%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: isMobile
-            ? 'clamp(200px, 30vh, 300px)'
-            : 'clamp(120px, 25vh, 250px)',
-          height: isMobile ? 'clamp(200px, 30vh, 300px)' : 'fit-content',
-          overflow: 'visible',
-          order: isMobile ? 1 : 'unset',
-          width: isMobile ? '100%' : '50%',
-        }}
-      >
-        {visual}
-      </div>
-      <div
-        style={{
-          flex: isMobile ? '1 1 100%' : '1 1 50%',
+          flex: visual ? (isMobile ? '1 1 100%' : '1 1 50%') : '1 1 100%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -70,8 +72,8 @@ export default function SlideSection({
           minHeight: isMobile
             ? 'clamp(120px, 25vh, 200px)'
             : 'clamp(220px, 40vh, 400px)',
-          order: isMobile ? 2 : 'unset',
-          width: isMobile ? '100%' : '50%',
+          order: visual ? (isMobile ? 2 : 'unset') : 'unset',
+          width: visual ? (isMobile ? '100%' : '50%') : '100%',
         }}
       >
         {title && (
