@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import BlogHome from '@/components/BlogHome';
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function BlogPage() {
-  return <BlogHome />;
+  return (
+    <Suspense fallback={<div>로딩 중...</div>}>
+      <BlogHome />
+    </Suspense>
+  );
 }
