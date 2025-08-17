@@ -7,16 +7,13 @@ import {
   createAdderSimulator,
   createFullAdderFromHalfAdders,
 } from './CS/SimulatorFactory';
-import HttpFlowDemo from './Backend/HttpFlowDemo';
-import DecimalToBinaryConverter from './CS/Binary/DecimalToBinaryConverter';
+import DecimalToBinaryConverter from './CS/DecimalToBinaryConverter';
 import TextToBinaryConverter from './CS/Binary/TextToBinaryConverter';
 import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
+import HttpFlowDemo from './Backend/HttpFlowDemo';
 import CentralizedVsDecentralized from './Blockchain/CentralizedVsDecentralized';
 import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
 import SplitSection from './SplitSection';
-import SlideSection from './SlideSection';
-import SlideDeck from './SlideDeck';
-import { Slide, CodeSlide, MainSlide, TextSlide } from './SlideComponents';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -163,12 +160,7 @@ import type { MDXComponents } from 'mdx/types';
 
 export const mdxComponents: MDXComponents = {
   SplitSection,
-  SlideDeck,
-  SlideSection,
-  Slide,
-  CodeSlide,
-  MainSlide,
-  TextSlide,
+
   HttpFlowDemo,
   DecimalToBinaryConverter,
   TextToBinaryConverter,
@@ -185,6 +177,7 @@ export const mdxComponents: MDXComponents = {
   FullAdderSimulator,
   FullAdderFromHalfAddersSimulator,
   TruthTable,
+
   p: ({ children, ...props }) => {
     // children이 React 요소인지 확인하고 blockquote가 포함되어 있는지 체크
     const hasBlockquote = React.Children.toArray(children).some(
@@ -221,12 +214,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
     SplitSection,
-    SlideDeck,
-    SlideSection,
-    Slide,
-    CodeSlide,
-    MainSlide,
-    TextSlide,
+
     HttpFlowDemo,
     DecimalToBinaryConverter,
     TextToBinaryConverter,
@@ -243,6 +231,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     FullAdderSimulator,
     FullAdderFromHalfAddersSimulator,
     TruthTable,
+
     blockquote: ({ children, ...props }) => (
       <blockquote
         {...props}

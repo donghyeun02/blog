@@ -5,6 +5,15 @@ import { evaluate } from '@mdx-js/mdx';
 import * as runtime from 'react/jsx-runtime';
 import remarkGfm from 'remark-gfm';
 import { mdxComponents } from '@/components/mdx-components';
+import { motion } from 'framer-motion';
+import {
+  ArrowLeft,
+  Calendar,
+  Tag,
+  CheckCircle,
+  AlertCircle,
+} from 'lucide-react';
+import Link from 'next/link';
 import {
   createJsonRpcProvider,
   createContractWithJsonRpc,
@@ -33,6 +42,11 @@ export default function ClientMdxLoader({
     message: string;
   } | null>(null);
   const [mdxContent, setMdxContent] = useState<React.ReactElement | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     async function fetchCid() {
@@ -138,120 +152,222 @@ export default function ClientMdxLoader({
     }
   }, [mdxUrl, integrityStatus]);
 
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-900 text-xl">Loading...</div>
+      </div>
+    );
+  }
+
   if (loading)
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAFAFA]">
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="animate-spin mb-2"
-        >
-          <circle
-            cx="24"
-            cy="24"
-            r="20"
-            stroke="#6366f1"
-            strokeWidth="4"
-            strokeDasharray="32 32"
-            strokeLinecap="round"
-          />
-          <rect x="20" y="8" width="8" height="8" rx="2" fill="#6366f1" />
-        </svg>
-        <div className="text-xl font-semibold text-gray-900 mb-2">
-          블록체인에서 블로그 글을 꺼내오는 중...
+      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+        {/* Tech Network Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
-        <div className="text-gray-600 text-center max-w-md">
-          분산 저장소와 스마트컨트랙트에서 안전하게 글을 불러오고 있습니다.
+
+        <div className="flex flex-col items-center justify-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full mb-6"
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center"
+          >
+            <div className="text-xl font-semibold text-gray-900 mb-2">
+              블록체인에서 블로그 글을 꺼내오는 중...
+            </div>
+            <div className="text-gray-600 text-center max-w-md">
+              분산 저장소와 스마트컨트랙트에서 안전하게 글을 불러오고 있습니다.
+            </div>
+          </motion.div>
         </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAFAFA]">
-        <svg
-          width="48"
-          height="48"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="mb-4"
-        >
-          <circle cx="12" cy="12" r="10" fill="#fee2e2" />
-          <path
-            d="M12 8v4m0 4h.01"
-            stroke="#b91c1c"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <div className="text-center">
-          <div className="text-xl font-semibold text-red-700 mb-2">
-            블록체인에서 글을 불러오지 못했습니다.
-          </div>
-          <div className="text-red-600 text-center max-w-md">
-            계속 이렇게 뜨신다면{' '}
-            <a
-              href="mailto:donghyeun02@gmail.com"
-              className="text-blue-600 underline"
-            >
-              donghyeun02@gmail.com
-            </a>{' '}
-            로 메일 남겨주세요 ㅠㅠ..
-          </div>
+      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+        {/* Tech Network Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        </div>
+
+        <div className="flex flex-col items-center justify-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+            className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6"
+          >
+            <AlertCircle className="w-8 h-8 text-red-600" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-center"
+          >
+            <div className="text-xl font-semibold text-red-700 mb-2">
+              블록체인에서 글을 불러오지 못했습니다.
+            </div>
+            <div className="text-red-600 text-center max-w-md">
+              계속 이렇게 뜨신다면{' '}
+              <a
+                href="mailto:donghyeun02@gmail.com"
+                className="text-blue-600 underline hover:text-blue-800"
+              >
+                donghyeun02@gmail.com
+              </a>{' '}
+              로 메일 남겨주세요 ㅠㅠ..
+            </div>
+          </motion.div>
         </div>
       </div>
     );
 
   if (!mdxUrl)
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAFAFA]">
-        <svg
-          width="48"
-          height="48"
-          fill="none"
-          viewBox="0 0 24 24"
-          className="mb-4"
-        >
-          <circle cx="12" cy="12" r="10" fill="#e0e7ef" />
-          <path
-            d="M12 8v4m0 4h.01"
-            stroke="#64748b"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <div className="text-center">
-          <div className="text-xl font-semibold text-gray-900 mb-2">
-            온체인에서 CID를 찾을 수 없습니다.
-          </div>
-          <div className="text-gray-600 text-center max-w-md">
-            이 글의 CID가 스마트컨트랙트에 등록되어 있는지 확인해 주세요.
-          </div>
+      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+        {/* Tech Network Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        </div>
+
+        <div className="flex flex-col items-center justify-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+            className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6"
+          >
+            <AlertCircle className="w-8 h-8 text-gray-600" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-center"
+          >
+            <div className="text-xl font-semibold text-gray-900 mb-2">
+              온체인에서 CID를 찾을 수 없습니다.
+            </div>
+            <div className="text-gray-600 text-center max-w-md">
+              이 글의 CID가 스마트컨트랙트에 등록되어 있는지 확인해 주세요.
+            </div>
+          </motion.div>
         </div>
       </div>
     );
 
+  const post = postsMeta.find((p) => p.slug === slug);
+
   return (
-    <div className="fixed inset-0 bg-[#FAFAFA] font-sans overflow-hidden">
-      <div className="w-full h-full">
-        <div className="w-full h-full">
-          <div className="w-full h-full">
-            <div className="w-full h-full">
-              <div className="h-full">
-                {error && <div style={{ color: 'red' }}>{error}</div>}
-                {mdxContent && (
-                  <div className="prose prose-lg prose-blue max-w-none leading-loose font-sans h-full">
-                    {mdxContent}
-                  </div>
-                )}
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8 hidden sm:block"
+          >
+            <Link href="/blog">
+              <motion.button
+                className="group inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+                whileHover={{ x: -5 }}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                블로그 목록으로
+              </motion.button>
+            </Link>
+          </motion.div>
+
+          {/* Post Header */}
+          {post && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mb-8"
+            >
+              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                {post.title}
+              </motion.h1>
+
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+                <div className="flex items-center">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  {new Date(post.date).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </div>
+                <div className="flex items-center">
+                  <Tag className="w-4 h-4 mr-2" />
+                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                    {post.category}
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
+
+              {/* Integrity Status */}
+              {integrityStatus && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className={`inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium ${
+                    integrityStatus.isValid
+                      ? 'bg-green-50 text-green-700 border border-green-200'
+                      : 'bg-red-50 text-red-700 border border-red-200'
+                  }`}
+                >
+                  {integrityStatus.isValid ? (
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 mr-2" />
+                  )}
+                  {integrityStatus.message}
+                </motion.div>
+              )}
+
+              {/* Divider */}
+              <div className="border-t border-gray-200 my-8"></div>
+            </motion.div>
+          )}
+
+          {/* Post Content */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8"
+            >
+              <div className="text-red-700">{error}</div>
+            </motion.div>
+          )}
+
+          {mdxContent && (
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="prose prose-lg prose-blue max-w-none leading-relaxed"
+            >
+              {mdxContent}
+            </motion.article>
+          )}
         </div>
       </div>
     </div>

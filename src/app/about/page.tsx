@@ -1,421 +1,270 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Code,
+  Database,
+  Globe,
+  Zap,
+  Calendar,
+  MapPin,
+  Award,
+  Github,
+  Mail,
+} from 'lucide-react';
 
 export default function AboutPage() {
-  const [isStoryExpanded, setIsStoryExpanded] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-900 text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  const skills = [
+    { name: 'Node.js', level: 82, color: 'from-green-500 to-emerald-500' },
+    { name: 'Java', level: 55, color: 'from-orange-500 to-red-500' },
+    { name: 'Go', level: 42, color: 'from-purple-500 to-pink-500' },
+    { name: 'Solidity', level: 38, color: 'from-blue-500 to-cyan-500' },
+  ];
+
+  const experience = [
+    {
+      year: '2024 ~ ',
+      title: '컴퓨터공학과 재학',
+      company: '영남대학교',
+      description:
+        'B.S. in Computer Science, Yeungnam University (Expected 2027)',
+      icon: <Code className="w-5 h-5" />,
+    },
+    {
+      year: '2023',
+      title: 'Backend Developer Intern',
+      company: 'Integration Co. ECP(E-Commerce Platform)팀',
+      description: '2023. 06 ~ 2023. 08, Backend Developer Intern',
+      icon: <Globe className="w-5 h-5" />,
+    },
+    {
+      year: '2021',
+      title: '컴퓨터공학과 입학',
+      company: '영남대학교',
+      description: 'B.S. in Computer Science, Yeungnam University',
+      icon: <Database className="w-5 h-5" />,
+    },
+  ];
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8 text-center">About This Blog</h1>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6">
-          안녕하세요, 개발자 신동현입니다 👋
-        </h2>
-        <div className="text-neutral-700 leading-relaxed space-y-6">
-          <p>
-            이 블로그는 <b>Web3 기술로 구축된 블록체인 기반 블로그</b>입니다.
-            <br />
-            단순한 기술 블로그가 아니라,{' '}
-            <b>&quot;위변조 방지, 소유권 증명, 그리고 탈중앙화&quot;</b>를
-            실제로 구현한 실험적 블로그입니다.
-          </p>
-
-          <button
-            onClick={() => setIsStoryExpanded(!isStoryExpanded)}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors font-medium"
-          >
-            <span>{isStoryExpanded ? '▼' : '▶'}</span>
-            {isStoryExpanded
-              ? '스토리 접기'
-              : '왜 이런 블로그를 만들게 되었을까요?'}
-          </button>
-
-          {isStoryExpanded && (
-            <div className="space-y-6 mt-6">
-              <p className="text-lg font-medium text-center italic font-semibold">
-                &quot;이런 기능에 굳이 Web3가 필요한가요?&quot;
-              </p>
-              <p>
-                사실, 글을 쓰고 저장하고 보여주는 기능은 Web2 기술만으로도
-                충분히 구현 가능할 수 있습니다.
-                <br />
-                IPFS, 스마트컨트랙트, 메타마스크 — 기능만 보면 굳이 필요없고,
-                오히려 과하다고 느껴질 수도 있습니다.
-              </p>
-              <p>
-                하지만 이 프로젝트는 단순한 블로그 개발이 아니라,
-                <br />
-                <b>
-                  Web3 기술이 실제 서비스에서 어떻게 작동할 수 있을지 직접
-                  실험해본 경험
-                </b>
-                이었습니다.
-              </p>
-              <p>공부를 하면서 늘 이런 생각을 가지고 있었습니다.</p>
-              <p className="text-lg font-medium text-center italic font-semibold">
-                &quot;이론은 알겠는데… 이게 실제로는 어떻게 돌아가지?&quot;
-              </p>
-              <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                <li>블록체인은 정말 안전하게 데이터를 기록할까?</li>
-                <li>IPFS는 분산 저장을 어떻게 유지할까?</li>
-                <li>스마트컨트랙트는 실제 서비스에서 어떻게 쓰일까?</li>
-              </ul>
-              <p>
-                책이나 강의로는 이 질문들에 대한 실감이 없었습니다.
-                <br />
-                그래서 직접 만들어보며 부딪혀 보기로 했습니다.
-              </p>
-              <p>
-                그 과정에서 IPFS 정책 변경, RPC 연결 불안정, 지갑 연동 문제 등
-                <br />
-                <b>단순한 학습으론 절대 마주칠 수 없는 현실적인 문제들</b>을
-                경험했습니다.
-              </p>
-              <p className="text-neutral-700 italic text-center text-base sm:text-lg mb-6 font-semibold">
-                &quot;Web3는 붙이는 게 아니라, 통합하는 것이다.&quot;
-              </p>
-              <p>
-                이 블로그는 그 통합 과정을 작게나마{' '}
-                <b>끝까지 구현해본 실전 기록</b>입니다.
-                <br />
-                단순히 기술을 배우는 데 그치지 않고,
-                <br />
-                <b>
-                  Web3의 구조적 한계와 가능성을 직접 체감하며 만든 의미있는 시도
-                </b>
-                였습니다.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-6">이 블로그의 특징</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200">
-            <h3 className="font-semibold mb-3 text-gray-900">무결성 보장</h3>
-            <p className="text-gray-600">
-              모든 글은 IPFS에 저장되고 블록체인에 해시가 등록되어 위변조가
-              불가능합니다.
-            </p>
-          </div>
-          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200">
-            <h3 className="font-semibold mb-3 text-gray-900">소유권 증명</h3>
-            <p className="text-gray-600">
-              스마트컨트랙트를 통해 글의 작성자와 작성 시점이 블록체인에 영구
-              기록됩니다.
-            </p>
-          </div>
-          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200">
-            <h3 className="font-semibold mb-3 text-gray-900">탈중앙화</h3>
-            <p className="text-gray-600">
-              중앙 서버에 의존하지 않고 IPFS와 블록체인으로 분산 저장됩니다.
-            </p>
-          </div>
-          <div className="bg-white border border-gray-200 p-6 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200">
-            <h3 className="font-semibold mb-3 text-gray-900">투명성</h3>
-            <p className="text-gray-600">
-              모든 글의 무결성을 실시간으로 검증할 수 있습니다.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-6">
-          이 블로그에서 다루는 내용
-        </h2>
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <span>
-              <b>CS 기초</b> : 논리회로, 자료구조, 알고리즘
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>
-              <b>백엔드 개발</b> : Go, Java(Spring), 시스템 설계
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>
-              <b>인프라 & DevOps</b> : Docker, 클라우드, 모니터링
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>
-              <b>블록체인(Blockchain)</b> : 스마트컨트랙트, Web3, 탈중앙화
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>
-              <b>Dev(개발 일반)</b> : 클린 코드, 테스트, 생산성
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-1">이 블로그의 작동 방식</h2>
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                1
-              </span>
-              <div className="ml-2">
-                <h4 className="font-semibold">글 작성</h4>
-                <p className="text-sm text-gray-600">
-                  MDX 형식으로 글을 작성하고 IPFS에 업로드
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                2
-              </span>
-              <div className="ml-2">
-                <h4 className="font-semibold">블록체인 등록</h4>
-                <p className="text-sm text-gray-600">
-                  IPFS CID를 Polygon 블록체인에 등록
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                3
-              </span>
-              <div className="ml-2">
-                <h4 className="font-semibold">무결성 검증</h4>
-                <p className="text-sm text-gray-600">
-                  실시간으로 글의 무결성을 검증
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                4
-              </span>
-              <div className="ml-2">
-                <h4 className="font-semibold">분산 저장</h4>
-                <p className="text-sm text-gray-600">
-                  IPFS 네트워크에 분산 저장되어 가용성 보장
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-6">이 블로그의 가치</h2>
-        <div className="text-neutral-700 leading-relaxed space-y-4">
-          <p>
-            <b>기술적 실험</b> : Web3 기술을 실제 서비스 수준에서 구현해보는
-            실험적 블로그입니다.
-          </p>
-          <p>
-            <b>투명성과 신뢰</b> : 모든 글이 블록체인에 기록되어 위변조가
-            불가능하고, 작성 시점과 작성자가 영구적으로 보장됩니다.
-          </p>
-          <p>
-            <b>탈중앙화</b>: 중앙 서버에 의존하지 않고 IPFS와 블록체인으로 분산
-            저장되어 서비스 중단 위험이 없습니다.
-          </p>
-          <p>
-            <b>실전 경험</b> : Web3 기술의 실제 구현 과정과 도전 과제를 투명하게
-            공유하는 개발 블로그입니다.
-          </p>
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-6">프로젝트 문서</h2>
-        <div className="space-y-6">
-          <p className="text-neutral-700">
-            이 Web3 블로그 프로젝트의 상세한 개발 과정과 회고를 노션에서 확인할
-            수 있습니다.
-          </p>
-
-          {/* 메인 프로젝트 개요 */}
-          <div className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all duration-200">
-            <h3 className="font-semibold mb-3 text-gray-900 text-lg">
-              프로젝트 개요
-            </h3>
-            <p className="text-gray-600 mb-4">
-              프로젝트 목적, 기술 스택, 주요 기능 요약
-            </p>
-            <a
-              href="https://donghyeun02.notion.site/Web3-23c2ee104c6680eaa1d2c377e781427f"
-              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium"
-              target="_blank"
-              rel="noopener noreferrer"
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      <div className="relative z-10 container mx-auto px-4 py-12 sm:py-20">
+        {/* Profile Section */}
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-12 sm:mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          {/* Profile Info */}
+          <div className="space-y-8">
+            <motion.div
+              className="bg-gray-100/50 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-gray-200"
+              whileHover={{
+                y: -3,
+                rotateX: 1,
+                rotateY: 1,
+              }}
+              style={{
+                transformStyle: 'preserve-3d',
+              }}
             >
-              노션에서 보기
-              <span>→</span>
-            </a>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+                개발자 정보
+              </h2>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <Calendar className="w-5 h-5 text-gray-900" />
+                  <span className="text-gray-600">2002. 08. 01</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <MapPin className="w-5 h-5 text-gray-900" />
+                  <span className="text-gray-600">울산, 대한민국</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Award className="w-5 h-5 text-gray-900" />
+                  <span className="text-gray-600">컴퓨터공학 전공</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Contact */}
+            <motion.div
+              className="bg-gray-100/50 backdrop-blur-sm rounded-xl p-8 border border-gray-200"
+              whileHover={{
+                y: -5,
+                rotateX: 2,
+                rotateY: 2,
+              }}
+              style={{
+                transformStyle: 'preserve-3d',
+              }}
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-6">연락처</h3>
+              <div className="flex space-x-4">
+                {[
+                  {
+                    icon: Github,
+                    href: 'https://github.com/donghyeun02',
+                    label: 'GitHub',
+                  },
+                  {
+                    icon: Mail,
+                    href: 'mailto:donghyeun02@gmail.com',
+                    label: 'Email',
+                  },
+                ].map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      className="w-12 h-12 bg-gray-200/50 border border-gray-300/50 rounded-lg flex items-center justify-center text-gray-600 hover:text-gray-900 hover:border-gray-900/50 transition-all duration-300"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </motion.div>
           </div>
 
-          {/* 하위 3개 섹션 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-5 rounded-lg border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all duration-200">
-              <h4 className="font-semibold mb-3 text-gray-900">개발 이슈</h4>
-              <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                개발 중 겪은 실제 문제들과 해결 로그 기록
-              </p>
-              <a
-                href="https://donghyeun02.notion.site/Web3-23c2ee104c6680129082cce97e0a1519"
-                className="inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 font-medium text-sm"
-                target="_blank"
-                rel="noopener noreferrer"
+          {/* Skills */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">기술 스택</h2>
+            {skills.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                className="space-y-2"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                노션에서 보기
-                <span>→</span>
-              </a>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700 font-medium">
+                    {skill.name}
+                  </span>
+                  <span className="text-gray-900 text-sm">{skill.level}%</span>
+                </div>
+                <div className="w-full bg-gray-200/50 rounded-full h-2 overflow-hidden">
+                  <motion.div
+                    className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${skill.level}%` }}
+                    transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Experience Timeline */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+            경력
+          </h2>
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-900 to-gray-600" />
+
+            <div className="space-y-12">
+              {experience.map((exp, index) => (
+                <motion.div
+                  key={exp.year}
+                  className="relative flex items-start space-x-8"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.2 + 0.6 }}
+                >
+                  {/* Timeline Dot */}
+                  <div className="relative z-10">
+                    <div className="w-16 h-16 bg-gradient-to-r from-gray-900 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
+                      {exp.year}
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-600 rounded-full blur-lg opacity-50" />
+                  </div>
+
+                  {/* Content */}
+                  <motion.div
+                    className="flex-1 bg-gray-100/50 backdrop-blur-sm rounded-xl p-6 border border-gray-200"
+                    whileHover={{
+                      y: -5,
+                      rotateX: 2,
+                      rotateY: 2,
+                    }}
+                    style={{
+                      transformStyle: 'preserve-3d',
+                    }}
+                  >
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="text-gray-900">{exp.icon}</div>
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {exp.title}
+                      </h3>
+                    </div>
+                    <p className="text-gray-700 font-medium mb-2">
+                      {exp.company}
+                    </p>
+                    <p className="text-gray-600">{exp.description}</p>
+                  </motion.div>
+                </motion.div>
+              ))}
             </div>
-            <div className="bg-white p-5 rounded-lg border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all duration-200">
-              <h4 className="font-semibold mb-3 text-gray-900">
-                프로젝트 회고
-              </h4>
-              <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                4L 방식으로 정리한 기술적/심리적 인사이트
-              </p>
-              <a
-                href="https://donghyeun02.notion.site/Web3-feat-4L-23c2ee104c6680679da5ea58ef1ee0df#23c2ee104c668162be16eb458471bd61"
-                className="inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 font-medium text-sm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                노션에서 보기
-                <span>→</span>
-              </a>
-            </div>
-            <div className="bg-white p-5 rounded-lg border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all duration-200">
-              <h4 className="font-semibold mb-3 text-gray-900">
-                왜 Web3 블로그?
-              </h4>
-              <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                블로그에 Web3를 적용한 이유와 가치에 대한 설명
-              </p>
-              <a
-                href="https://donghyeun02.notion.site/Web3-23e2ee104c668044a3d2c9bb3b08a173"
-                className="inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 font-medium text-sm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                노션에서 보기
-                <span>→</span>
-              </a>
-            </div>
           </div>
-        </div>
-      </section>
+        </motion.div>
 
-      <hr className="border-gray-300 my-8" />
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-6">기술 스택</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-semibold mb-3">Frontend</h3>
-            <ul className="list-disc pl-6 text-neutral-700 space-y-1">
-              <li>Next.js</li>
-              <li>TailwindCSS</li>
-              <li>TypeScript</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-3">Blockchain</h3>
-            <ul className="list-disc pl-6 text-neutral-700 space-y-1">
-              <li>Ethers.js</li>
-              <li>Solidity</li>
-              <li>Polygon Network</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-3">Storage</h3>
-            <ul className="list-disc pl-6 text-neutral-700 space-y-1">
-              <li>IPFS (Pinata)</li>
-              <li>CID (Content Identifier)</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-3">Deployment</h3>
-            <ul className="list-disc pl-6 text-neutral-700 space-y-1">
-              <li>Vercel</li>
-              <li>MetaMask</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <hr className="border-gray-300 my-8" />
-
-      <section>
-        <h2 className="text-xl font-semibold mb-6">연락처 & 링크</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-semibold mb-3">개인 정보</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                Email :{' '}
-                <a
-                  href="mailto:donghyeun02@gmail.com"
-                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium hover:underline"
-                >
-                  donghyeun02@gmail.com
-                </a>
-              </li>
-              <li>
-                GitHub :{' '}
-                <a
-                  href="https://github.com/donghyeun02"
-                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  donghyeun02
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-3">블로그 관련 깃허브</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                프론트엔드 :{' '}
-                <a
-                  href="https://github.com/donghyeun02/blog"
-                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium hover:underline"
-                >
-                  blog
-                </a>
-              </li>
-              <li>
-                스마트컨트랙트 :{' '}
-                <a
-                  href="https://github.com/donghyeun02/blog-registry"
-                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium hover:underline"
-                >
-                  blog-registry
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </main>
+        {/* Philosophy */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <motion.div
+            className="bg-gray-100/50 backdrop-blur-sm rounded-xl p-12 border border-gray-200 max-w-4xl mx-auto"
+            whileHover={{
+              y: -5,
+              rotateX: 2,
+              rotateY: 2,
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+            }}
+          >
+            <Zap className="w-12 h-12 text-gray-900 mx-auto mb-6" />
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              &ldquo;If it ain&apos;t broke, don&apos;t fix it&rdquo;
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              검증된 코드의 안정성을 존중하며, 시스템의 안정성과 유지보수성을
+              최우선으로 하는 개발 철학을 가지고 있습니다.
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
   );
 }

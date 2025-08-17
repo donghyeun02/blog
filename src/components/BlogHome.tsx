@@ -1,274 +1,295 @@
 'use client';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+  ArrowRight,
+  Calendar,
+  Play,
+  CheckCircle,
+  Monitor,
+  HelpCircle,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
-import { postsMeta } from './postsMeta';
 import Image from 'next/image';
-import { PostMeta, ViewType } from '@/types';
-import { renderTags, formatDate } from '@/utils/styles';
+import { useSearchParams } from 'next/navigation';
+import { postsMeta } from './postsMeta';
 
 const categories = [
-  {
-    id: 'all',
-    name: '전체',
-    icon: '📁',
-    posts: null,
-  },
-  {
-    id: 'cs',
-    name: 'CS',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'CS'),
-  },
-  {
-    id: 'backend',
-    name: 'Backend',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'Backend'),
-  },
-  {
-    id: 'blockchain',
-    name: 'Blockchain',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'Blockchain'),
-  },
-  {
-    id: 'java',
-    name: 'Java',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'Java'),
-  },
-  {
-    id: 'go',
-    name: 'Go',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'Go'),
-  },
-  {
-    id: 'dev',
-    name: 'Dev',
-    icon: '📁',
-    posts: postsMeta.filter((post) => post.category === 'Dev'),
-  },
+  { id: 'all', name: '전체', color: 'from-blue-500 to-cyan-500' },
+  { id: 'CS', name: 'CS', color: 'from-gray-500 to-slate-500' },
+  { id: 'backend', name: '백엔드', color: 'from-indigo-500 to-purple-500' },
+  { id: 'Blockchain', name: '블록체인', color: 'from-purple-500 to-pink-500' },
+  { id: 'java', name: 'Java', color: 'from-yellow-500 to-orange-500' },
+  { id: 'go', name: 'Go', color: 'from-blue-600 to-cyan-600' },
+  { id: 'Dev', name: '개발', color: 'from-green-500 to-emerald-500' },
 ];
 
-// 전체 글 목록을 합쳐주는 함수
-const getAllPosts = () =>
-  categories
-    .filter((cat) => cat.posts && Array.isArray(cat.posts))
-    .flatMap((cat) => cat.posts!);
-
 export default function BlogHome() {
-  const [selected, setSelected] = useState(categories[0].id);
-  const [viewType, setViewType] = useState<ViewType>('card');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [randomAnimation, setRandomAnimation] = useState(0);
 
+  // 새로고침할 때마다 랜덤 애니메이션 선택
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth <= 640) {
-      setViewType('thumbnail');
-    }
+    setRandomAnimation(Math.floor(Math.random() * 5)); // 0, 1, 2, 3, 4 중 랜덤
   }, []);
 
-  const current = categories.find((c) => c.id === selected);
-  const posts: PostMeta[] =
-    current?.id === 'all' ? getAllPosts() : current?.posts || [];
-  const sortedPosts = [...posts].sort(
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+
+  useEffect(() => {
+    setSelectedCategory(category || 'all');
+  }, [category]);
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-900 text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  const filteredPosts =
+    selectedCategory === 'all'
+      ? postsMeta
+      : postsMeta.filter((post) => post.category === selectedCategory);
+
+  const sortedPosts = [...filteredPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  const displayPosts = sortedPosts;
+
   return (
-    <main className="flex flex-col md:flex-row gap-0 min-h-[70vh]">
-      {/* 좌측 카테고리 패널*/}
-      <aside className="hidden md:flex w-48 border-r border-neutral-200 bg-neutral-50 py-8 px-2 flex-col gap-1 font-mono text-sm select-none">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setSelected(cat.id)}
-            className={`flex items-center gap-2 px-3 py-2 rounded transition-colors text-left ${
-              selected === cat.id
-                ? 'bg-blue-50 text-blue-700 font-bold'
-                : 'hover:bg-neutral-100 text-neutral-700'
-            }`}
-          >
-            <span>{selected === cat.id ? '📂' : '📁'}</span>
-            <span>{cat.name}</span>
-            {cat.posts && (
-              <span className="ml-auto text-xs text-neutral-500">
-                {cat.posts.length}
-              </span>
-            )}
-          </button>
-        ))}
-      </aside>
-
-      {/* 모바일 카테고리 버튼 */}
-      <div className="flex md:hidden w-full overflow-x-auto gap-2 px-2 py-2 bg-neutral-50 border-b border-neutral-200">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setSelected(cat.id)}
-            className={`flex items-center gap-1 px-3 py-1 rounded text-xs whitespace-nowrap transition-colors ${
-              selected === cat.id
-                ? 'bg-blue-50 text-blue-700 font-bold'
-                : 'hover:bg-neutral-100 text-neutral-700'
-            }`}
-          >
-            <span>{selected === cat.id ? '📂' : '📁'}</span>
-            <span>{cat.name}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* 우측 글 목록 */}
-      <section className="flex-1 px-2 sm:px-4 md:px-8 py-2 sm:py-4 max-w-4xl mx-auto w-full">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl sm:text-2xl font-mono font-bold tracking-tight text-neutral-900">
-            {current?.name}{' '}
-            <span className="text-sm sm:text-base font-normal text-neutral-400 align-middle">
-              카테고리
-            </span>
-          </h1>
-          {/* 레이아웃 토글 버튼 */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setViewType('card')}
-              className={`flex items-center gap-1 px-2 py-1 rounded border text-xs font-mono transition-colors ${
-                viewType === 'card'
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 font-bold'
-                  : 'bg-white border-neutral-200 text-neutral-400 hover:text-blue-700'
-              }`}
-              aria-label="카드형 보기"
-            >
-              <span>□</span> 카드형
-            </button>
-            <button
-              onClick={() => setViewType('thumbnail')}
-              className={`flex items-center gap-1 px-2 py-1 rounded border text-xs font-mono transition-colors ${
-                viewType === 'thumbnail'
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 font-bold'
-                  : 'bg-white border-neutral-200 text-neutral-400 hover:text-blue-700'
-              }`}
-              aria-label="썸네일형 보기"
-            >
-              <span>▤</span> 썸네일형
-            </button>
-          </div>
-        </div>
-
-        <div
-          className={
-            viewType === 'card'
-              ? 'flex flex-col space-y-6 sm:space-y-10'
-              : 'flex flex-col space-y-6 sm:space-y-8'
-          }
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Category Filter */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-0.5 sm:gap-1 lg:gap-3 mb-6 sm:mb-8 px-1"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
         >
-          {sortedPosts.length ? (
-            sortedPosts.map((post) =>
-              viewType === 'card' ? (
-                <article
-                  key={post.title}
-                  className="flex flex-row items-center gap-3 sm:gap-6 bg-gradient-to-br from-white to-blue-50/40 rounded-2xl shadow-md border border-neutral-100 p-4 sm:p-6 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300 group transition-all duration-200 ease-in-out"
-                >
-                  <Image
-                    src={post.thumbnail || '/file.svg'}
-                    alt={post.title + ' 썸네일'}
-                    width={128}
-                    height={128}
-                    className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-md flex-shrink-0 bg-neutral-100"
-                    loading="lazy"
-                    priority={false}
+          {categories.map((category) => (
+            <Link key={category.id} href={`/blog?category=${category.id}`}>
+              <motion.button
+                className={`group relative px-1.5 sm:px-2 lg:px-6 py-1 sm:py-1.5 lg:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm lg:text-base ${
+                  selectedCategory === category.id
+                    ? 'text-gray-900 shadow-lg'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {selectedCategory === category.id && (
+                  <motion.div
+                    className="absolute inset-0 bg-gray-200 rounded-lg"
+                    layoutId="categoryBackground"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <div className="flex gap-1 sm:gap-2 mb-2 flex-nowrap overflow-hidden whitespace-nowrap">
-                      {renderTags(post.tags).displayTags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full font-semibold shadow-sm border border-blue-100"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {renderTags(post.tags).hasMore && (
-                        <span className="px-2 py-0.5 text-[11px] bg-gray-200 text-gray-600 rounded-full font-semibold">
-                          +{renderTags(post.tags).remainingCount}
-                        </span>
-                      )}
+                )}
+                <span className="relative z-10">{category.name}</span>
+              </motion.button>
+            </Link>
+          ))}
+        </motion.div>
+
+        {/* Posts Grid */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          {displayPosts.length > 0 ? (
+            displayPosts.map((post, index) => (
+              <motion.div
+                key={post.title}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={`/post/${post.slug}`}>
+                  <motion.article
+                    className="group relative h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                    whileHover={{
+                      y: -4,
+                      scale: 1.01,
+                    }}
+                  >
+                    {/* Card Background Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    {/* Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={post.thumbnail || '/file.svg'}
+                        alt={post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/file.svg';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent group-hover:from-gray-900/10 transition-all duration-300" />
                     </div>
-                    <h2 className="text-lg sm:text-xl font-extrabold font-mono text-neutral-900 group-hover:text-blue-700 mb-1 transition-colors line-clamp-2 tracking-tight">
-                      <Link
-                        href={post.path}
-                        className="align-middle hover:text-blue-700"
-                      >
-                        <span className="align-middle">📄</span> {post.title}
-                      </Link>
-                    </h2>
-                    <div className="border-b border-neutral-100 mb-2" />
-                    <p className="text-neutral-700 text-xs sm:text-sm mb-2 line-clamp-2 font-medium">
-                      {post.summary}
-                    </p>
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
-                        {formatDate(post.date)}
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              ) : (
-                <article
-                  key={post.title}
-                  className="flex flex-col bg-white rounded-xl border border-neutral-100 p-0 sm:p-0 hover:border-blue-300 transition-all duration-150 ease-in-out shadow-sm overflow-hidden"
-                >
-                  <Image
-                    src={post.thumbnail || '/file.svg'}
-                    alt={post.title + ' 썸네일'}
-                    width={640}
-                    height={360}
-                    className="w-full h-48 sm:h-64 object-cover bg-neutral-100 border-b border-neutral-100"
-                    loading="lazy"
-                    priority={false}
-                  />
-                  <div className="flex flex-col flex-1 min-w-0 px-4 py-4">
-                    <div className="flex gap-1 sm:gap-2 mb-2 flex-wrap">
-                      {renderTags(post.tags).displayTags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 sm:px-3 py-0.5 text-[11px] sm:text-xs bg-blue-50 text-blue-700 rounded-full font-semibold border border-blue-100"
-                        >
-                          {tag}
+
+                    {/* Content */}
+                    <div className="p-4 sm:p-6 relative z-10">
+                      {/* Category Badge */}
+                      <div className="flex items-center mb-3">
+                        <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full border border-gray-200 group-hover:bg-gray-300 group-hover:text-gray-800 group-hover:border-gray-400 transition-all duration-300">
+                          {categories.find((c) => c.id === post.category)
+                            ?.name || post.category}
                         </span>
-                      ))}
-                      {renderTags(post.tags).hasMore && (
-                        <span className="px-2 py-0.5 text-[11px] bg-gray-200 text-gray-600 rounded-full font-semibold">
-                          +{renderTags(post.tags).remainingCount}
-                        </span>
-                      )}
-                    </div>
-                    <h2 className="text-lg sm:text-xl font-extrabold font-mono text-neutral-900 hover:text-blue-700 mb-1 transition-colors line-clamp-2 tracking-tight">
-                      <Link
-                        href={post.path}
-                        className="align-middle hover:text-blue-700"
-                      >
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
                         {post.title}
-                      </Link>
-                    </h2>
-                    <p className="text-neutral-700 text-xs sm:text-sm mb-2 line-clamp-2 font-medium">
-                      {post.summary}
-                    </p>
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
-                        {formatDate(post.date)}
-                      </span>
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                        {post.summary}
+                      </p>
+
+                      {/* Meta */}
+                      <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div className="flex items-center">
+                          <Calendar className="w-3 h-3 mr-1" />
+                          {new Date(post.date).toLocaleDateString('ko-KR')}
+                        </div>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-2 group-hover:text-gray-800 transition-all duration-300 text-gray-500" />
+                      </div>
                     </div>
-                  </div>
-                </article>
-              )
-            )
+                  </motion.article>
+                </Link>
+              </motion.div>
+            ))
           ) : (
-            <div className="text-neutral-400 font-mono text-base py-12">
-              아직 글이 없습니다.
+            <div className="text-center py-12">
+              <p className="text-gray-500">포스트가 없습니다.</p>
             </div>
           )}
-        </div>
-      </section>
-    </main>
+        </motion.div>
+
+        {/* Footer Section */}
+        <motion.div
+          className="text-center mt-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+        >
+          <div className="flex items-center justify-center">
+            {/* 랜덤으로 하나만 보이기 */}
+            {randomAnimation === 0 && (
+              <motion.div
+                className="flex items-center space-x-2"
+                animate={{
+                  y: [-5, 5, -5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                <span className="text-green-600 text-xs sm:text-sm font-medium">
+                  It Works!
+                </span>
+              </motion.div>
+            )}
+
+            {randomAnimation === 1 && (
+              <motion.div
+                className="flex items-center space-x-2"
+                animate={{
+                  rotate: [-2, 2, -2],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900" />
+                <span className="text-gray-600 text-xs sm:text-sm font-medium">
+                  Hello, World!
+                </span>
+              </motion.div>
+            )}
+
+            {randomAnimation === 2 && (
+              <motion.div
+                className="flex items-center space-x-2"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.8, 1, 0.8],
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <Monitor className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />
+                <span className="text-purple-600 text-xs sm:text-sm font-medium">
+                  Works on My Machine...
+                </span>
+              </motion.div>
+            )}
+
+            {randomAnimation === 3 && (
+              <motion.div
+                className="flex items-center space-x-2"
+                animate={{
+                  rotate: [0, 10, 0, -10, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
+                <span className="text-orange-600 text-xs sm:text-sm font-medium">
+                  Why Is It Working?
+                </span>
+              </motion.div>
+            )}
+
+            {randomAnimation === 4 && (
+              <motion.div
+                className="flex items-center space-x-2"
+                animate={{
+                  x: [-3, 3, -3],
+                  opacity: [1, 0.7, 1],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+                <span className="text-red-600 text-xs sm:text-sm font-medium">
+                  It&apos;s Not a Bug, It&apos;s a Feature
+                </span>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }

@@ -88,6 +88,11 @@
     background: none;
     padding: 0;
   }
+  br {
+    display: block;
+    content: '';
+    margin-top: 0.5rem;
+  }
   ::selection {
     background: #dbeafe; /* blue-100 */
   }
@@ -143,6 +148,23 @@
     content: '' !important;
     display: none !important;
   }
+
+  /* MDX 콘텐츠 줄 간격 조정 */
+  .prose {
+    line-height: 1.8 !important;
+  }
+  .prose p {
+    line-height: 1.8 !important;
+    margin-bottom: 1rem !important;
+  }
+  .prose-lg {
+    line-height: 1.8 !important;
+  }
+  .prose-lg p {
+    line-height: 1.8 !important;
+    margin-bottom: 1rem !important;
+  }
+
   /* 코드블록 스타일 */
   .prose pre {
     @apply bg-neutral-900 text-neutral-100 rounded-lg p-4 my-4 overflow-x-auto text-sm;

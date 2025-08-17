@@ -9,6 +9,7 @@ import {
 } from '@/utils/blockchain';
 import { ethers } from 'ethers';
 import { postsMeta } from './postsMeta';
+import { commonStyles } from '@/utils/styles';
 
 interface Transaction {
   hash: string;
@@ -232,337 +233,314 @@ export default function BlogRegistryUI() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-mono">
-      <div className="max-w-6xl mx-auto p-6">
-        {/* 헤더 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            BlogRegistry Contract
-          </h1>
+    <div className="space-y-6">
+      {/* 블록체인 정보 카드 */}
+      <div className={commonStyles.card}>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          블록체인 현황
+        </h2>
 
-          {/* 블록체인 정보 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="text-sm text-blue-600 font-semibold">
-                Current Block
-              </div>
-              <div className="text-2xl font-bold text-blue-800">
-                {currentBlock.toLocaleString()}
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg hover:border-gray-300 transition-colors">
+            <div className="text-sm text-gray-600 font-medium">
+              Current Block
             </div>
-            <div className="bg-green-50 p-4 rounded-lg">
-              <div className="text-sm text-green-600 font-semibold">
-                Gas Price
-              </div>
-              <div className="text-2xl font-bold text-green-800">
-                {gasPrice} Gwei
-              </div>
+            <div className="text-2xl font-bold text-gray-900">
+              {currentBlock.toLocaleString()}
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="text-sm text-purple-600 font-semibold">
-                Total Posts
-              </div>
-              <div className="text-2xl font-bold text-purple-800">
-                {cids.length}
-              </div>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg hover:border-gray-300 transition-colors">
+            <div className="text-sm text-gray-600 font-medium">Gas Price</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {gasPrice} Gwei
+            </div>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg hover:border-gray-300 transition-colors">
+            <div className="text-sm text-gray-600 font-medium">Total Posts</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {cids.length}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                📝 Register Post
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    IPFS CID
-                  </label>
-                  <input
-                    type="text"
-                    value={cid}
-                    onChange={(e) => setCid(e.target.value)}
-                    placeholder="QmYourCidHere..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <button
-                  onClick={registerPost}
-                  disabled={loading || !cid}
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                >
-                  {loading ? 'Processing...' : 'Register Post'}
-                </button>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          {/* Register Post Card */}
+          <div className={commonStyles.card}>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              글 등록하기
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  IPFS CID
+                </label>
+                <input
+                  type="text"
+                  value={cid}
+                  onChange={(e) => setCid(e.target.value)}
+                  placeholder="Cid Here..."
+                  className={commonStyles.input}
+                />
               </div>
-            </div>
-
-            {/* 수정 섹션 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                ✏️ Update Post
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Post Index
-                  </label>
-                  <input
-                    type="number"
-                    value={editIndex}
-                    onChange={(e) => setEditIndex(e.target.value)}
-                    placeholder="0, 1, 2..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    New CID
-                  </label>
-                  <input
-                    type="text"
-                    value={newCid}
-                    onChange={(e) => setNewCid(e.target.value)}
-                    placeholder="QmNewCidHere..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <button
-                  onClick={updatePost}
-                  disabled={editLoading || !editIndex || !newCid}
-                  className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                >
-                  {editLoading ? 'Processing...' : 'Update Post'}
-                </button>
-              </div>
-            </div>
-
-            {/* 조회 섹션 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                🔍 Query Posts
-              </h3>
               <button
-                onClick={fetchCids}
-                disabled={loading}
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                onClick={registerPost}
+                disabled={loading || !cid}
+                className={`w-full ${commonStyles.button.primary}`}
               >
-                {loading ? 'Loading...' : 'Fetch All Posts'}
+                {loading ? '처리 중...' : '글 등록하기'}
               </button>
             </div>
           </div>
 
-          {/* 오른쪽: 트랜잭션 히스토리 */}
-          <div className="space-y-6">
-            {/* 트랜잭션 히스토리 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                📊 Transaction History
-              </h3>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {transactions.length === 0 ? (
-                  <div className="text-gray-500 text-center py-8">
-                    No transactions yet
-                  </div>
-                ) : (
-                  transactions.map((tx, index) => (
-                    <div
-                      key={index}
-                      className="border border-gray-200 rounded-lg p-4"
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center space-x-2">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-semibold`}
-                            style={{
-                              backgroundColor: getStatusColor(tx.status) + '20',
-                              color: getStatusColor(tx.status),
-                            }}
-                          >
-                            {getStatusText(tx.status)}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {tx.type === 'register'
-                              ? '📝 Register'
-                              : '✏️ Update'}
-                          </span>
-                        </div>
-                        <span className="text-xs text-gray-500">
-                          {new Date(tx.timestamp).toLocaleTimeString()}
-                        </span>
-                      </div>
-
-                      <div className="text-xs font-mono text-gray-600 mb-2">
-                        {tx.hash.substring(0, 10)}...
-                        {tx.hash.substring(tx.hash.length - 8)}
-                      </div>
-
-                      {/* 블록 정보 */}
-                      {tx.blockNumber && (
-                        <div className="text-xs text-gray-500">
-                          Block: {tx.blockNumber.toLocaleString()}
-                        </div>
-                      )}
-
-                      {/* 가스 정보 */}
-                      {tx.gasUsed && tx.gasPrice && (
-                        <div className="text-xs text-gray-500">
-                          Gas: {tx.gasUsed} ×{' '}
-                          {ethers.utils.formatUnits(tx.gasPrice, 'gwei')} Gwei
-                        </div>
-                      )}
-
-                      {/* 주소 정보 */}
-                      {tx.from && (
-                        <div className="text-xs text-gray-500">
-                          From: {tx.from.substring(0, 6)}...
-                          {tx.from.substring(tx.from.length - 4)}
-                        </div>
-                      )}
-
-                      {tx.to && (
-                        <div className="text-xs text-gray-500">
-                          To: {tx.to.substring(0, 6)}...
-                          {tx.to.substring(tx.to.length - 4)}
-                        </div>
-                      )}
-
-                      {/* 값 정보 */}
-                      {tx.value && (
-                        <div className="text-xs text-gray-500">
-                          Value: {ethers.utils.formatEther(tx.value)} MATIC
-                        </div>
-                      )}
-
-                      {/* CID 변경 정보 */}
-                      {tx.oldCid && tx.newCid && (
-                        <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-100 rounded">
-                          <div className="font-semibold mb-1 text-gray-700">
-                            CID Update:
-                          </div>
-                          <div>Old: {tx.oldCid.substring(0, 10)}...</div>
-                          <div>New: {tx.newCid.substring(0, 10)}...</div>
-                        </div>
-                      )}
-
-                      {/* 새 CID 등록 정보 */}
-                      {tx.newCid && !tx.oldCid && (
-                        <div className="text-xs text-gray-500 mt-2 p-2 bg-green-100 rounded">
-                          <div className="font-semibold mb-1 text-green-700">
-                            New CID:
-                          </div>
-                          <div>{tx.newCid.substring(0, 10)}...</div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
+          {/* Update Post Card */}
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              글 수정하기
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  글 인덱스
+                </label>
+                <input
+                  type="number"
+                  value={editIndex}
+                  onChange={(e) => setEditIndex(e.target.value)}
+                  placeholder="0, 1, 2..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  새로운 CID
+                </label>
+                <input
+                  type="text"
+                  value={newCid}
+                  onChange={(e) => setNewCid(e.target.value)}
+                  placeholder="New Cid Here..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <button
+                onClick={updatePost}
+                disabled={editLoading || !editIndex || !newCid}
+                className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              >
+                {editLoading ? '처리 중...' : '글 수정하기'}
+              </button>
             </div>
+          </div>
 
-            {/* 등록된 CID 목록 */}
-            {cids.length > 0 && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
-                  📋 Registered CIDs
-                </h3>
-                <div className="space-y-2 max-h-64 overflow-y-auto">
-                  {cids.map((cid, index) => {
-                    // postsMeta에서 해당 인덱스의 글 정보 찾기
-                    const postInfo = postsMeta[index];
-                    const hasLocalPost = postInfo && postInfo.slug;
-
-                    return (
-                      <div
-                        key={index}
-                        className="border border-gray-200 rounded-lg p-4"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center space-x-3">
-                            <span className="text-sm font-bold text-gray-600">
-                              #{index}
-                            </span>
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                                hasLocalPost
-                                  ? 'bg-green-100 text-green-700'
-                                  : 'bg-yellow-100 text-yellow-700'
-                              }`}
-                            >
-                              {hasLocalPost ? '📝 Local' : '🌐 On-chain Only'}
-                            </span>
-                          </div>
-                          <span className="text-xs text-gray-500">
-                            {cid ? `${cid.length} chars` : '0 chars'}
-                          </span>
-                        </div>
-
-                        {/* CID 정보 */}
-                        <div className="mb-2">
-                          <div className="text-xs font-mono text-gray-600">
-                            CID: {cid || '(empty)'}
-                          </div>
-                        </div>
-
-                        {/* 로컬 글 정보 */}
-                        {hasLocalPost && (
-                          <div className="bg-blue-50 p-3 rounded-lg">
-                            <div className="text-sm font-semibold text-blue-800 mb-1">
-                              📄 {postInfo.title}
-                            </div>
-                            <div className="text-xs text-blue-600 mb-1">
-                              📅 {postInfo.date} | 🏷️ {postInfo.category}
-                            </div>
-                            <div className="text-xs text-blue-700">
-                              {postInfo.summary}
-                            </div>
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              {postInfo.tags.map((tag, tagIndex) => (
-                                <span
-                                  key={tagIndex}
-                                  className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* 온체인 전용 글 */}
-                        {!hasLocalPost && cid && (
-                          <div className="bg-yellow-50 p-3 rounded-lg">
-                            <div className="text-sm font-semibold text-yellow-800">
-                              🌐 온체인에만 등록된 글
-                            </div>
-                            <div className="text-xs text-yellow-600">
-                              로컬에 해당 글 정보가 없습니다.
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+          {/* Query Posts Card */}
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              글 목록 조회
+            </h3>
+            <button
+              onClick={fetchCids}
+              disabled={loading}
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            >
+              {loading ? '로딩 중...' : '모든 글 가져오기'}
+            </button>
           </div>
         </div>
 
-        {/* 에러 메시지 */}
-        {error && (
-          <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <div className="flex items-center">
-              <span className="text-red-600 mr-2">❌</span>
-              <span className="text-red-800 font-medium">
-                Transaction Error:
-              </span>
+        {/* 오른쪽: 트랜잭션 히스토리 */}
+        <div className="space-y-6">
+          {/* 트랜잭션 히스토리 */}
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              트랜잭션 기록
+            </h3>
+            <div className="space-y-3 max-h-[28rem] overflow-y-auto">
+              {transactions.length === 0 ? (
+                <div className="text-gray-500 text-center py-8">
+                  아직 트랜잭션이 없습니다
+                </div>
+              ) : (
+                transactions.map((tx, index) => (
+                  <div
+                    key={index}
+                    className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center space-x-2">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold`}
+                          style={{
+                            backgroundColor: getStatusColor(tx.status) + '20',
+                            color: getStatusColor(tx.status),
+                          }}
+                        >
+                          {getStatusText(tx.status)}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {tx.type === 'register' ? '등록' : '수정'}
+                        </span>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        {new Date(tx.timestamp).toLocaleTimeString()}
+                      </span>
+                    </div>
+
+                    <div className="text-xs font-mono text-gray-600 mb-2">
+                      {tx.hash.substring(0, 10)}...
+                      {tx.hash.substring(tx.hash.length - 8)}
+                    </div>
+
+                    {/* 블록 정보 */}
+                    {tx.blockNumber && (
+                      <div className="text-xs text-gray-500">
+                        블록: {tx.blockNumber.toLocaleString()}
+                      </div>
+                    )}
+
+                    {/* 가스 정보 */}
+                    {tx.gasUsed && tx.gasPrice && (
+                      <div className="text-xs text-gray-500">
+                        가스: {tx.gasUsed} ×{' '}
+                        {ethers.utils.formatUnits(tx.gasPrice, 'gwei')} Gwei
+                      </div>
+                    )}
+
+                    {/* 주소 정보 */}
+                    {tx.from && (
+                      <div className="text-xs text-gray-500">
+                        보낸 주소: {tx.from.substring(0, 6)}...
+                        {tx.from.substring(tx.from.length - 4)}
+                      </div>
+                    )}
+
+                    {tx.to && (
+                      <div className="text-xs text-gray-500">
+                        받는 주소: {tx.to.substring(0, 6)}...
+                        {tx.to.substring(tx.to.length - 4)}
+                      </div>
+                    )}
+
+                    {/* 값 정보 */}
+                    {tx.value && (
+                      <div className="text-xs text-gray-500">
+                        값: {ethers.utils.formatEther(tx.value)} MATIC
+                      </div>
+                    )}
+
+                    {/* CID 변경 정보 */}
+                    {tx.oldCid && tx.newCid && (
+                      <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
+                        <div className="font-semibold mb-1 text-gray-700">
+                          CID 변경:
+                        </div>
+                        <div>이전: {tx.oldCid.substring(0, 10)}...</div>
+                        <div>새로운: {tx.newCid.substring(0, 10)}...</div>
+                      </div>
+                    )}
+
+                    {/* 새 CID 등록 정보 */}
+                    {tx.newCid && !tx.oldCid && (
+                      <div className="text-xs text-gray-500 mt-2 p-2 bg-green-50 rounded">
+                        <div className="font-semibold mb-1 text-green-700">
+                          새로운 CID:
+                        </div>
+                        <div>{tx.newCid.substring(0, 10)}...</div>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
-            <div className="text-red-700 mt-1">{error}</div>
           </div>
-        )}
+
+          {/* 등록된 CID 목록 */}
+          {cids.length > 0 && (
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                등록된 글 목록
+              </h3>
+              <div className="space-y-2 max-h-[24rem] overflow-y-auto">
+                {cids.map((cid, index) => {
+                  // postsMeta에서 해당 인덱스의 글 정보 찾기
+                  const postInfo = postsMeta[index];
+                  const hasLocalPost = postInfo && postInfo.slug;
+
+                  return (
+                    <div
+                      key={index}
+                      className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-sm font-bold text-gray-600">
+                            #{index}
+                          </span>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              hasLocalPost
+                                ? 'bg-green-100 text-green-700 border border-green-200'
+                                : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
+                            }`}
+                          >
+                            {hasLocalPost ? '로컬' : '온체인만'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* CID 정보 */}
+                      <div className="mb-2">
+                        <div className="text-xs font-mono text-gray-600">
+                          CID: {cid || '(비어있음)'}
+                        </div>
+                      </div>
+
+                      {/* 로컬 글 정보 */}
+                      {hasLocalPost && (
+                        <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
+                          <div className="text-sm font-semibold text-blue-800 mb-1">
+                            {postInfo.title}
+                          </div>
+                          <div className="text-xs text-blue-600 mb-1">
+                            {postInfo.date} | {postInfo.category}
+                          </div>
+                          <div className="text-xs text-blue-700">
+                            {postInfo.summary}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 온체인 전용 글 */}
+                      {!hasLocalPost && cid && (
+                        <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
+                          <div className="text-sm font-semibold text-yellow-800">
+                            온체인에만 등록된 글
+                          </div>
+                          <div className="text-xs text-yellow-600">
+                            로컬에 해당 글 정보가 없습니다.
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="flex items-center">
+            <span className="text-red-600 mr-2">❌</span>
+            <span className="text-red-800 font-medium">트랜잭션 오류:</span>
+          </div>
+          <div className="text-red-700 mt-1">{error}</div>
+        </div>
+      )}
     </div>
   );
 }

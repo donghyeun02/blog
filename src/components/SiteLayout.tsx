@@ -1,120 +1,147 @@
 'use client';
 
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { Code, Database, Globe, Menu, X } from 'lucide-react';
 
 export default function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  const shouldShowHeader = pathname !== '/';
 
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile) {
-      setIsHeaderVisible(true);
-      return;
-    }
-
-    const scrollHandler = (e: Event) => {
-      const target = e.target as HTMLElement;
-      const currentScrollY = target.scrollTop || window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 20) {
-        setIsHeaderVisible(false);
-      } else if (currentScrollY < lastScrollY || currentScrollY <= 20) {
-        setIsHeaderVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    document.addEventListener('scroll', scrollHandler, {
-      passive: true,
-      capture: true,
-    });
-
-    const slideDeckContainer = document.querySelector(
-      '[style*="overflowY: scroll"]'
-    );
-    if (slideDeckContainer) {
-      slideDeckContainer.addEventListener('scroll', scrollHandler, {
-        passive: true,
-        capture: true,
-      });
-    }
-
-    return () => {
-      document.removeEventListener('scroll', scrollHandler, { capture: true });
-      if (slideDeckContainer) {
-        slideDeckContainer.removeEventListener('scroll', scrollHandler, {
-          capture: true,
-        });
-      }
-    };
-  }, [isMobile, lastScrollY]);
+  const navigation = [
+    { name: '홈', href: '/', icon: Code },
+    { name: '블로그', href: '/blog', icon: Database },
+    { name: '프로젝트', href: '/projects', icon: Globe },
+    { name: '소개', href: '/about', icon: Code },
+    { name: '연락처', href: '/contact', icon: Database },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50 font-sans text-neutral-900">
-      {/* 상단 네비 */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-30 bg-neutral-50 border-b border-neutral-200 transition-transform duration-300 ${
-          isMobile
-            ? isHeaderVisible
-              ? 'translate-y-0'
-              : '-translate-y-full'
-            : 'translate-y-0'
-        }`}
-        style={{
-          transform: isMobile
-            ? isHeaderVisible
-              ? 'translateY(0)'
-              : 'translateY(-100%)'
-            : 'translateY(0)',
-          willChange: 'transform',
-        }}
-      >
-        <div className="w-full px-8 py-3 flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-mono text-lg font-bold tracking-tight text-neutral-900 select-none hover:text-blue-700 transition-colors"
-          >
-            donghyeun02
-          </Link>
-          <nav className="flex gap-6 text-sm font-mono text-neutral-700">
-            <Link href="/" className="hover:text-blue-700 transition-colors">
-              홈
-            </Link>
-            <Link
-              href="/about"
-              className="hover:text-blue-700 transition-colors"
+    <div className="min-h-screen bg-white font-sans text-gray-900">
+      {/* Header - Only show on non-home pages */}
+      {shouldShowHeader && (
+        <motion.header
+          className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50"
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <Link href="/" className="flex items-center space-x-2">
+                <motion.div
+                  className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <span className="text-white font-bold text-sm">D</span>
+                </motion.div>
+                <span className="text-xl font-bold text-gray-900">
+                  donghyeun02
+                </span>
+              </Link>
+
+              {/* Desktop Navigation */}
+              <nav className="hidden lg:flex items-center space-x-8">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  const isActive =
+                    pathname === item.href ||
+                    (item.href !== '/' && pathname.startsWith(item.href));
+
+                  return (
+                    <Link key={item.name} href={item.href}>
+                      <motion.div
+                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                          isActive
+                            ? 'bg-gray-900/20 text-gray-900 border border-gray-900/30'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                        }`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span className="whitespace-nowrap">{item.name}</span>
+                      </motion.div>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <motion.div
+              className="lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/50"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              소개
-            </Link>
-          </nav>
-        </div>
-      </header>
-      {/* 본문 */}
-      <main className="flex-1 flex flex-col items-center pt-0">
-        <div className="w-full max-w-6xl px-4 py-4 sm:py-12">{children}</div>
-      </main>
-      {/* 푸터 */}
-      <footer className="bg-neutral-50 border-t border-neutral-200 mt-4">
-        <div className="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-neutral-400 font-mono">
-          © {new Date().getFullYear()} donghyeun02
+              <div className="container mx-auto px-4 py-4">
+                <nav className="flex flex-col space-y-2">
+                  {navigation.map((item) => {
+                    const Icon = item.icon;
+                    const isActive =
+                      pathname === item.href ||
+                      (item.href !== '/' && pathname.startsWith(item.href));
+
+                    return (
+                      <Link key={item.name} href={item.href}>
+                        <motion.div
+                          className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                            isActive
+                              ? 'bg-gray-900/20 text-gray-900 border border-gray-900/30'
+                              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          }`}
+                          whileHover={{ x: 5 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span>{item.name}</span>
+                        </motion.div>
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </div>
+            </motion.div>
+          )}
+        </motion.header>
+      )}
+
+      {/* Main Content */}
+      <main className={shouldShowHeader ? 'pt-16' : ''}>{children}</main>
+
+      {/* Footer */}
+      <footer className="bg-gray-100/50 border-t border-gray-200/50 mt-20">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <p className="text-gray-500 text-sm">© 2025 donghyeun02.</p>
+          </div>
         </div>
       </footer>
     </div>

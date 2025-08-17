@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { createJsonRpcProvider } from '@/utils/blockchain';
 import { getBlogRegistryContract } from '@/contracts/blogRegistry';
 
 export interface IntegrityResult {
@@ -72,9 +72,7 @@ export async function getBlockchainCidInfo(cid: string): Promise<{
   timestamp: number;
 } | null> {
   try {
-    const provider = new ethers.providers.JsonRpcProvider(
-      process.env.NEXT_PUBLIC_POLYGON_RPC_URL
-    );
+    const provider = createJsonRpcProvider();
     const contract = getBlogRegistryContract(provider);
 
     const postInfo = await contract.getPostInfo(cid);

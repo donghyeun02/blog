@@ -5,7 +5,6 @@ export interface PostMeta {
   slug: string;
   date: string;
   summary: string;
-  tags: string[];
   category: string;
   thumbnail?: string;
   prevPost?: {
@@ -34,7 +33,3 @@ export interface BlockchainError {
   message: string;
   code?: string;
 }
-
-// UI 상태 타입
-export type ViewType = 'card' | 'thumbnail';
-export type LoadingState = 'idle' | 'loading' | 'success' | 'error';

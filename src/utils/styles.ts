@@ -1,5 +1,66 @@
 import { CSSProperties } from 'react';
 
+// 공통 스타일 클래스들
+export const commonStyles = {
+  // 카드 스타일
+  card: 'bg-white border border-gray-200 rounded-xl shadow-sm p-6',
+
+  // 버튼 스타일
+  button: {
+    primary:
+      'bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors',
+    secondary:
+      'bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors',
+    success:
+      'bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors',
+    warning:
+      'bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors',
+  },
+
+  // 입력 필드 스타일
+  input:
+    'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+
+  // 상태 배지 스타일
+  badge: {
+    success: 'bg-green-100 text-green-700 border border-green-200',
+    warning: 'bg-yellow-100 text-yellow-700 border border-yellow-200',
+    error: 'bg-red-100 text-red-700 border border-red-200',
+    info: 'bg-blue-100 text-blue-700 border border-blue-200',
+  },
+
+  // 레이아웃 스타일
+  container: 'container mx-auto px-4 py-8 sm:py-12',
+  maxWidth: 'max-w-6xl mx-auto',
+
+  // 애니메이션 스타일
+  motion: {
+    fadeIn: 'initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}',
+    slideIn: 'initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}',
+  },
+};
+
+// 반응형 클래스들
+export const responsiveClasses = {
+  text: {
+    h1: 'text-3xl sm:text-4xl md:text-5xl',
+    h2: 'text-2xl sm:text-3xl md:text-4xl',
+    h3: 'text-xl sm:text-2xl md:text-3xl',
+    body: 'text-sm sm:text-base',
+    small: 'text-xs sm:text-sm',
+  },
+
+  padding: {
+    container: 'py-8 sm:py-12 lg:py-16',
+    section: 'py-6 sm:py-8 lg:py-12',
+  },
+
+  grid: {
+    posts: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8',
+    cards: 'grid grid-cols-1 lg:grid-cols-2 gap-6',
+  },
+};
+
 // 반응형 스타일 생성
 export function createResponsiveStyles(isMobile: boolean) {
   return {
