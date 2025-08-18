@@ -38,12 +38,12 @@ export default function LocalMdxPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
         <div className="flex flex-col items-center justify-center">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full mb-6"
+            className="w-16 h-16 border-4 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-gray-100 rounded-full mb-6"
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,10 +51,10 @@ export default function LocalMdxPage() {
             transition={{ delay: 0.3 }}
             className="text-center"
           >
-            <div className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
               블로그 글을 불러오는 중...
             </div>
-            <div className="text-gray-600 text-center max-w-md">
+            <div className="text-gray-600 dark:text-gray-400 text-center max-w-md">
               MDX 콘텐츠를 렌더링하고 있습니다.
             </div>
           </motion.div>
@@ -65,7 +65,7 @@ export default function LocalMdxPage() {
 
   if (mdxContent) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 py-8 sm:py-12">
           <div className="max-w-4xl mx-auto">
             {/* Back Button */}
@@ -77,7 +77,7 @@ export default function LocalMdxPage() {
             >
               <Link href="/">
                 <motion.button
-                  className="group inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+                  className="group inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   whileHover={{ x: -5 }}
                 >
                   <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -93,11 +93,11 @@ export default function LocalMdxPage() {
               transition={{ delay: 0.3 }}
               className="mb-8"
             >
-              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 샘플 제목
               </motion.h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
                   {new Date().toLocaleDateString('ko-KR', {
@@ -108,14 +108,14 @@ export default function LocalMdxPage() {
                 </div>
                 <div className="flex items-center">
                   <Tag className="w-4 h-4 mr-2" />
-                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                  <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
                     샘플
                   </span>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-gray-200 my-8"></div>
+              <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
             </motion.div>
 
             {/* Post Content */}
@@ -123,7 +123,7 @@ export default function LocalMdxPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="prose prose-lg prose-blue max-w-none leading-relaxed"
+              className="prose prose-lg prose-blue dark:prose-invert max-w-none leading-relaxed"
             >
               {mdxContent}
             </motion.article>
@@ -134,16 +134,16 @@ export default function LocalMdxPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
       <div className="flex flex-col items-center justify-center">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 200 }}
-          className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6"
+          className="w-16 h-16 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mb-6"
         >
           <svg
-            className="w-8 h-8 text-red-600"
+            className="w-8 h-8 text-red-600 dark:text-red-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -162,10 +162,10 @@ export default function LocalMdxPage() {
           transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <div className="text-xl font-semibold text-red-700 mb-2">
+          <div className="text-xl font-semibold text-red-700 dark:text-red-400 mb-2">
             콘텐츠를 불러오지 못했습니다.
           </div>
-          <div className="text-red-600 text-center max-w-md">
+          <div className="text-red-600 dark:text-red-400 text-center max-w-md">
             MDX 파일을 찾을 수 없거나 로드 중 오류가 발생했습니다.
           </div>
         </motion.div>

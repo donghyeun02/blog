@@ -11,7 +11,10 @@ import {
   Shield,
   Brain,
   ArrowRight,
+  Moon,
+  Sun,
 } from 'lucide-react';
+import { setCookie, getCookie } from '@/utils/cookies';
 
 export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -19,9 +22,21 @@ export default function HomePage() {
   const [activeConnections, setActiveConnections] = useState(342);
   const [systemLoad, setSystemLoad] = useState(23.5);
   const [codeLines, setCodeLines] = useState('12.4k');
+  const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
 
   useEffect(() => {
     setIsClient(true);
+
+    // 다크모드 설정 로드 (쿠키 우선, localStorage 백업)
+    const cookieMode = getCookie('darkMode');
+    if (cookieMode) {
+      setIsDarkMode(cookieMode === 'true');
+    } else {
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode) {
+        setIsDarkMode(JSON.parse(savedMode));
+      }
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -48,16 +63,30 @@ export default function HomePage() {
     };
   }, []);
 
+  // 다크모드 적용
+  useEffect(() => {
+    if (isDarkMode !== null) {
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      // 쿠키와 localStorage 모두에 저장
+      setCookie('darkMode', isDarkMode.toString(), 365);
+      localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    }
+  }, [isDarkMode]);
+
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-900 text-xl">Loading...</div>
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center transition-colors">
+        <div className="text-gray-900 dark:text-white text-xl">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden flex items-center justify-center transition-colors">
       {/* Tech Network Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Grid Pattern */}
@@ -112,7 +141,7 @@ export default function HomePage() {
         </svg>
 
         {/* System Metrics */}
-        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 font-mono text-xs text-gray-400 space-y-1">
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 font-mono text-xs text-gray-400 dark:text-gray-500 space-y-1">
           <motion.div
             animate={{ opacity: [0.3, 0.8, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -135,6 +164,20 @@ export default function HomePage() {
             Lines: {codeLines}
           </motion.div>
         </div>
+
+        {/* Dark Mode Toggle */}
+        <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
+          <button
+            onClick={() => setIsDarkMode(isDarkMode === null ? true : !isDarkMode)}
+            className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition-colors"
+          >
+            {isDarkMode ? (
+              <Sun className="w-6 h-6" />
+            ) : (
+              <Moon className="w-6 h-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -147,7 +190,7 @@ export default function HomePage() {
           transition={{ duration: 0.8 }}
         >
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 text-gray-900 relative"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 text-gray-900 dark:text-white relative"
             style={{
               transform: `perspective(1000px) rotateX(${(mousePosition.y - window.innerHeight / 2) * 0.01}deg) rotateY(${(mousePosition.x - window.innerWidth / 2) * 0.01}deg)`,
             }}
@@ -164,10 +207,10 @@ export default function HomePage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-2 px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2 px-4">
               &ldquo;배운 것, 만든 것, 그리고 배울 것들&rdquo;
             </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2 text-xs sm:text-sm text-gray-400 font-mono px-4">
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2 text-xs sm:text-sm text-gray-400 dark:text-gray-500 font-mono px-4">
               <span>Backend Developer</span>
               <span className="hidden sm:inline">•</span>
               <span>Computer Science</span>
@@ -212,7 +255,7 @@ export default function HomePage() {
               {Array.from({ length: 7 }).map((_, i) => (
                 <motion.div key={i} className="relative">
                   <motion.div
-                    className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-900 rounded-full relative z-10"
+                    className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-900 dark:bg-white rounded-full relative z-10"
                     animate={{
                       scale: [1, 1.2, 1],
                       opacity: [0.6, 1, 0.6],
@@ -226,7 +269,7 @@ export default function HomePage() {
                   {/* Data flow lines */}
                   {i < 6 && (
                     <motion.div
-                      className="absolute top-1.5 sm:top-2 left-3 sm:left-4 w-3 sm:w-4 h-px bg-gray-400"
+                      className="absolute top-1.5 sm:top-2 left-3 sm:left-4 w-3 sm:w-4 h-px bg-gray-400 dark:bg-gray-500"
                       animate={{
                         opacity: [0.3, 0.8, 0.3],
                       }}
@@ -257,14 +300,14 @@ export default function HomePage() {
             {/* System branch */}
             <div className="absolute top-6 sm:top-8 left-8 sm:left-12">
               <motion.div
-                className="w-6 sm:w-8 h-px bg-gray-300 rotate-45"
+                className="w-6 sm:w-8 h-px bg-gray-300 dark:bg-gray-600 rotate-45"
                 animate={{
                   opacity: [0.2, 0.6, 0.2],
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               />
               <motion.div
-                className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-700 rounded-full absolute -right-0.5 sm:-right-1 -top-0.5 sm:-top-1"
+                className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-700 dark:bg-gray-300 rounded-full absolute -right-0.5 sm:-right-1 -top-0.5 sm:-top-1"
                 animate={{
                   scale: [0.8, 1.1, 0.8],
                 }}
@@ -304,7 +347,7 @@ export default function HomePage() {
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="group relative p-6 sm:p-8 bg-gray-50/80 backdrop-blur-sm rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden"
+              className="group relative p-6 sm:p-8 bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 overflow-hidden"
               whileHover={{
                 y: -5,
                 rotateX: 2,
@@ -322,19 +365,19 @@ export default function HomePage() {
                 <Code className="w-8 h-8 sm:w-12 sm:h-12" />
               </div>
 
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-100/50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-100/50 dark:from-gray-700/50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="relative z-10">
-                <div className="text-gray-900 mb-4 group-hover:scale-110 transition-transform flex items-center">
+                <div className="text-gray-900 dark:text-white mb-4 group-hover:scale-110 transition-transform flex items-center">
                   <div className="w-6 h-6 sm:w-8 sm:h-8">{feature.icon}</div>
                   <Zap className="w-3 h-3 sm:w-4 sm:h-4 ml-2 opacity-50" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                   {feature.description}
                 </p>
-                <div className="text-xs font-mono text-gray-400 border-t border-gray-200 pt-3">
+                <div className="text-xs font-mono text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-600 pt-3">
                   {feature.tech}
                 </div>
               </div>
@@ -349,7 +392,7 @@ export default function HomePage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
         >
-          <div className="text-xs font-mono text-gray-400 space-y-1">
+          <div className="text-xs font-mono text-gray-400 dark:text-gray-500 space-y-1">
             <div className="text-center">
               <span className="block sm:inline">System Uptime: 99.98%</span>
               <span className="hidden sm:inline"> • </span>

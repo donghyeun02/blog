@@ -85,4 +85,13 @@ export const postsMeta: PostMeta[] = [
       IMAGE_BASE +
       '%E1%84%87%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%E1%84%89%E1%85%A6%E1%86%AF%E1%84%85%E1%85%A5.png',
   },
+  {
+    title: '같은 알고리즘인데 왜 결과가 다를까?',
+    path: '/post/languagePerformance',
+    slug: 'languagePerformance',
+    date: '2025-08-18',
+    summary: 'JavaScript로 시간초과, Go로는 통과',
+    category: 'Dev',
+    thumbnail: IMAGE_BASE + '%E1%84%8B%E1%85%AB.jpeg',
+  },
 ];

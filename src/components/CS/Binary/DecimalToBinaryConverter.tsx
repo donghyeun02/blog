@@ -28,10 +28,10 @@ const DecimalToBinaryConverter = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <div className="mb-6">
-        <div className="bg-blue-50 p-3 rounded-lg">
-          <p className="text-gray-900 mt-2 mb-2">
+        <div className="bg-blue-50 dark:bg-blue-900/50 p-3 rounded-lg">
+          <p className="text-gray-900 dark:text-gray-100 mt-2 mb-2">
             <span className="text-base sm:text-lg font-medium">
               십진수 값을 입력하여 이진수로 변환해보세요!
             </span>
@@ -48,23 +48,27 @@ const DecimalToBinaryConverter = () => {
           value={decimal}
           onChange={handleInputChange}
           placeholder="십진수를 입력하세요 (0-255)"
-          className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
         />
       </div>
 
       {decimal && (
         <div className="animate-fade-in">
-          <h3 className="text-lg font-semibold mb-2">이진수 결과:</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+            이진수 결과:
+          </h3>
           <div className="grid grid-cols-8 gap-1">
             {binary.split('').map((bit, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center border rounded p-2 bg-gray-50"
+                className="flex flex-col items-center border border-gray-200 dark:border-gray-600 rounded p-2 bg-gray-50 dark:bg-gray-700"
               >
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   2<sup>{7 - index}</sup>
                 </div>
-                <div className="text-xl font-mono">{bit}</div>
+                <div className="text-xl font-mono text-gray-900 dark:text-gray-100">
+                  {bit}
+                </div>
               </div>
             ))}
           </div>

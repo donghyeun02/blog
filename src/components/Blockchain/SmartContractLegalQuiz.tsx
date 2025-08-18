@@ -87,9 +87,9 @@ export default function SmartContractLegalQuiz() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-4 border border-gray-200 text-center mb-6">
+    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 space-y-4 border border-gray-200 dark:border-gray-700 text-center mb-6">
       <div
-        className="mb-4 text-base font-medium"
+        className="mb-4 text-base font-medium text-gray-900 dark:text-gray-100"
         dangerouslySetInnerHTML={{ __html: quiz.question }}
       />
       <div className="flex flex-col gap-3 mb-2">
@@ -100,9 +100,9 @@ export default function SmartContractLegalQuiz() {
               ${
                 selected === idx
                   ? choice.correct
-                    ? 'bg-green-100 border-green-400 text-green-800'
-                    : 'bg-red-100 border-red-400 text-red-800'
-                  : 'bg-gray-50 border-gray-200 hover:bg-blue-50'
+                    ? 'bg-green-100 dark:bg-green-900/50 border-green-400 dark:border-green-600 text-green-800 dark:text-green-200'
+                    : 'bg-red-100 dark:bg-red-900/50 border-red-400 dark:border-red-600 text-red-800 dark:text-red-200'
+                  : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/50 text-gray-900 dark:text-gray-100'
               }
             `}
             onClick={() => handleSelect(idx)}
@@ -112,27 +112,27 @@ export default function SmartContractLegalQuiz() {
         ))}
       </div>
       {selected !== null && (
-        <div className="mt-2 text-sm text-left bg-gray-50 rounded p-3">
+        <div className="mt-2 text-sm text-left bg-gray-50 dark:bg-gray-700 rounded p-3 text-gray-900 dark:text-gray-100">
           <b>해설:</b> {quiz.choices[selected].explanation}
         </div>
       )}
       {selected !== null &&
         (isLast ? (
           <button
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className="mt-4 w-full bg-blue-600 dark:bg-blue-700 text-white py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-800"
             onClick={handleRestart}
           >
             다시하기
           </button>
         ) : (
           <button
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className="mt-4 w-full bg-blue-600 dark:bg-blue-700 text-white py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-800"
             onClick={handleNext}
           >
             다음 문제
           </button>
         ))}
-      <div className="mt-4 text-xs text-gray-500">
+      <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
         여러분의 생각은 어떤가요?
       </div>
     </div>

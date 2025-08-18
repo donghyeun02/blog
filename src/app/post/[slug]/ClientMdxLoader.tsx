@@ -154,25 +154,27 @@ export default function ClientMdxLoader({
 
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-900 text-xl">Loading...</div>
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-gray-900 dark:text-gray-100 text-xl">
+          Loading...
+        </div>
       </div>
     );
   }
 
   if (loading)
     return (
-      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden flex items-center justify-center">
         {/* Tech Network Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
         <div className="flex flex-col items-center justify-center">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full mb-6"
+            className="w-16 h-16 border-4 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-gray-100 rounded-full mb-6"
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -180,10 +182,10 @@ export default function ClientMdxLoader({
             transition={{ delay: 0.3 }}
             className="text-center"
           >
-            <div className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
               블록체인에서 블로그 글을 꺼내오는 중...
             </div>
-            <div className="text-gray-600 text-center max-w-md">
+            <div className="text-gray-600 dark:text-gray-400 text-center max-w-md">
               분산 저장소와 스마트컨트랙트에서 안전하게 글을 불러오고 있습니다.
             </div>
           </motion.div>
@@ -193,10 +195,10 @@ export default function ClientMdxLoader({
 
   if (error)
     return (
-      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden flex items-center justify-center">
         {/* Tech Network Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
         <div className="flex flex-col items-center justify-center">
@@ -214,14 +216,14 @@ export default function ClientMdxLoader({
             transition={{ delay: 0.2 }}
             className="text-center"
           >
-            <div className="text-xl font-semibold text-red-700 mb-2">
+            <div className="text-xl font-semibold text-red-700 dark:text-red-400 mb-2">
               블록체인에서 글을 불러오지 못했습니다.
             </div>
-            <div className="text-red-600 text-center max-w-md">
+            <div className="text-red-600 dark:text-red-400 text-center max-w-md">
               계속 이렇게 뜨신다면{' '}
               <a
                 href="mailto:donghyeun02@gmail.com"
-                className="text-blue-600 underline hover:text-blue-800"
+                className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300"
               >
                 donghyeun02@gmail.com
               </a>{' '}
@@ -234,10 +236,10 @@ export default function ClientMdxLoader({
 
   if (!mdxUrl)
     return (
-      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden flex items-center justify-center">
         {/* Tech Network Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
         <div className="flex flex-col items-center justify-center">
@@ -255,10 +257,10 @@ export default function ClientMdxLoader({
             transition={{ delay: 0.2 }}
             className="text-center"
           >
-            <div className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
               온체인에서 CID를 찾을 수 없습니다.
             </div>
-            <div className="text-gray-600 text-center max-w-md">
+            <div className="text-gray-600 dark:text-gray-400 text-center max-w-md">
               이 글의 CID가 스마트컨트랙트에 등록되어 있는지 확인해 주세요.
             </div>
           </motion.div>
@@ -269,7 +271,7 @@ export default function ClientMdxLoader({
   const post = postsMeta.find((p) => p.slug === slug);
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden">
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto">
@@ -282,7 +284,7 @@ export default function ClientMdxLoader({
           >
             <Link href="/blog">
               <motion.button
-                className="group inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+                className="group inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                 whileHover={{ x: -5 }}
               >
                 <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -299,11 +301,11 @@ export default function ClientMdxLoader({
               transition={{ delay: 0.3 }}
               className="mb-8"
             >
-              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 {post.title}
               </motion.h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
                   {new Date(post.date).toLocaleDateString('ko-KR', {
@@ -314,7 +316,7 @@ export default function ClientMdxLoader({
                 </div>
                 <div className="flex items-center">
                   <Tag className="w-4 h-4 mr-2" />
-                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                  <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
                     {post.category}
                   </span>
                 </div>
@@ -328,8 +330,8 @@ export default function ClientMdxLoader({
                   transition={{ delay: 0.4 }}
                   className={`inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium ${
                     integrityStatus.isValid
-                      ? 'bg-green-50 text-green-700 border border-green-200'
-                      : 'bg-red-50 text-red-700 border border-red-200'
+                      ? 'bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-700'
+                      : 'bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-700'
                   }`}
                 >
                   {integrityStatus.isValid ? (
@@ -342,7 +344,7 @@ export default function ClientMdxLoader({
               )}
 
               {/* Divider */}
-              <div className="border-t border-gray-200 my-8"></div>
+              <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
             </motion.div>
           )}
 
@@ -352,9 +354,9 @@ export default function ClientMdxLoader({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8"
+              className="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-8"
             >
-              <div className="text-red-700">{error}</div>
+              <div className="text-red-700 dark:text-red-400">{error}</div>
             </motion.div>
           )}
 
@@ -363,7 +365,7 @@ export default function ClientMdxLoader({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="prose prose-lg prose-blue max-w-none leading-relaxed"
+              className="prose prose-lg prose-blue dark:prose-invert max-w-none leading-relaxed"
             >
               {mdxContent}
             </motion.article>

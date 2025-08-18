@@ -220,7 +220,7 @@ export default function SessionSimulator() {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-xl p-6 w-full max-w-none mx-auto shadow-md">
+    <div className="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-gray-700 rounded-xl p-6 w-full max-w-none mx-auto shadow-md">
       <h3
         className="text-xl font-bold mb-0 mt-0 pb-0 pt-0"
         style={{
@@ -244,7 +244,7 @@ export default function SessionSimulator() {
         >
           🗄️ 서버 세션 저장소
         </h4>
-        <div className="bg-white rounded p-3 border border-green-300 min-h-[80px]">
+        <div className="bg-white dark:bg-gray-700 rounded p-3 border border-green-300 dark:border-green-600 min-h-[80px]">
           {Object.keys(sessions).length === 0 ? (
             <span className="text-neutral-400 text-sm">(저장된 세션 없음)</span>
           ) : (

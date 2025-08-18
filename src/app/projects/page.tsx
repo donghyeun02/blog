@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Hexagon, Users } from 'lucide-react';
+import { Github, ExternalLink, Hexagon, Users, X } from 'lucide-react';
 
 interface Project {
   title: string;
@@ -92,7 +92,7 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden transition-colors">
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Category Filter */}
         <motion.div
@@ -108,14 +108,14 @@ export default function ProjectsPage() {
               className={`group relative px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm lg:text-base ${
                 selectedCategory === category.id
                   ? 'text-white shadow-lg'
-                  : 'text-gray-600 hover:text-gray-900'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {selectedCategory === category.id && (
                 <motion.div
-                  className="absolute inset-0 bg-gray-900 rounded-lg"
+                  className="absolute inset-0 bg-gray-900 dark:bg-gray-600 rounded-lg"
                   layoutId="projectCategoryBackground"
                   transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                 />
@@ -140,7 +140,7 @@ export default function ProjectsPage() {
               transition={{ delay: index * 0.1 + 0.6 }}
             >
               <motion.article
-                className="group relative h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                className="group relative h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
                 whileHover={{
                   y: -4,
                   scale: 1.01,
@@ -148,35 +148,35 @@ export default function ProjectsPage() {
                 onClick={() => openModal(project)}
               >
                 {/* Project Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 {/* Header */}
                 <div className="p-4 sm:p-6 relative z-10">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="text-blue-600">{project.icon}</div>
-                      <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full border border-blue-200">
+                      <span className="px-3 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-700">
                         {project.category}
                       </span>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {project.date}
                     </span>
                   </div>
 
                   {/* Title with Contributors */}
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors">
                       {project.title}
                     </h3>
-                    <div className="flex items-center space-x-1 text-xs text-gray-500">
+                    <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
                       <Users className="w-3 h-3" />
                       <span>{project.contributors}명</span>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-600 text-sm mb-6 line-clamp-3">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 line-clamp-3">
                     {project.description}
                   </p>
 
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded border border-gray-200 group-hover:bg-gray-300 group-hover:text-gray-800 group-hover:border-gray-400"
+                        className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded border border-gray-200 dark:border-gray-600 group-hover:bg-gray-300 dark:group-hover:bg-gray-600 group-hover:text-gray-800 dark:group-hover:text-gray-100 group-hover:border-gray-400 dark:group-hover:border-gray-500"
                       >
                         {tech}
                       </span>
@@ -198,7 +198,7 @@ export default function ProjectsPage() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-200 hover:border-gray-300 transition-all duration-300"
+                      className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-300"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={(e) => e.stopPropagation()}
@@ -211,7 +211,7 @@ export default function ProjectsPage() {
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center space-x-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-lg text-blue-700 hover:text-blue-900 hover:bg-blue-200 hover:border-blue-300 transition-all duration-300"
+                        className="flex items-center space-x-2 px-4 py-2 bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 hover:bg-blue-200 dark:hover:bg-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={(e) => e.stopPropagation()}
@@ -225,7 +225,7 @@ export default function ProjectsPage() {
                   {/* Click to view details */}
                   {project.title === '개인 블로그' && (
                     <div className="text-center pt-2">
-                      <span className="text-xs text-blue-600 hover:text-blue-700 transition-colors">
+                      <span className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                         클릭하여 상세 정보 보기
                       </span>
                     </div>
@@ -247,7 +247,7 @@ export default function ProjectsPage() {
           onClick={closeModal}
         >
           <motion.div
-            className="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto mx-4 sm:mx-0"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -269,23 +269,12 @@ export default function ProjectsPage() {
                     </p>
                   </div>
                 </div>
+                {/* Desktop only close button */}
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  className="hidden lg:block p-4 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <X className="w-10 h-10" />
                 </button>
               </div>
             </div>

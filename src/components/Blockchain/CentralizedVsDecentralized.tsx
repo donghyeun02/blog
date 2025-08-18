@@ -69,15 +69,15 @@ const CentralizedVsDecentralized: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-1 md:p-4 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-4xl mx-auto p-1 md:p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
       {/* 탭 선택 */}
-      <div className="flex mb-1 md:mb-4 bg-gray-100 rounded-lg p-1">
+      <div className="flex mb-1 md:mb-4 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
         <button
           onClick={() => setCurrentSystem('centralized')}
           className={`flex-1 py-1 md:py-1.5 px-2 md:px-3 text-xs md:text-sm rounded-md transition-all duration-300 ${
             currentSystem === 'centralized'
               ? 'bg-blue-500 text-white shadow-md'
-              : 'text-gray-600 hover:text-gray-800'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
           }`}
         >
           🏦 중앙화 시스템
@@ -87,7 +87,7 @@ const CentralizedVsDecentralized: React.FC = () => {
           className={`flex-1 py-1 md:py-1.5 px-2 md:px-3 text-xs md:text-sm rounded-md transition-all duration-300 ${
             currentSystem === 'decentralized'
               ? 'bg-purple-500 text-white shadow-md'
-              : 'text-gray-600 hover:text-gray-800'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
           }`}
         >
           🔗 탈중앙화 시스템

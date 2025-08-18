@@ -136,7 +136,7 @@ export default function CookieSimulator() {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-xl p-4 w-full max-w-none mx-auto shadow-md">
+    <div className="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-gray-700 rounded-xl p-4 w-full max-w-none mx-auto shadow-md">
       <h3
         className="text-xl font-bold mb-0 mt-0 pb-0 pt-0"
         style={{
@@ -160,7 +160,7 @@ export default function CookieSimulator() {
         >
           📁 브라우저 쿠키 저장소
         </h4>
-        <div className="bg-white rounded p-3 border border-blue-300 min-h-[60px]">
+        <div className="bg-white dark:bg-gray-700 rounded p-3 border border-blue-300 dark:border-blue-600 min-h-[60px]">
           {Object.keys(cookies).length === 0 ? (
             <span className="text-neutral-400 text-sm">(저장된 쿠키 없음)</span>
           ) : (

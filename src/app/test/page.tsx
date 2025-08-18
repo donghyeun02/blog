@@ -7,7 +7,7 @@ import BlogRegistryUI from '@/components/BlogRegistryUI';
 
 export default function TestPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="max-w-6xl mx-auto">
           {/* Back Button */}
@@ -19,7 +19,7 @@ export default function TestPage() {
           >
             <Link href="/">
               <motion.button
-                className="group inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+                className="group inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                 whileHover={{ x: -5 }}
               >
                 <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -35,11 +35,11 @@ export default function TestPage() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               블록체인 관리 도구
             </motion.h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
               <div className="flex items-center">
                 <Database className="w-4 h-4 mr-2" />
                 <span>IPFS & 스마트컨트랙트</span>
@@ -55,7 +55,7 @@ export default function TestPage() {
             </div>
 
             {/* Divider */}
-            <div className="border-t border-gray-200 my-8"></div>
+            <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
           </motion.div>
 
           {/* Main Content */}

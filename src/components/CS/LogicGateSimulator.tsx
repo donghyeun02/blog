@@ -436,6 +436,7 @@ export default function LogicGateSimulator({
         display: 'flex',
         flexDirection: 'column',
       }}
+      className="dark:bg-gray-900"
     >
       {showControls && interactive && (
         <div
@@ -451,239 +452,83 @@ export default function LogicGateSimulator({
             flexWrap: 'wrap',
             minHeight: 56,
           }}
+          className="dark:bg-gray-800 dark:border dark:border-gray-700"
         >
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('input')}
           >
             ⬤ 입력
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('output')}
           >
             ⬤ 출력
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('buffer')}
           >
             BUFFER
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('and')}
           >
             AND
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('or')}
           >
             OR
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('not')}
           >
             NOT
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('xor')}
           >
             XOR
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('nand')}
           >
             NAND
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('nor')}
           >
             NOR
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('xnor')}
           >
             XNOR
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('halfAdder')}
           >
             Half Adder
           </button>
           <button
-            style={{
-              background: '#e0e7ef',
-              border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-500"
             onClick={() => addNode('fullAdder')}
           >
             Full Adder
           </button>
           {selectedNodes.length > 0 && (
             <button
-              style={{
-                background: '#ef4444',
-                color: 'white',
-                border: 'none',
-                borderRadius: 8,
-                padding: '8px 18px',
-                fontWeight: 600,
-                fontSize: 16,
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
+              className="bg-red-500 dark:bg-red-600 text-white border-none rounded-lg px-4 py-2 font-semibold text-base cursor-pointer transition-colors flex items-center gap-2 hover:bg-red-600 dark:hover:bg-red-700"
               onClick={deleteSelectedNodes}
             >
               🗑️ 삭제
@@ -691,7 +536,7 @@ export default function LogicGateSimulator({
           )}
         </div>
       )}
-      <div style={{ flex: 1, background: '#fafafa' }}>
+      <div className="flex-1 bg-gray-50 dark:bg-gray-900">
         <ReactFlow
           nodes={displayNodes}
           edges={displayEdges}
@@ -704,7 +549,12 @@ export default function LogicGateSimulator({
           fitView
           snapToGrid
           snapGrid={[20, 20]}
-          style={{ background: '#fafafa' }}
+          style={
+            {
+              background: 'var(--tw-bg-opacity, 1)',
+            } as React.CSSProperties
+          }
+          className="dark:bg-gray-900"
           nodesDraggable={interactive}
           nodesConnectable={interactive}
           elementsSelectable={true}

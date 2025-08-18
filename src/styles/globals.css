@@ -75,8 +75,11 @@
     color: #2563eb; /* blue-600 */
     text-decoration: none;
   }
+  .dark a:hover {
+    color: #60a5fa; /* blue-400 */
+  }
   code {
-    @apply font-mono text-sm bg-neutral-100 px-1 py-0.5 rounded;
+    @apply font-mono text-sm bg-neutral-100 dark:bg-gray-700 px-1 py-0.5 rounded;
   }
   pre {
     margin: 0 !important;
@@ -95,6 +98,9 @@
   }
   ::selection {
     background: #dbeafe; /* blue-100 */
+  }
+  .dark ::selection {
+    background: #1e40af; /* blue-800 */
   }
 }
 
@@ -123,6 +129,13 @@
     display: block !important;
   }
 
+  /* 다크모드 인용구 스타일 */
+  .dark .prose blockquote {
+    border-left-color: #1d4ed8 !important; /* blue-700 */
+    background-color: rgba(30, 58, 138, 0.5) !important; /* blue-900/50 */
+    color: #dbeafe !important; /* blue-100 */
+  }
+
   /* p 태그 안의 blockquote 방지 */
   .prose p blockquote {
     display: block !important;
@@ -138,6 +151,17 @@
     margin-bottom: 4px !important;
     margin: 4px 0 !important;
   }
+
+  /* 다크모드 구체적 선택자 */
+  .dark article .prose blockquote,
+  .dark .prose-lg blockquote,
+  .dark .prose-xl blockquote,
+  .dark div .prose blockquote,
+  .dark * blockquote {
+    border-left-color: #1d4ed8 !important; /* blue-700 */
+    background-color: rgba(30, 58, 138, 0.5) !important; /* blue-900/50 */
+    color: #dbeafe !important; /* blue-100 */
+  }
   .prose blockquote::before,
   .prose blockquote::after {
     content: '' !important;
@@ -147,6 +171,11 @@
   .prose blockquote p::after {
     content: '' !important;
     display: none !important;
+  }
+
+  /* 다크모드 인용문 내부 텍스트 */
+  .dark .prose blockquote p {
+    color: #dbeafe !important; /* blue-100 */
   }
 
   /* MDX 콘텐츠 줄 간격 조정 */
@@ -167,13 +196,13 @@
 
   /* 코드블록 스타일 */
   .prose pre {
-    @apply bg-neutral-900 text-neutral-100 rounded-lg p-4 my-4 overflow-x-auto text-sm;
+    @apply bg-neutral-900 dark:bg-gray-800 text-neutral-100 dark:text-gray-100 rounded-lg p-4 my-4 overflow-x-auto text-sm;
   }
   .prose code {
-    @apply bg-neutral-100 text-pink-700 px-1.5 py-0.5 rounded font-mono text-sm;
+    @apply bg-neutral-100 dark:bg-gray-700 text-pink-700 dark:text-pink-400 px-1.5 py-0.5 rounded font-mono text-sm;
   }
   .prose pre code {
-    @apply bg-transparent text-neutral-100 px-0 py-0;
+    @apply bg-transparent text-neutral-100 dark:text-gray-100 px-0 py-0;
   }
   /* 표 스타일 */
   .prose table {
@@ -182,21 +211,36 @@
     border-radius: 8px !important;
     overflow: hidden !important;
   }
+  .dark .prose table {
+    border: 1px solid #4b5563 !important;
+  }
   .prose th {
-    @apply bg-blue-50 text-blue-900 font-semibold text-center;
+    @apply bg-blue-50 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100 font-semibold text-center;
     padding: 12px 16px !important;
     border-bottom: 1px solid #bfdbfe !important;
+  }
+  .dark .prose th {
+    border-bottom: 1px solid #1e40af !important;
   }
   .prose th:not(:last-child) {
     border-right: 1px solid #d1d5db !important;
   }
+  .dark .prose th:not(:last-child) {
+    border-right: 1px solid #4b5563 !important;
+  }
   .prose td {
-    @apply text-center;
+    @apply text-center dark:text-gray-100;
     padding: 10px 16px !important;
     border-bottom: 1px solid #e5e7eb !important;
   }
+  .dark .prose td {
+    border-bottom: 1px solid #374151 !important;
+  }
   .prose td:not(:last-child) {
     border-right: 1px solid #d1d5db !important;
+  }
+  .dark .prose td:not(:last-child) {
+    border-right: 1px solid #4b5563 !important;
   }
   .prose tr:last-child td {
     border-bottom: none !important;
@@ -204,11 +248,18 @@
   .prose tbody tr:hover {
     background-color: #f9fafb !important;
   }
+  .dark .prose tbody tr:hover {
+    background-color: #374151 !important;
+  }
 
   /* 출력 구분선 - output-start 클래스가 있는 열의 좌측 경계선을 굵게 */
   .prose th.output-start,
   .prose td.output-start {
     border-left: 2px solid #9ca3af !important;
+  }
+  .dark .prose th.output-start,
+  .dark .prose td.output-start {
+    border-left: 2px solid #6b7280 !important;
   }
   /* 이미지 스타일 */
   .prose img {
@@ -226,7 +277,7 @@
   }
   /* 링크 스타일 */
   .prose a {
-    @apply text-blue-700 underline underline-offset-2 hover:text-blue-900 transition-colors;
+    @apply text-blue-700 dark:text-blue-400 underline underline-offset-2 hover:text-blue-900 dark:hover:text-blue-300 transition-colors;
   }
 }
 

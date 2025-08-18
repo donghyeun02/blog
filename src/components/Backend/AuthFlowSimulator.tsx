@@ -207,9 +207,9 @@ export default function AuthFlowSimulator() {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-xl p-6 w-full max-w-none mx-auto shadow-md">
+    <div className="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-gray-700 rounded-xl p-6 w-full max-w-none mx-auto shadow-md">
       <h3
-        className="text-xl font-bold mb-0 mt-0 pb-0 pt-0"
+        className="text-xl font-bold mb-0 mt-0 pb-0 pt-0 text-gray-900 dark:text-gray-100"
         style={{
           marginBottom: 12,
           marginTop: 0,
@@ -230,14 +230,14 @@ export default function AuthFlowSimulator() {
             className={`px-3 py-1 rounded text-sm font-mono border transition-colors ${
               mode === m.id
                 ? 'bg-blue-600 text-white border-blue-700'
-                : 'bg-neutral-100 text-neutral-700 border-neutral-300 hover:bg-blue-50'
+                : 'bg-neutral-100 dark:bg-gray-700 text-neutral-700 dark:text-gray-300 border-neutral-300 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/50'
             }`}
           >
             {m.label}
           </button>
         ))}
       </div>
-      <div className="mb-3 text-sm text-blue-900 font-mono bg-blue-50 rounded p-2 border border-blue-100">
+      <div className="mb-3 text-sm text-blue-900 dark:text-blue-200 font-mono bg-blue-50 dark:bg-blue-900/50 rounded p-2 border border-blue-100 dark:border-blue-800">
         {desc[mode as keyof typeof desc]}
       </div>
       {/* 시각적 플로우 */}
@@ -248,8 +248,8 @@ export default function AuthFlowSimulator() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
           {/* 브라우저 상태 */}
           <div className="flex flex-col items-center w-full sm:w-48 mb-4 sm:mb-0">
-            <div className="rounded-xl border-2 border-blue-400 bg-blue-50 w-full p-4 mb-2">
-              <div className="text-lg font-bold mb-2 flex items-center gap-2">
+            <div className="rounded-xl border-2 border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/50 w-full p-4 mb-2">
+              <div className="text-lg font-bold mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
                 🖥️ <span>브라우저</span>
               </div>
               <div className="text-xs mb-1">
@@ -283,8 +283,8 @@ export default function AuthFlowSimulator() {
           </div>
           {/* 서버 상태 */}
           <div className="flex flex-col items-center w-full sm:w-48 mt-4 sm:mt-0">
-            <div className="rounded-xl border-2 border-green-400 bg-green-50 w-full p-4 mb-2">
-              <div className="text-lg font-bold mb-2 flex items-center gap-2">
+            <div className="rounded-xl border-2 border-green-400 dark:border-green-500 bg-green-50 dark:bg-green-900/50 w-full p-4 mb-2">
+              <div className="text-lg font-bold mb-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
                 🗄️ <span>서버</span>
               </div>
               <div className="text-xs mb-1">
@@ -326,10 +326,10 @@ export default function AuthFlowSimulator() {
       {/* 로그 */}
       <div
         ref={logRef}
-        className="bg-neutral-50 rounded p-3 text-xs font-mono min-h-[80px] max-h-40 overflow-y-auto border border-neutral-200"
+        className="bg-neutral-50 dark:bg-gray-700 rounded p-3 text-xs font-mono min-h-[80px] max-h-40 overflow-y-auto border border-neutral-200 dark:border-gray-600 text-gray-900 dark:text-gray-100"
       >
         {log.length === 0 ? (
-          <span className="text-neutral-400">
+          <span className="text-neutral-400 dark:text-gray-400">
             (동작 로그가 여기에 표시됩니다)
           </span>
         ) : (
@@ -364,7 +364,7 @@ export default function AuthFlowSimulator() {
       </div>
       {/* 안내 박스: 쿠키/세션 없음/쿠키/세션 모드별 */}
       {mode === 'none' && (
-        <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-900">
+        <div className="mt-4 bg-yellow-50 dark:bg-yellow-900/50 border border-yellow-200 dark:border-yellow-700 rounded p-3 text-sm text-yellow-900 dark:text-yellow-200">
           <b>❓ 왜 로그인해도 상태가 유지되지 않을까요?</b>
           <br />
           쿠키나 세션이 없으면, 로그인 성공 후에도{' '}
@@ -375,7 +375,7 @@ export default function AuthFlowSimulator() {
           <br />
           <b>즉, 매번 다시 로그인해야 하는 불편함</b>이 생깁니다.
           <br />
-          <span className="text-xs text-yellow-700">
+          <span className="text-xs text-yellow-700 dark:text-yellow-300">
             실제 서비스에서는 반드시 쿠키나 세션 등으로 로그인 상태를
             저장합니다!
           </span>
@@ -383,7 +383,7 @@ export default function AuthFlowSimulator() {
       )}
       {mode === 'cookie' && (
         <>
-          <div className="mt-4 bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-900">
+          <div className="mt-4 bg-blue-50 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700 rounded p-3 text-sm text-blue-900 dark:text-blue-200">
             <b>🍪 쿠키 인증의 특징과 주의점</b>
             <br />
             쿠키는 브라우저에 직접 저장되어, 자동 로그인/상태 유지가 쉽습니다.
@@ -391,7 +391,7 @@ export default function AuthFlowSimulator() {
             하지만{' '}
             <b>쿠키에 중요한 정보를 직접 저장하면 보안에 취약할 수 있습니다.</b>
             <br />
-            <span className="text-xs text-blue-700">
+            <span className="text-xs text-blue-700 dark:text-blue-300">
               실제 서비스에서는 <b>HttpOnly, Secure, SameSite</b> 등 옵션을 꼭
               사용해야 합니다!
             </span>
@@ -400,7 +400,7 @@ export default function AuthFlowSimulator() {
         </>
       )}
       {mode === 'session' && (
-        <div className="mt-4 bg-green-50 border border-green-200 rounded p-3 text-sm text-green-900">
+        <div className="mt-4 bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-700 rounded p-3 text-sm text-green-900 dark:text-green-200">
           <b>🗄️ 세션 인증의 특징과 실무 팁</b>
           <br />
           세션은 서버에 사용자 정보를 저장하고, 브라우저에는 세션ID만
@@ -408,7 +408,7 @@ export default function AuthFlowSimulator() {
           <br />
           <b>세션ID만 노출되므로 쿠키 인증보다 보안이 더 강력합니다.</b>
           <br />
-          <span className="text-xs text-green-700">
+          <span className="text-xs text-green-700 dark:text-green-300">
             서버 메모리/DB에 세션을 관리해야 하므로,{' '}
             <b>대규모 서비스에서는 세션 스토리지(예: Redis) 사용</b>을
             권장합니다!
@@ -416,7 +416,7 @@ export default function AuthFlowSimulator() {
         </div>
       )}
       {completed && mode === prevCompletedMode && (
-        <div className="mt-4 mb-2 text-center text-green-700 font-bold text-green-900">
+        <div className="mt-4 mb-2 text-center text-green-700 dark:text-green-400 font-bold">
           <span>
             다시 진행하려면 아래 &quot;초기화&quot; 버튼을 눌러주세요.
           </span>
@@ -424,7 +424,7 @@ export default function AuthFlowSimulator() {
       )}
       <button
         onClick={reset}
-        className="mt-2 px-4 py-2 bg-neutral-500 text-white rounded text-sm hover:bg-neutral-600 transition-colors"
+        className="mt-2 px-4 py-2 bg-neutral-500 dark:bg-gray-600 text-white rounded text-sm hover:bg-neutral-600 dark:hover:bg-gray-700 transition-colors"
       >
         🔄 초기화
       </button>

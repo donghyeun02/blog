@@ -41,11 +41,11 @@ export default function HttpFlowDemo() {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-xl p-8 pt-0 max-w-4xl mx-auto shadow-md ">
-      <h3 className="text-xl font-bold mb-2 text-neutral-900">
+    <div className="bg-white dark:bg-gray-800 border border-neutral-200 dark:border-gray-700 rounded-xl p-8 pt-0 max-w-4xl mx-auto shadow-md ">
+      <h3 className="text-xl font-bold mb-2 text-neutral-900 dark:text-gray-100">
         HTTP 요청 흐름
       </h3>
-      <p className="text-neutral-500 text-sm mb-4">
+      <p className="text-neutral-500 dark:text-gray-400 text-sm mb-4">
         버튼을 클릭하면 실제로 어떤 일이 일어나는지 실시간으로 확인해보세요.
       </p>
       {/* 흐름 시각화 */}
@@ -61,7 +61,7 @@ export default function HttpFlowDemo() {
           >
             🖥️
           </div>
-          <span className="mt-2 text-xs sm:text-xs text-neutral-700">
+          <span className="mt-2 text-xs sm:text-xs text-neutral-700 dark:text-gray-300">
             클라이언트
           </span>
         </div>
@@ -74,7 +74,9 @@ export default function HttpFlowDemo() {
               }`}
             ></div>
           </div>
-          <span className="text-xs sm:text-xs text-neutral-400 mt-1">요청</span>
+          <span className="text-xs sm:text-xs text-neutral-400 dark:text-gray-500 mt-1">
+            요청
+          </span>
           <div className="h-2 flex items-center mt-2">
             <div
               className={`w-16 h-1 rounded-full ${
@@ -82,7 +84,9 @@ export default function HttpFlowDemo() {
               }`}
             ></div>
           </div>
-          <span className="text-xs sm:text-xs text-neutral-400 mt-1">응답</span>
+          <span className="text-xs sm:text-xs text-neutral-400 dark:text-gray-500 mt-1">
+            응답
+          </span>
         </div>
         {/* 서버 */}
         <div className="flex flex-col items-center w-1/2 sm:w-1/3 mt-0">
@@ -95,13 +99,15 @@ export default function HttpFlowDemo() {
           >
             🗄️
           </div>
-          <span className="mt-2 text-xs sm:text-xs text-neutral-700">서버</span>
+          <span className="mt-2 text-xs sm:text-xs text-neutral-700 dark:text-gray-300">
+            서버
+          </span>
         </div>
       </div>
       {/* 버튼 및 상태 */}
       <button
         onClick={handleRequest}
-        className="px-5 py-2 bg-blue-600 text-white rounded font-mono font-semibold mb-4 w-full text-base hover:bg-blue-700 transition disabled:opacity-60"
+        className="px-5 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded font-mono font-semibold mb-4 w-full text-base hover:bg-blue-700 dark:hover:bg-blue-800 transition disabled:opacity-60"
         disabled={loading}
       >
         {loading ? '요청 중...' : 'API 요청 보내기'}
@@ -125,7 +131,7 @@ export default function HttpFlowDemo() {
       </div>
       {/* 응답 JSON */}
       {data && (
-        <pre className="bg-neutral-100 rounded-lg p-4 text-sm font-mono overflow-x-auto border border-neutral-200 text-neutral-800 mt-2 shadow-inner">
+        <pre className="bg-neutral-100 dark:bg-gray-700 rounded-lg p-4 text-sm font-mono overflow-x-auto border border-neutral-200 dark:border-gray-600 text-neutral-800 dark:text-gray-100 mt-2 shadow-inner">
           {JSON.stringify(data, null, 2)}
         </pre>
       )}

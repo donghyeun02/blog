@@ -50,7 +50,7 @@ export default function BlogHome() {
 
   if (!isClient) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
         <div className="text-gray-900 text-xl">Loading...</div>
       </div>
     );
@@ -67,8 +67,16 @@ export default function BlogHome() {
 
   const displayPosts = sortedPosts;
 
+  // 카테고리별 포스트 수 계산
+  const getPostCount = (categoryId: string) => {
+    if (categoryId === 'all') {
+      return postsMeta.length;
+    }
+    return postsMeta.filter((post) => post.category === categoryId).length;
+  };
+
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden transition-colors">
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Category Filter */}
         <motion.div
@@ -82,20 +90,25 @@ export default function BlogHome() {
               <motion.button
                 className={`group relative px-1.5 sm:px-2 lg:px-6 py-1 sm:py-1.5 lg:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm lg:text-base ${
                   selectedCategory === category.id
-                    ? 'text-gray-900 shadow-lg'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'text-gray-900 dark:text-white shadow-lg'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 {selectedCategory === category.id && (
                   <motion.div
-                    className="absolute inset-0 bg-gray-200 rounded-lg"
+                    className="absolute inset-0 bg-gray-200 dark:bg-gray-700 rounded-lg"
                     layoutId="categoryBackground"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-                <span className="relative z-10">{category.name}</span>
+                <span className="relative z-10">
+                  {category.name}
+                  <span className="hidden lg:inline ml-2 text-xs text-gray-500 dark:text-gray-400">
+                    ({getPostCount(category.id)})
+                  </span>
+                </span>
               </motion.button>
             </Link>
           ))}
@@ -118,14 +131,14 @@ export default function BlogHome() {
               >
                 <Link href={`/post/${post.slug}`}>
                   <motion.article
-                    className="group relative h-full bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                    className="group relative h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
                     whileHover={{
                       y: -4,
                       scale: 1.01,
                     }}
                   >
                     {/* Card Background Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -143,32 +156,34 @@ export default function BlogHome() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-4 sm:p-6 relative z-10">
+                    <div className="p-4 sm:p-6 relative z-10 flex-grow">
                       {/* Category Badge */}
                       <div className="flex items-center mb-3">
-                        <span className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full border border-gray-200 group-hover:bg-gray-300 group-hover:text-gray-800 group-hover:border-gray-400 transition-all duration-300">
+                        <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-gray-600 group-hover:bg-gray-300 dark:group-hover:bg-gray-600 group-hover:text-gray-800 dark:group-hover:text-gray-100 group-hover:border-gray-400 dark:group-hover:border-gray-500 transition-all duration-300">
                           {categories.find((c) => c.id === post.category)
                             ?.name || post.category}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300">
                         {post.title}
                       </h3>
 
                       {/* Description */}
-                      <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                      <p className="text-gray-400 dark:text-gray-400 text-sm line-clamp-3">
                         {post.summary}
                       </p>
+                    </div>
 
-                      {/* Meta */}
+                    {/* Meta - 카드 하단에 고정 */}
+                    <div className="px-4 sm:px-6 pb-4 sm:pb-6 mt-auto">
                       <div className="flex items-center justify-between text-xs text-gray-500">
                         <div className="flex items-center">
                           <Calendar className="w-3 h-3 mr-1" />
                           {new Date(post.date).toLocaleDateString('ko-KR')}
                         </div>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-2 group-hover:text-gray-800 transition-all duration-300 text-gray-500" />
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-2 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-all duration-300 text-gray-500 dark:text-gray-400" />
                       </div>
                     </div>
                   </motion.article>
@@ -222,8 +237,8 @@ export default function BlogHome() {
                   ease: 'easeInOut',
                 }}
               >
-                <Play className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900" />
-                <span className="text-gray-600 text-xs sm:text-sm font-medium">
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900 dark:text-gray-100" />
+                <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-medium">
                   Hello, World!
                 </span>
               </motion.div>
