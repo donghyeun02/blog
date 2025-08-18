@@ -43,10 +43,6 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
           rel="icon"
           href="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/profile.jpg"
           type="image/jpeg"
@@ -94,6 +90,14 @@ export default function RootLayout({
             gtag('config', 'G-HNP6KGYLST');
           `}
         </Script>
+
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5803293251875548"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body>
         <SiteLayout>{children}</SiteLayout>

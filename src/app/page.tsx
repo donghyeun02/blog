@@ -168,7 +168,9 @@ export default function HomePage() {
         {/* Dark Mode Toggle */}
         <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
           <button
-            onClick={() => setIsDarkMode(isDarkMode === null ? true : !isDarkMode)}
+            onClick={() =>
+              setIsDarkMode(isDarkMode === null ? true : !isDarkMode)
+            }
             className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition-colors"
           >
             {isDarkMode ? (

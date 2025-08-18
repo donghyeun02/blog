@@ -13,6 +13,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
+import AdSense from '@/components/AdSense';
 import Link from 'next/link';
 import {
   createJsonRpcProvider,
@@ -108,7 +109,7 @@ export default function ClientMdxLoader({
     } else {
       const tempStatus = {
         isValid: true,
-        message: '로컬 콘텐츠 (무결성 검증 생략)',
+        message: '무결성 검증 중',
       };
       setIntegrityStatus(tempStatus);
       onIntegrityStatusChange?.(tempStatus);
@@ -227,7 +228,7 @@ export default function ClientMdxLoader({
               >
                 donghyeun02@gmail.com
               </a>{' '}
-              로 메일 남겨주세요 ㅠㅠ..
+              로 메일 남겨주세요.
             </div>
           </motion.div>
         </div>
@@ -370,6 +371,20 @@ export default function ClientMdxLoader({
               {mdxContent}
             </motion.article>
           )}
+
+          {/* AdSense Advertisement */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="mt-12 mb-8"
+          >
+            <AdSense
+              adSlot="2600864316"
+              className="text-center"
+              style={{ minHeight: '250px' }}
+            />
+          </motion.div>
         </div>
       </div>
     </div>
