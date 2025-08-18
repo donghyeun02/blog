@@ -4,14 +4,14 @@ import SiteLayout from '@/components/SiteLayout';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'donghyeun02 - 개발자',
+  title: 'donghyeun02',
   description:
     '개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다.',
   keywords:
     'donghyeun02, 웹개발, 백엔드, CS, 기술 블로그, 개발, Next.js, TypeScript, MDX',
   authors: [{ name: 'donghyeun02' }],
   openGraph: {
-    title: 'donghyeun02 - 개발자',
+    title: 'donghyeun02',
     description:
       '개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다.',
     type: 'website',
@@ -25,13 +25,6 @@ export const metadata: Metadata = {
         alt: 'donghyeun02 블로그 썸네일',
       },
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'donghyeun02 - 개발자',
-    description:
-      '개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다.',
-    images: ['https://donghyeun02.com/og-image.png'],
   },
 };
 

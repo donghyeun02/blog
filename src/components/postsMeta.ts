@@ -94,4 +94,13 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     thumbnail: IMAGE_BASE + '%E1%84%8B%E1%85%AB.jpeg',
   },
+  {
+    title: '왜 회사마다 사용하는 node.js 버전이 다른가..',
+    path: '/post/nodeVersion',
+    slug: 'nodeVersion',
+    date: '2025-08-19',
+    summary: '버전을 고민해야 하는 이유',
+    category: 'Dev',
+    thumbnail: IMAGE_BASE + 'nodejs.jpeg',
+  },
 ];
