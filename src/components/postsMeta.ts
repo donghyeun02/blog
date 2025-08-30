@@ -112,4 +112,13 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     thumbnail: IMAGE_BASE + 'swagger.png',
   },
+  {
+    title: '왜 if (window.ethereum)부터 시작할까?',
+    path: '/post/windowEthereum',
+    slug: 'windowEthereum',
+    date: '2025-08-30',
+    summary: 'if (window.ethereum)',
+    category: 'Blockchain',
+    thumbnail: IMAGE_BASE + 'metaMask.png',
+  },
 ];

@@ -232,7 +232,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10">블로그 탐험하기</span>
+                <span className="relative z-10">블로그 보러가기</span>
                 <ArrowRight className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform w-4 h-4 sm:w-5 sm:h-5" />
                 {/* Subtle tech pattern in button */}
                 <div className="absolute inset-0 opacity-10">

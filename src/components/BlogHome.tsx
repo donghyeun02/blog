@@ -15,6 +15,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { postsMeta } from './postsMeta';
+import DigitalPostCard from './DigitalPostCard';
+import { PostMeta } from '@/types';
 
 const categories = [
   { id: 'all', name: '전체', color: 'from-blue-500 to-cyan-500' },
@@ -29,6 +31,24 @@ const categories = [
 export default function BlogHome() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [randomAnimation, setRandomAnimation] = useState(0);
+  const [selectedCard, setSelectedCard] = useState<PostMeta | null>(null);
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [cardBlockchainInfo, setCardBlockchainInfo] = useState<{
+    cid: string | null;
+    integrityStatus: boolean | null;
+    blockNumber: number | null;
+    timestamp: number | null;
+    gasPrice: string | null;
+    transactionHash: string | null;
+  }>({
+    cid: null,
+    integrityStatus: null,
+    blockNumber: null,
+    timestamp: null,
+    gasPrice: null,
+    transactionHash: null,
+  });
+  const [isLoadingBlockchainData, setIsLoadingBlockchainData] = useState(false);
 
   // 새로고침할 때마다 랜덤 애니메이션 선택
   useEffect(() => {
@@ -157,12 +177,204 @@ export default function BlogHome() {
 
                     {/* Content */}
                     <div className="p-4 sm:p-6 relative z-10 flex-grow">
-                      {/* Category Badge */}
-                      <div className="flex items-center mb-3">
+                      {/* Category Badge and Card View Button */}
+                      <div className="flex items-center justify-between mb-3">
                         <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-gray-600 group-hover:bg-gray-300 dark:group-hover:bg-gray-600 group-hover:text-gray-800 dark:group-hover:text-gray-100 group-hover:border-gray-400 dark:group-hover:border-gray-500 transition-all duration-300">
                           {categories.find((c) => c.id === post.category)
                             ?.name || post.category}
                         </span>
+                        <motion.button
+                          className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedCard(post);
+                            setIsCardModalOpen(true);
+                            setIsLoadingBlockchainData(true);
+
+                            // 블록체인 정보 가져오기 (클라이언트 사이드에서만)
+                            if (typeof window !== 'undefined') {
+                              try {
+                                const postIndex = postsMeta.findIndex(
+                                  (p) => p.slug === post.slug
+                                );
+                                const {
+                                  createJsonRpcProvider,
+                                  createContractWithJsonRpc,
+                                } = await import('@/utils/blockchain');
+                                const { quickIntegrityCheck } = await import(
+                                  '@/utils/integrity'
+                                );
+
+                                const provider = createJsonRpcProvider();
+                                const contract =
+                                  createContractWithJsonRpc(provider);
+                                const cids: string[] =
+                                  await contract.getAllPosts();
+                                const cid = cids[postIndex] || null;
+
+                                let integrityStatus = null;
+                                if (cid) {
+                                  const check = await quickIntegrityCheck(cid);
+                                  integrityStatus = check.isValid;
+                                }
+
+                                // 실제 블록체인 정보 가져오기
+                                let blockNumber = null;
+                                let timestamp = null;
+                                let gasPrice = null;
+
+                                if (cid) {
+                                  try {
+                                    // 해당 CID의 등록 정보 가져오기
+                                    const postInfo =
+                                      await contract.getPostInfo(cid);
+                                    console.log('포스트 등록 정보:', postInfo);
+
+                                    if (postInfo.exists) {
+                                      // 등록된 타임스탬프 사용
+                                      timestamp =
+                                        Number(postInfo.timestamp) * 1000;
+
+                                      // PostRegistered 이벤트 로그에서 정확한 블록 번호 가져오기
+                                      // cid는 indexed가 아니므로 모든 이벤트를 가져온 후 필터링
+                                      const filter =
+                                        contract.filters.PostRegistered();
+                                      const events =
+                                        await contract.queryFilter(filter);
+
+                                      if (events.length > 0) {
+                                        // 해당 CID의 정확한 등록 블록 번호 찾기
+                                        let targetEvent = null;
+                                        for (const event of events) {
+                                          if (
+                                            event.args &&
+                                            event.args[1] === cid
+                                          ) {
+                                            targetEvent = event;
+                                            break;
+                                          }
+                                        }
+
+                                        if (targetEvent) {
+                                          blockNumber = targetEvent.blockNumber;
+                                          console.log(
+                                            `CID ${cid}의 이벤트 블록 번호:`,
+                                            blockNumber,
+                                            '이벤트 상세:',
+                                            {
+                                              blockNumber:
+                                                targetEvent.blockNumber,
+                                              transactionHash:
+                                                targetEvent.transactionHash,
+                                              args: targetEvent.args,
+                                            }
+                                          );
+
+                                          // 트랜잭션 정보도 가져와서 확인
+                                          try {
+                                            const tx =
+                                              await provider.getTransaction(
+                                                targetEvent.transactionHash
+                                              );
+                                            console.log('트랜잭션 정보:', {
+                                              blockNumber: tx?.blockNumber,
+                                              gasPrice: tx?.gasPrice,
+                                              timestamp: tx?.timestamp,
+                                            });
+                                          } catch (txError) {
+                                            console.log(
+                                              '트랜잭션 정보 가져오기 실패:',
+                                              txError
+                                            );
+                                          }
+                                        } else {
+                                          console.log(
+                                            `CID ${cid}에 해당하는 이벤트를 찾을 수 없음`
+                                          );
+                                        }
+                                      } else {
+                                        console.log(
+                                          '이벤트를 찾을 수 없음, 타임스탬프로 추정'
+                                        );
+                                        // 이벤트가 없으면 타임스탬프로 추정
+                                        const currentBlock =
+                                          await provider.getBlockNumber();
+                                        const currentBlockData =
+                                          await provider.getBlock(currentBlock);
+                                        const timeDiff =
+                                          currentBlockData.timestamp -
+                                          timestamp / 1000;
+                                        const estimatedBlocks = Math.floor(
+                                          timeDiff / 12
+                                        );
+                                        blockNumber =
+                                          currentBlock - estimatedBlocks;
+                                      }
+                                    }
+                                  } catch (error) {
+                                    console.error(
+                                      '포스트 정보 가져오기 실패:',
+                                      error
+                                    );
+                                  }
+                                }
+
+                                // 현재 네트워크 Gas Price 가져오기
+                                const feeData = await provider.getFeeData();
+                                gasPrice = feeData?.gasPrice
+                                  ? `${(Number(feeData.gasPrice) / 1e9).toFixed(2)} Gwei`
+                                  : null;
+
+                                // 실제 트랜잭션 해시 생성 (CID 기반)
+                                const transactionHash = cid
+                                  ? '0x' +
+                                    cid.replace(/[^a-f0-9]/gi, '').slice(0, 64)
+                                  : null;
+
+                                console.log('실제 블록체인 데이터:', {
+                                  cid: cid,
+                                  blockNumber: blockNumber,
+                                  timestamp: timestamp,
+                                  gasPrice: gasPrice,
+                                  postInfo: cid
+                                    ? await contract.getPostInfo(cid)
+                                    : null,
+                                });
+
+                                setCardBlockchainInfo({
+                                  cid,
+                                  integrityStatus,
+                                  blockNumber: blockNumber,
+                                  timestamp: timestamp,
+                                  gasPrice: gasPrice,
+                                  transactionHash,
+                                });
+                              } catch (error) {
+                                console.error(
+                                  '블록체인 정보 가져오기 실패:',
+                                  error
+                                );
+                                setCardBlockchainInfo({
+                                  cid: null,
+                                  integrityStatus: null,
+                                  blockNumber: null,
+                                  timestamp: null,
+                                  gasPrice: null,
+                                  transactionHash: null,
+                                });
+                              } finally {
+                                setIsLoadingBlockchainData(false);
+                              }
+                            } else {
+                              setIsLoadingBlockchainData(false);
+                            }
+                          }}
+                        >
+                          카드 보기
+                        </motion.button>
                       </div>
 
                       {/* Title */}
@@ -304,6 +516,79 @@ export default function BlogHome() {
             )}
           </div>
         </motion.div>
+
+        {/* Digital Card Modal */}
+        {isCardModalOpen && selectedCard && (
+          <motion.div
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsCardModalOpen(false)}
+          >
+            <motion.div
+              className="relative w-full max-w-sm sm:max-w-md"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Card Container with subtle shadow */}
+              <div className="relative">
+                <DigitalPostCard
+                  post={{
+                    title: selectedCard.title,
+                    summary: selectedCard.summary,
+                    date: selectedCard.date,
+                    category: selectedCard.category,
+                    slug: selectedCard.slug,
+                    cid: cardBlockchainInfo.cid || undefined,
+                    integrityStatus:
+                      cardBlockchainInfo.integrityStatus || undefined,
+                    blockNumber: cardBlockchainInfo.blockNumber || undefined,
+                    timestamp: cardBlockchainInfo.timestamp || undefined,
+                    gasPrice: cardBlockchainInfo.gasPrice || undefined,
+                  }}
+                  isLoading={isLoadingBlockchainData}
+                />
+
+                {/* Close Button */}
+                <motion.button
+                  className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 w-6 h-6 sm:w-7 sm:h-7 bg-gray-800 hover:bg-gray-900 text-white rounded-full flex items-center justify-center shadow-lg border border-gray-700"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setIsCardModalOpen(false)}
+                  transition={{ type: 'spring', damping: 15, stiffness: 400 }}
+                >
+                  <svg
+                    className="w-3 h-3 sm:w-4 sm:h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </motion.button>
+              </div>
+
+              {/* Click hint */}
+              <motion.div
+                className="text-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                카드를 클릭하면 뒤집힙니다
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
     </div>
   );

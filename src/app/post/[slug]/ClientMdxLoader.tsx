@@ -15,13 +15,7 @@ import {
 } from 'lucide-react';
 import AdSense from '@/components/AdSense';
 import Link from 'next/link';
-import {
-  createJsonRpcProvider,
-  createContractWithJsonRpc,
-  handleBlockchainError,
-} from '@/utils/blockchain';
-
-import { quickIntegrityCheck } from '@/utils/integrity';
+// 동적 import로 변경하여 서버 사이드에서 실행되지 않도록 함
 
 interface ClientMdxLoaderProps {
   slug: string;
@@ -51,10 +45,15 @@ export default function ClientMdxLoader({
 
   useEffect(() => {
     async function fetchCid() {
+      if (typeof window === 'undefined') return;
+
       setLoading(true);
       setError(null);
       try {
         const postIndex = postsMeta.findIndex((p) => p.slug === slug);
+        const { createJsonRpcProvider, createContractWithJsonRpc } =
+          await import('@/utils/blockchain');
+
         const provider = createJsonRpcProvider();
         const contract = createContractWithJsonRpc(provider);
         const cids: string[] = await contract.getAllPosts();
@@ -62,6 +61,7 @@ export default function ClientMdxLoader({
 
         setCid(foundCid);
       } catch (e: unknown) {
+        const { handleBlockchainError } = await import('@/utils/blockchain');
         const blockchainError = handleBlockchainError(e);
         setError(blockchainError.message || '온체인 CID fetch 에러');
       } finally {
@@ -72,11 +72,12 @@ export default function ClientMdxLoader({
   }, [slug]);
 
   const verifyIntegrity = useCallback(async () => {
-    if (!cid) {
+    if (!cid || typeof window === 'undefined') {
       return;
     }
 
     try {
+      const { quickIntegrityCheck } = await import('@/utils/integrity');
       const quickCheck = await quickIntegrityCheck(cid);
       if (!quickCheck.isValid) {
         const status = {

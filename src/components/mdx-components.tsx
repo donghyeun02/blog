@@ -13,7 +13,6 @@ import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
 import CentralizedVsDecentralized from './Blockchain/CentralizedVsDecentralized';
 import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
-import SplitSection from './SplitSection';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -159,8 +158,6 @@ function TruthTable({ title, headers, rows }: TruthTableProps) {
 import type { MDXComponents } from 'mdx/types';
 
 export const mdxComponents: MDXComponents = {
-  SplitSection,
-
   HttpFlowDemo,
   DecimalToBinaryConverter,
   TextToBinaryConverter,
@@ -213,8 +210,6 @@ export const mdxComponents: MDXComponents = {
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
-    SplitSection,
-
     HttpFlowDemo,
     DecimalToBinaryConverter,
     TextToBinaryConverter,
