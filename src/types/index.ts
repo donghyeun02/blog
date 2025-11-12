@@ -3,10 +3,11 @@ export interface PostMeta {
   title: string;
   path: string;
   slug: string;
-  date: string;
+  date?: string;
   summary: string;
   category: string;
   thumbnail?: string;
+  order?: number; // 카테고리 내 순서
   prevPost?: {
     slug: string;
     title: string;

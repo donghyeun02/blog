@@ -120,15 +120,15 @@ interface TruthTableProps {
 function TruthTable({ title, headers, rows }: TruthTableProps) {
   return (
     <div className="my-6">
-      <h4 className="text-lg font-semibold mb-3">{title}</h4>
+      <h4 className="text-lg font-heading font-bold text-[#FFFFFF] mb-3">{title}</h4>
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300">
+        <table className="min-w-full border border-[#1D1F22]">
           <thead>
             <tr>
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold text-left"
+                  className="border border-[#1D1F22] px-4 py-2 bg-[#111213] font-heading font-bold text-[#FFFFFF] text-left"
                 >
                   {header}
                 </th>
@@ -141,7 +141,7 @@ function TruthTable({ title, headers, rows }: TruthTableProps) {
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className="border border-gray-300 px-4 py-2"
+                    className="border border-[#1D1F22] px-4 py-2 text-[#E2E6E9]"
                   >
                     {cell}
                   </td>
@@ -192,11 +192,10 @@ export const mdxComponents: MDXComponents = {
     <blockquote
       {...props}
       style={{
-        borderLeft: '4px solid #bfdbfe',
-        backgroundColor: '#eff6ff',
-        color: '#1e40af',
+        borderLeft: '4px solid #FFFFFF',
+        backgroundColor: '#111213',
+        color: '#E2E6E9',
         padding: '1rem',
-        borderRadius: '0.375rem',
         fontWeight: '500',
         margin: '0.5rem 0',
         display: 'block',
@@ -231,11 +230,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <blockquote
         {...props}
         style={{
-          borderLeft: '4px solid #bfdbfe',
-          backgroundColor: '#eff6ff',
-          color: '#1e40af',
+          borderLeft: '4px solid #FFFFFF',
+          backgroundColor: '#111213',
+          color: '#E2E6E9',
           padding: '1rem',
-          borderRadius: '0.375rem',
           fontWeight: '500',
           margin: '0.5rem 0',
           display: 'block',

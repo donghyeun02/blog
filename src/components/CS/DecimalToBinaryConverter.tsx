@@ -28,10 +28,10 @@ const DecimalToBinaryConverter = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="w-full max-w-2xl mx-auto p-6 bg-[#111213] border border-[#1D1F22]">
       <div className="mb-6">
-        <div className="bg-blue-50 dark:bg-blue-900/50 p-3 rounded-lg">
-          <p className="text-gray-900 dark:text-gray-100 mt-2 mb-2">
+        <div className="bg-[#1D1F22] p-3">
+          <p className="text-[#E2E6E9] mt-2 mb-2">
             <span className="text-base sm:text-lg font-medium">
               십진수 값을 입력하여 이진수로 변환해보세요!
             </span>
@@ -48,25 +48,25 @@ const DecimalToBinaryConverter = () => {
           value={decimal}
           onChange={handleInputChange}
           placeholder="십진수를 입력하세요 (0-255)"
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+          className="w-full px-4 py-3 border border-[#1D1F22] focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] text-base bg-[#111213] text-[#E2E6E9] placeholder:text-[#E2E6E9]/50"
         />
       </div>
 
       {decimal && (
         <div className="animate-fade-in">
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+          <h3 className="text-lg font-heading font-bold mb-2 text-[#FFFFFF]">
             이진수 결과:
           </h3>
           <div className="grid grid-cols-8 gap-1">
             {binary.split('').map((bit, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center border border-gray-200 dark:border-gray-600 rounded p-2 bg-gray-50 dark:bg-gray-700"
+                className="flex flex-col items-center border border-[#1D1F22] p-2 bg-[#181A1B]"
               >
-                <div className="text-xs text-gray-500 dark:text-gray-400">
+                <div className="text-xs text-[#E2E6E9]">
                   2<sup>{7 - index}</sup>
                 </div>
-                <div className="text-xl font-mono text-gray-900 dark:text-gray-100">
+                <div className="text-xl font-mono text-[#FFFFFF]">
                   {bit}
                 </div>
               </div>

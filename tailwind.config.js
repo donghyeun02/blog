@@ -10,14 +10,29 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          'Inter',
-          'system-ui',
+          'Source Sans 3',
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',
           'Roboto',
           'sans-serif',
         ],
+        heading: [
+          'Montserrat',
+          'sans-serif',
+        ],
+      },
+      colors: {
+        primary: '#FFFFFF',
+        secondary: '#1D1F22',
+        text: {
+          heading: '#FFFFFF',
+          body: '#E2E6E9',
+        },
+        background: {
+          card: '#111213',
+          page: '#181A1B',
+        },
       },
       keyframes: {
         'fade-in': {
