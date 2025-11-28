@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Code,
+  Database,
+  Link2,
+  FileText,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
@@ -70,6 +77,20 @@ export default function BlogHome() {
 
   return (
     <div className="min-h-screen bg-[#181A1B] relative overflow-hidden transition-colors">
+      {/* 배경 그리드 패턴 */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.02]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-24 max-w-5xl">
         {/* Introduction Section */}
         <motion.div
@@ -81,11 +102,14 @@ export default function BlogHome() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 md:gap-8">
             {/* 이미지 */}
             <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 flex-shrink-0 relative">
+              {/* 이미지 주변 장식 */}
+              <div className="absolute -inset-1 border border-[#1D1F22] opacity-50"></div>
+              <div className="absolute -inset-2 border border-[#1D1F22]/30 opacity-30"></div>
               <Image
                 src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/A64D1C12-596E-4016-8EB5-063B2BA1DEBE_1_201_a-Photoroom.png"
                 alt="donghyeun02"
                 fill
-                className="object-contain"
+                className="object-contain relative z-10"
                 unoptimized
               />
             </div>
@@ -118,16 +142,20 @@ export default function BlogHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-[#FFFFFF] mb-6">
-            About
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-8 bg-[#FFFFFF] mt-5"></div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-[#FFFFFF] flex items-center gap-3">
+              <Link2 className="w-6 h-6 sm:w-7 sm:h-7 text-[#FFFFFF]" />
+              About
+            </h2>
+          </div>
           <div className="space-y-4 max-w-3xl">
             <p className="text-base sm:text-lg text-[#E2E6E9] leading-relaxed">
               이 블로그는 Web3 기술로 구축된 블록체인 기반 블로그입니다.
             </p>
             <p className="text-base sm:text-lg text-[#E2E6E9] leading-relaxed">
-              단순한 기술 블로그가 아니라, &quot;위변조 방지, 소유권 증명, 그리고
-              탈중앙화&quot;를 실제로 구현한 실험적 블로그입니다.
+              단순한 기술 블로그가 아니라, &quot;위변조 방지, 소유권 증명,
+              그리고 탈중앙화&quot;를 실제로 구현한 실험적 블로그입니다.
             </p>
             <Link
               href="/about"
@@ -145,16 +173,44 @@ export default function BlogHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-1 h-8 bg-[#FFFFFF] mt-5"></div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-[#FFFFFF] flex items-center gap-3">
+              <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-[#FFFFFF]" />
+              Categories
+            </h2>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {categories
               .filter((cat) => cat.id !== 'all')
               .map((category) => (
                 <Link key={category.id} href={`/blog/${category.id}`}>
                   <motion.div
-                    className="group relative p-4 sm:p-6 md:p-8 bg-[#111213] border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-all duration-300"
+                    className="group relative p-4 sm:p-6 md:p-8 bg-[#111213] border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-all duration-300 overflow-hidden"
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
+                    {/* 카드 배경 장식 */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-[#1D1F22] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full blur-2xl"></div>
+
+                    {/* 카테고리 아이콘 */}
+                    <div className="mb-3">
+                      {category.id === 'CS' && (
+                        <Code className="w-5 h-5 sm:w-6 sm:h-6 text-[#E2E6E9] group-hover:text-[#FFFFFF] transition-colors" />
+                      )}
+                      {category.id === 'backend' && (
+                        <Database className="w-5 h-5 sm:w-6 sm:h-6 text-[#E2E6E9] group-hover:text-[#FFFFFF] transition-colors" />
+                      )}
+                      {category.id === 'Blockchain' && (
+                        <Link2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#E2E6E9] group-hover:text-[#FFFFFF] transition-colors" />
+                      )}
+                      {!['CS', 'backend', 'Blockchain'].includes(
+                        category.id
+                      ) && (
+                        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#E2E6E9] group-hover:text-[#FFFFFF] transition-colors" />
+                      )}
+                    </div>
+
                     <h3 className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-[#FFFFFF] mb-2 group-hover:text-[#FFFFFF]">
                       {category.name}
                     </h3>
@@ -175,9 +231,16 @@ export default function BlogHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#FFFFFF]">
-            최근 포스트
-          </h2>
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-8 bg-[#FFFFFF] mt-5"></div>
+            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#FFFFFF] flex items-center gap-3">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFFFFF]" />
+              최근 포스트
+            </h2>
+            <span className="text-sm text-[#E2E6E9] ml-auto">
+              총 {postsMeta.length}개
+            </span>
+          </div>
         </motion.div>
 
         {/* Posts List */}
