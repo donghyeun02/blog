@@ -11,7 +11,6 @@ import {
   FileText,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { postsMeta } from './postsMeta';
 
@@ -26,15 +25,6 @@ const categories = [
 ];
 
 export default function BlogHome() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const searchParams = useSearchParams();
-  const category = searchParams.get('category');
-
-  useEffect(() => {
-    setSelectedCategory(category || 'all');
-  }, [category]);
-
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -49,23 +39,8 @@ export default function BlogHome() {
     );
   }
 
-  const filteredPosts =
-    selectedCategory === 'all'
-      ? postsMeta
-      : postsMeta.filter((post) => post.category === selectedCategory);
-
-  const sortedPosts = [...filteredPosts].sort((a, b) => {
-    // order가 있으면 order로 정렬, 없으면 slug로 정렬
-    if (a.order !== undefined && b.order !== undefined) {
-      return a.order - b.order;
-    }
-    if (a.order !== undefined) return -1;
-    if (b.order !== undefined) return 1;
-    return a.slug.localeCompare(b.slug);
-  });
-
-  // 최근 포스트만 표시 (맨 밑 2개)
-  const displayPosts = sortedPosts.slice(-2);
+  // 최근 포스트는 postsMeta 배열의 원본 순서에서 마지막 2개를 가져옴
+  const displayPosts = postsMeta.slice(-2);
 
   // 카테고리별 포스트 수 계산
   const getPostCount = (categoryId: string) => {

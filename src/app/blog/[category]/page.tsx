@@ -23,18 +23,20 @@ export default function CategoryPage() {
     );
   }
 
-  // 카테고리별 포스트 필터링 및 정렬
-  const categoryPosts = postsMeta
-    .filter((post) => post.category.toLowerCase() === category.toLowerCase())
-    .sort((a, b) => {
-      // order가 있으면 order로 정렬, 없으면 slug로 정렬
-      if (a.order !== undefined && b.order !== undefined) {
-        return a.order - b.order;
-      }
-      if (a.order !== undefined) return -1;
-      if (b.order !== undefined) return 1;
-      return a.slug.localeCompare(b.slug);
-    });
+  // 카테고리별 포스트 필터링 및 역순 정렬
+  // postsMeta 배열의 원본 순서를 유지하면서 필터링 후 역순으로 정렬 (배열의 마지막이 가장 최근 글)
+  const filteredPosts = postsMeta.filter(
+    (post) => post.category.toLowerCase() === category.toLowerCase()
+  );
+
+  // postsMeta 배열에서의 원본 인덱스를 기준으로 역순 정렬 (최신 글이 마지막에)
+  const categoryPosts = filteredPosts
+    .map((post) => ({
+      post,
+      originalIndex: postsMeta.indexOf(post),
+    }))
+    .sort((a, b) => b.originalIndex - a.originalIndex)
+    .map((item) => item.post);
 
   const categoryName = categoryPosts[0]?.category || category;
 
@@ -114,7 +116,7 @@ export default function CategoryPage() {
                       {/* Order Number */}
                       <div className="mb-2">
                         <span className="text-xs font-medium text-[#E2E6E9] uppercase tracking-wider">
-                          {index + 1} / {categoryPosts.length}
+                          {categoryPosts.length - index} / {categoryPosts.length}
                         </span>
                       </div>
 
