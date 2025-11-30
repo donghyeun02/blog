@@ -6,7 +6,7 @@ import * as runtime from 'react/jsx-runtime';
 import remarkGfm from 'remark-gfm';
 import { mdxComponents } from '@/components/mdx-components';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { ArrowLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LocalMdxPage() {
@@ -38,12 +38,25 @@ export default function LocalMdxPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-[#181A1B] flex items-center justify-center relative overflow-hidden">
+        {/* 배경 그리드 패턴 */}
+        <div className="fixed inset-0 pointer-events-none opacity-[0.02]">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+            }}
+          />
+        </div>
+        <div className="flex flex-col items-center justify-center relative z-10">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className="w-16 h-16 border-4 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-gray-100 rounded-full mb-6"
+            className="w-16 h-16 border-4 border-[#1D1F22] border-t-[#FFFFFF] rounded-full mb-6"
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,10 +64,10 @@ export default function LocalMdxPage() {
             transition={{ delay: 0.3 }}
             className="text-center"
           >
-            <div className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            <div className="text-xl font-semibold text-[#FFFFFF] mb-2">
               블로그 글을 불러오는 중...
             </div>
-            <div className="text-gray-600 dark:text-gray-400 text-center max-w-md">
+            <div className="text-[#E2E6E9] text-center max-w-md">
               MDX 콘텐츠를 렌더링하고 있습니다.
             </div>
           </motion.div>
@@ -65,85 +78,94 @@ export default function LocalMdxPage() {
 
   if (mdxContent) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-900">
-        <div className="container mx-auto px-4 py-8 sm:py-12">
-          <div className="max-w-4xl mx-auto">
-            {/* Back Button */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-8"
-            >
-              <Link href="/">
-                <motion.button
-                  className="group inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-                  whileHover={{ x: -5 }}
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                  홈으로 돌아가기
-                </motion.button>
-              </Link>
-            </motion.div>
+      <div className="min-h-screen bg-[#181A1B] relative overflow-hidden">
+        {/* 배경 그리드 패턴 */}
+        <div className="fixed inset-0 pointer-events-none opacity-[0.02]">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+            }}
+          />
+        </div>
 
-            {/* Post Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mb-8"
-            >
-              <motion.h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-24 max-w-5xl">
+          {/* Back Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8 sm:mb-12"
+          >
+            <Link href="/">
+              <motion.button
+                className="group inline-flex items-center text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                whileHover={{ x: -5 }}
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+                <span className="text-sm sm:text-base">홈으로 돌아가기</span>
+              </motion.button>
+            </Link>
+          </motion.div>
+
+          {/* Post Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-8 sm:mb-12 pb-8 sm:pb-12 border-b border-[#1D1F22]"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-8 bg-[#FFFFFF] mt-5"></div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#FFFFFF] flex items-center gap-3">
+                <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFFFFF]" />
                 샘플 제목
-              </motion.h1>
+              </h1>
+            </div>
+          </motion.div>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
-                <div className="flex items-center">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  {new Date().toLocaleDateString('ko-KR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </div>
-                <div className="flex items-center">
-                  <Tag className="w-4 h-4 mr-2" />
-                  <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
-                    샘플
-                  </span>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-gray-200 dark:border-gray-700 my-8"></div>
-            </motion.div>
-
-            {/* Post Content */}
-            <motion.article
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="prose prose-lg prose-blue dark:prose-invert max-w-none leading-relaxed"
-            >
-              {mdxContent}
-            </motion.article>
-          </div>
+          {/* Post Content */}
+          <motion.article
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="prose prose-lg max-w-none leading-relaxed"
+          >
+            {mdxContent}
+          </motion.article>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
-      <div className="flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-[#181A1B] flex items-center justify-center relative overflow-hidden">
+      {/* 배경 그리드 패턴 */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.02]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+      <div className="flex flex-col items-center justify-center relative z-10">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 200 }}
-          className="w-16 h-16 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mb-6"
+          className="w-16 h-16 bg-[#1D1F22] rounded-full flex items-center justify-center mb-6"
         >
           <svg
-            className="w-8 h-8 text-red-600 dark:text-red-400"
+            className="w-8 h-8 text-[#E2E6E9]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -162,10 +184,10 @@ export default function LocalMdxPage() {
           transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <div className="text-xl font-semibold text-red-700 dark:text-red-400 mb-2">
+          <div className="text-xl font-semibold text-[#FFFFFF] mb-2">
             콘텐츠를 불러오지 못했습니다.
           </div>
-          <div className="text-red-600 dark:text-red-400 text-center max-w-md">
+          <div className="text-[#E2E6E9] text-center max-w-md">
             MDX 파일을 찾을 수 없거나 로드 중 오류가 발생했습니다.
           </div>
         </motion.div>

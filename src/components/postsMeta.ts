@@ -91,4 +91,11 @@ export const postsMeta: PostMeta[] = [
       'DApp에서 항상 보이는 if (window.ethereum) 체크, 왜 필요한지 지갑이 주입한 provider 관점에서 설명한다.',
     category: 'Blockchain',
   },
+  {
+    title: '학교 IP는 왜 맨날 바뀔까?',
+    path: '/post/dhcp',
+    slug: 'dhcp',
+    summary: '왜 어제와 오늘의 IP는 달라지는가..',
+    category: 'Dev',
+  },
 ];
