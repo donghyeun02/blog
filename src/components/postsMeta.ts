@@ -98,4 +98,11 @@ export const postsMeta: PostMeta[] = [
     summary: '왜 어제와 오늘의 IP는 달라지는가..',
     category: 'Dev',
   },
+  {
+    title: 'AWS NAT Gateway 비용을 줄일 수 있을까?',
+    path: '/post/NATInstance',
+    slug: 'NATInstance',
+    summary: '결국 비용과 싸움',
+    category: 'Dev',
+  },
 ];
