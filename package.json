@@ -29,7 +29,7 @@
     "ipfs-http-client": "^60.0.1",
     "lucide-react": "^0.539.0",
     "nanoid": "^5.1.5",
-    "next": "15.3.4",
+    "next": "15.3.8",
     "pinata": "^2.4.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
