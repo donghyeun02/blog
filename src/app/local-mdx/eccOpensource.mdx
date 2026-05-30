@@ -1,0 +1,107 @@
+<img
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/ecc.jpg"
+  width="700"
+/>
+
+Claude Code를 쓰면서 [`everything-claude-code(ECC)`](https://github.com/affaan-m/ECC)도 같이 쓰고 있었다. Claude Code용 에이전트, 스킬, 훅들을 모아둔 레포인데, Claude Code 쓰는 사람들 사이에서는 꽤 유명하다. 나도 필요한 것 몇 개 설치해서 작업할 때 계속 쓰고 있었다. 쓰다 보니 직접 기여해보고 싶어졌고, `prisma-patterns` 스킬을 만들어 PR을 올렸다. 지금은 merge돼서 ECC에 올라가 있다.
+
+그 과정에서 걸린 게 하나 있었다. 스킬 목록에 `nestjs-patterns`, `fastapi-patterns`, `django-patterns` 같은 게 있었다. Claude는 이미 이 프레임워크들을 잘 안다. 스킬은 Claude Code가 작업 중에 추가로 읽는 컨텍스트인데, 이미 아는 내용을 또 넣으면 그냥 컨텍스트 낭비 아닌가.
+
+---
+
+## Prisma 문서를 다시 쓰고 있었다
+
+레포에 `prisma-patterns`가 없어서 만들어보기로 했다. Express + Prisma를 꽤 써봤으니 익숙한 영역이었다. schema 설계, N+1 문제, transaction 패턴, migration 전략을 정리했다.
+
+문제는 완성된 초안을 다시 읽었을 때였다. Prisma 공식 문서를 압축해놓은 것과 다를 게 없었다. Claude가 이미 알고 있을 내용들이었다. 그러면 이 스킬은 실제 작업에서 아무 역할도 못 한다.
+
+좋은 스킬의 기준은 "Claude가 모르는 걸 알려주는 것"이 아니었다.
+
+---
+
+## 공통점은 조용히 틀리는 코드였다
+
+기존 스킬들을 다시 훑었다.
+
+`nodejs-keccak256` 스킬은 Node의 `crypto.createHash('sha3-256')`를 Ethereum의 Keccak-256으로 착각하지 말라는 내용이었다. 이 코드는 에러가 나지 않는다. 틀린 해시값을 조용히 만들어낼 뿐이다. Claude가 문법적으로 완벽하고 실행도 되는 이 코드를 자신 있게 작성할 수 있다는 게 핵심이다.
+
+`homelab-vlan-segmentation` 스킬에는 UniFi, pfSense, MikroTik 장비별 설정 명령어들이 들어있었다. 이런 벤더별 CLI는 모델이 잘못 학습했을 가능성이 높고, 틀리면 네트워크 자체가 죽는다.
+
+좋은 스킬들의 공통점은 Claude가 틀릴 수 있고, 틀려도 에러가 나지 않고, 실행은 되는데 결과가 잘못된 상황들이었다. **"모르는 걸 알려주는 문서"가 아니라 "틀리는 걸 막는 가드레일"이었다.**
+
+---
+
+## Prisma 함정들로 방향을 틀었다
+
+Prisma 스킬을 이 기준으로 다시 썼다. 사용법이 아니라 Claude가 자신 있게 잘못 쓸 수 있는 지점들을 모았다.
+
+### updateMany는 배열을 반환하지 않는다
+
+```ts
+const users = await prisma.user.updateMany({
+  where: { role: 'GUEST' },
+  data: { role: 'USER' },
+});
+
+console.log(users[0]); // undefined
+```
+
+`updateMany()`는 레코드 배열이 아니라 `{ count: 2 }` 같은 카운트를 반환한다. 에러는 나지 않는다. `users[0]`이 undefined인 채로 조용히 흘러간다.
+
+### Transaction already closed
+
+interactive transaction 안에서 이메일 발송이나 외부 API 호출처럼 시간이 걸리는 작업을 넣으면 갑자기 이런 에러가 뜬다.
+
+```txt
+Transaction already closed
+```
+
+처음 보면 DB 문제처럼 보이지만, Prisma의 기본 timeout이 생각보다 짧아서 생기는 일이다. 원인을 모르면 엉뚱한 곳을 디버깅하게 된다.
+
+### migrate dev는 생각보다 공격적이다
+
+개발용 명령어처럼 보이지만, schema drift를 감지하면 reset을 제안한다. 로컬 DB면 상관없지만, 공유 dev DB나 staging에 연결된 상태에서 잘못 누르면 데이터가 날아간다.
+
+---
+
+## 문서보다 merged PR
+
+<img
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/merged_ecc.jpg"
+  width="700"
+/>
+
+스킬 파일을 완성했는데, 등록 방법을 몰랐다. CONTRIBUTING.md를 읽었지만 명확하지 않았다. 비슷한 시기에 merge된 `mysql-patterns` PR을 보고 나서야 `manifests/install-modules.json`에도 등록해야 한다는 걸 알게 됐다.
+
+문서보다 실제 merge된 PR이 훨씬 더 많은 걸 알려줬다. 어떤 파일을 수정하는지, PR 제목은 어떻게 쓰는지, maintainer들이 어떤 구조를 선호하는지. 공식 문서보다 답안지에 가까웠다.
+
+
+
+그렇게 올린 [PR](https://github.com/affaan-m/ECC/pull/1893)은 merge됐다. `prisma-patterns`는 지금 ECC 레포에 올라가 있다.
+
+<img
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/%E1%84%82%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B3.jpg"
+  width="400"
+/>
+
+---
+
+## 설명서보다 가드레일
+
+AI가 설명을 잘하게 된 지금, "잘 설명된 문서"의 가치는 예전보다 낮아졌다. Prisma 사용법 정도는 물어보면 바로 알려준다. 공식 문서를 읽고 압축해서 설명하는 것도 잘한다.
+
+반면 Claude가 그럴듯하게 틀릴 수 있는 지점들은 문서화가 잘 안 돼 있다. 대부분 직접 당해봐야 알게 되는 것들이다. 에러도 안 나고 실행은 되는데 결과가 조용히 틀린 경우들. 그걸 명시적으로 모아두는 게 지금 시점에 더 필요한 종류의 문서다.
+
+---
+
+## 스킬이 시스템을 설명한다
+
+스킬 하나만 읽어도 시스템의 맥락이 잡힌다. `migrate dev`는 공유 DB에 쓰지 말 것, `updateMany()`는 배열이 아니라 카운트를 반환한다는 것. 이걸 읽으면 그 시스템에서 어떤 실수가 반복됐고, 어디를 조심해야 하는지가 보인다.
+
+복잡한 시스템일수록 이게 중요해진다. 트랜잭션이 섞이고, 외부 API가 연결되고, 보안 조건이 붙으면 AI가 무턱대고 코드를 건드리는 게 위험해진다. 에러도 안 나고 테스트도 통과하는데, 프로덕션에서 조용히 잘못 동작하는 코드가 생긴다.
+
+섬세한 스킬은 이걸 막는다. "이 API는 idempotency key 없이 재시도하면 안 된다", "이 테이블은 soft delete로만 처리한다" — 이런 조건들을 스킬에 적어두면 AI는 그 선을 넘지 않는다. AI한테 이거 참고하라고, 이거 하지 말라고 미리 적어놓는 것이다.
+
+AI가 길을 잃는 건 대부분 컨텍스트가 없어서다. 어디서 무엇을 조심해야 하는지 모른 채로 코드를 만지다가 엉뚱한 방향으로 간다. 잘 만든 스킬은 AI에게 나침반이다. 이 시스템이 어떻게 돌아가는지, 이건 이유가 있어서 이렇게 해놨다는 것 — 그걸 알고 있는 AI의 결과물은 다르다.
+
+어쩌면 AI가 생긴 이후 개발자가 해야 할 핵심 일은, 코드를 짜는 게 아니라 스킬을 가다듬는 일이다. 어떤 함정이 있는지, 어떤 제약이 있는지, 어디서 AI가 실수할 수 있는지 — 이걸 정의하는 사람이 AI를 제대로 쓰는 사람이다.

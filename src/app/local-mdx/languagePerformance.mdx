@@ -1,0 +1,251 @@
+<img 
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/%E1%84%8B%E1%85%AB.jpeg"
+  width="400px"
+/>
+
+코딩테스트를 할 때나, 코드를 짤 때 늘 **JavaScript**를 기본으로 사용했다. <br />
+입출력도 편하고, 문법도 간단하고, 무엇보다 많이 다뤘던 언어라 익숙했기 때문이다.
+
+그래서 "굳이 다른 언어를 쓸 필요가 있나?"라는 생각조차 안했다. 
+
+그런데 이번 NYPC 문제를 풀면서 벽에 부딪혔다. <br />
+알고리즘 자체는 맞다고 확신했는데, 제출만 하면 계속 시간 초과가 떴다. <br />
+처음에는 코드에 대해서 최적화를 아무리 해보고 바꿔도 결과는 똑같았다.
+
+혹시 언어가 문제일까 해서, 똑같은 알고리즘을 Go로 옮겨 돌려봤다. <br />
+신기하게도, JS로 돌렸던 시간 초과가 Go에서는 바로 통과되었고, 용량도 줄어들었다.
+
+---
+
+## 각 언어의 역사
+
+이 차이를 이해해보려면, 우선 두 언어의 태생부터 봐야 한다.
+
+<img 
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/nodejs.jpeg"
+  width="500px"
+/>
+
+JavaScript는 원래 **브라우저에서 버튼 눌렀을 때 알림창 띄워주는** 용도로 태어났다.
+
+빠른 반응과 유연함이 강점이었고, 그래서 프론트에서 독보적인 지위를 차지하고 있다. <br />
+그런데 언어가 서버까지 넘어오면서 Node.js가 생겼고, <br />
+이제는 **"웹 풀스택"** 을 JS 하나로 커버할 수 있게 되었다.
+
+<img 
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/golang.png"
+  width="500px"
+/>
+
+반면, Go는 전혀 다르게 태어났다. <br />
+구글이 **거대한 서버 인프라를 돌리기 위해서 만든 언어**였다.
+
+**"안정성, 단순함, 성능"** 이라는 세 단어가 처음부터 박혀 있었다. <br />
+그래서 Go는 처음부터 **'계산량이 많은 백엔드, 시스템 프로그래밍'** 에 강점을 가질 수 밖에 없었다.
+
+실제로 현업에서도 Go는 빠르게 받아들여졌다.
+
+예를 들어 Capital One의 한 매니저는 이렇게 말했다.
+
+> "Within a month, everyone was writing in Go… <br />
+> It was the flexibility, how easy it was to use, and the really cool concept behind Go that helped engage us"
+> - Jaime Enrique Garcia Lopez, Senior Software Development Manager at Capital One
+
+즉, 처음엔 생소해도 금방 익숙해지고, 성능과 단순함이 주는 매력이 확실히 있다고 볼 수 있다.
+
+---
+
+## 실행 모델 차이
+
+성능 차이는 여기서 드러난다.
+
+JS는 **싱글 스레드 이벤트 루프 기반**이다. <br />
+네트워크나 파일 I/O 같은 비동기 작업을 처리할 땐 아주 좋지만, <br />
+반복문, 재귀, 복잡한 연산처럼 CPU를 많이 잡아먹는 연산에서는 문제가 생긴다. <br />
+게다가 기본 숫자 타입이 Number라서, 큰 정수는 부동소수점 오차가 생기고, <br />
+BigInt를 쓰면 성능이 더 느려진다.
+
+Go는 경량 스레드인 **goroutine**을 수십만 개 띄울 수 있고, <br />
+런타임이 알아서 M:N 스케줄링을 통해 멀티코어를 활용할 수 있다. <br />
+메모리 관리도 단순하고, 정수 타입이 명확하게 분리돼 있어 불필요한 오버헤드 또한 없다.
+
+그래서 같은 알고리즘의 경우에도 더 안정적이고 빠르게 돌아간다.
+
+---
+
+## 하노이 탑으로 실험
+
+<img 
+  src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/towerOfHanoi.jpg"
+  width="500px"
+/>
+
+그래서 실제로 비교를 해보기 위해, <br />
+가장 전형적인 재귀 알고리즘인 하노이의 탑을 돌려봤다.
+
+```
+// n = 23,
+Go - elapsed: 25.486625ms
+JS - elapsed: 0.049617125s
+```
+
+같은 재귀 코드로 n=23을 돌리면, <br />
+Go는 약 25ms, JS는 약 50ms가 걸렸다.
+
+차이는 단순히 두 배일 수도 있지만, n을 더 키우면 차이는 기하급수적으로 벌어질 것이다. <br />
+하노이의 탑은 이동 횟수가 2^n - 1이라 입력이 조금만 커져도 연산량이 엄청나게 늘어나기 때문이다.
+
+```
+// n = 35,
+Go - elapsed: 1m43.857606125s (약 1분 43초)
+JS - elapsed: 288.582488833s  (약 4분 48초)
+```
+
+n = 23 에서는 불과 25ms vs 50ms 정도의 차이였지만, <br />
+n = 35 로 커지자, Go는 1분 43초, JS는 4분 48초로 **거의 세 배 차이**까지 벌어졌다.
+
+여기에 **출력까지 추가**를 하면 차이는 훨씬 더 커질 것이다.
+
+Node.js의 console.log는 특히 느려서, 출력이 많은 문제에서는 실행 시간이 훨씬 늘어난다. <br />
+반면, Go는 버퍼에 모아 한 번에 출력하는 방식으로 제어할 수 있어 효율적이다.
+
+---
+
+## 두 언어의 차이
+
+두 언어의 근본적인 차이점이 명확히 드러난다.
+
+**Go**는 메모리를 미리 할당하고, 효율적인 I/O 처리를 통해 예측 가능한 성능을 보여준다. <br />
+컴파일 타임에 메모리 레이아웃이 결정되고, 정확한 정수 타입으로 오버플로우 걱정이 없다.
+
+**JavaScript**는 동적 배열 확장과 문자열 연산 오버헤드로 인해 런타임에 메모리 재할당이 자주 발생한다. <br />
+Number 타입의 한계로 큰 정수에서는 정밀도 문제가 생길 수 있다.
+
+---
+
+## 언어 선택
+
+코딩테스트에서 중요한 건 알고리즘이긴 하다. <br />
+하지만 언어 선택이 무시할 수 없는 요소라는 걸 이번에 느꼈다.
+
+### JS는 개발 속도와 편의성에서는 압도적인 건 분명하다.
+
+간단한 문제, 입출력 위주의 문제에서는 충분히 빠르고, <br />
+생태계가 넓어서 다양한 라이브러리를 쓸 수 있다.
+
+### Go는 성능과 안정성에서 확실히 강하다.
+
+계산량이 많거나, 재귀와 수학적 연산이 핵심인 문제에서는 훨씬 유리하다. <br />
+실행 파일도 단일 바이너리라 배포가 가볍다.
+
+즉, 같은 알고리즘이어도 언어에 따라 결과가 달라질 수 있다는 걸 경험했다.
+
+---
+
+## 하지만, 중요한 건 알고리즘
+
+이번 NYPC에서 같은 알고리즘이라도 JS에선 시간 초과가 나고, Go에선 통과되는 경험을 <br />
+직접 해보면서 분명히 언어에 따른 성능 차이를 체감하긴 했다.
+
+하지만 확실히 더 크게 느낀 건, 결국 **가장 중요한 건 언어가 아니라 알고리즘 자체**라는 점이었다.
+
+좋은 알고리즘을 설계하고, 불필요한 연산을 줄이며, 입/출력을 최적화하는 과정이 먼저이다. <br />
+아무리 빠른 언어를 쓴다고 해도, 잘못 짠 알고리즘은 결국 시간 초과를 피할 수 없다.
+
+결국, 중요한 건 알고리즘이고, 언어는 그 위에 얹는 전략일 뿐이다.
+
+그리고 그 전략이 틀리면, 맞는 알고리즘도 시간 초과로 끝난다.
+
+---
+
+## 사용된 코드들
+
+사용한 JS 코드
+
+``` javascript
+function hanoi(k, from, to, aux, emit) {
+  if (k === 0) return;
+  hanoi(k - 1, from, aux, to, emit);
+  emit(from, to);
+  hanoi(k - 1, aux, to, from, emit);
+}
+
+const t0 = process.hrtime.bigint();
+
+if (mode === 'count') {
+  hanoi(n, 'A', 'C', 'B', () => {
+    count++;
+  });
+} else if (mode === 'buffer') {
+  if (n > 20) {
+    process.exit(0);
+  }
+  hanoi(n, 'A', 'C', 'B', (f, t) => {
+    lines.push(`${f} ${t}\n`);
+  });
+  process.stdout.write(lines.join(''));
+} else {
+  process.exit(0);
+}
+
+const elapsedNs = process.hrtime.bigint() - t0;
+console.error(`elapsed: ${Number(elapsedNs) / 1e9}s`);
+```
+
+사용한 Go 코드
+
+``` go
+func hanoi(n int, from, to, aux byte, emit func(byte, byte)) {
+	if n == 0 {
+		return
+	}
+	hanoi(n-1, from, aux, to, emit)
+	emit(from, to)
+	hanoi(n-1, aux, to, from, emit)
+}
+
+func main() {
+	n := flag.Int("n", 35, "number of disks")
+	mode := flag.String("mode", "count", "count | buffer")
+	flag.Parse()
+
+	start := time.Now()
+	out := bufio.NewWriter(os.Stdout)
+	defer out.Flush()
+
+	switch *mode {
+	case "count":
+		movesCount = 0
+		hanoi(*n, 'A', 'C', 'B', func(_, _ byte) { movesCount++ })
+	case "buffer":
+		if *n > 20 {
+			return
+		}
+		var buf bytes.Buffer
+
+		if *n < 63 {
+			approx := (1 << uint(*n)) - 1
+			buf.Grow(int(approx) * 4)
+		}
+		hanoi(*n, 'A', 'C', 'B', func(f, t byte) {
+			buf.WriteByte(f)
+			buf.WriteByte(' ')
+			buf.WriteByte(t)
+			buf.WriteByte('\n')
+		})
+		out.Write(buf.Bytes())
+	default:
+		return
+	}
+
+	elapsed := time.Since(start)
+	fmt.Fprintln(out, "elapsed:", elapsed)
+}
+```
+
+---
+
+## 참고자료
+
+- [Go 공식 웹사이트](https://golang.org/)
+- [JavaScript 공식 웹사이트](https://developer.mozilla.org/en-US/docs/Web/JavaScript)

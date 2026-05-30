@@ -120,15 +120,15 @@ interface TruthTableProps {
 function TruthTable({ title, headers, rows }: TruthTableProps) {
   return (
     <div className="my-6">
-      <h4 className="text-lg font-heading font-bold text-[#FFFFFF] mb-3">{title}</h4>
+      <h4 className="text-lg font-bold text-[#1D1D1F] mb-3">{title}</h4>
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-[#1D1F22]">
+        <table className="min-w-full border border-[#D2D2D7] rounded-lg overflow-hidden">
           <thead>
             <tr>
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className="border border-[#1D1F22] px-4 py-2 bg-[#111213] font-heading font-bold text-[#FFFFFF] text-left"
+                  className="border border-[#D2D2D7] px-4 py-2 bg-[#F5F5F7] font-bold text-[#1D1D1F] text-left"
                 >
                   {header}
                 </th>
@@ -137,11 +137,14 @@ function TruthTable({ title, headers, rows }: TruthTableProps) {
           </thead>
           <tbody>
             {rows.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <tr
+                key={rowIndex}
+                className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-[#FAFAFA]'}
+              >
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className="border border-[#1D1F22] px-4 py-2 text-[#E2E6E9]"
+                    className="border border-[#D2D2D7] px-4 py-2 text-[#3C3C43]"
                   >
                     {cell}
                   </td>
@@ -192,9 +195,9 @@ export const mdxComponents: MDXComponents = {
     <blockquote
       {...props}
       style={{
-        borderLeft: '4px solid #FFFFFF',
-        backgroundColor: '#111213',
-        color: '#E2E6E9',
+        borderLeft: '4px solid #1D1D1F',
+        backgroundColor: '#F5F5F7',
+        color: '#3C3C43',
         padding: '1rem',
         fontWeight: '500',
         margin: '0.5rem 0',

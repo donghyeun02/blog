@@ -1,0 +1,129 @@
+<img
+  src = "https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/swagger.png"
+  width = "400px"
+/>
+
+
+회사에서 API 개발을 하다 보면, 문서화가 항상 문제였다.
+
+"이 API는 어떤 파라미터를 받고, 응답은 어떤 구조로 오는지"를 설명해야 하는데, <br />
+결국 개발자가 직접 Notion과 같은 문서에 쓰고, 또 API가 바뀔 때마다 업데이트해야 했다.
+
+문제는 이 문서가 금방 outdated 된다는 것이다. <br />
+
+예를 들어 어떤 팀에서 "A" API가 v2로 올라가면서 파라미터가 하나 추가됐는데, <br />
+문서는 여전히 v1 기준으로 적혀 있으면, 다른 팀 또는 QA 팀 등은 그걸 보고 테스트하다가 한참 삽질을 할 수도 있다. <br />
+결국, 문서가 업데이트되지 않았으니 개발자한테 직접 물어보고 따지는 상황이 생기는 것이다.
+
+이 문제를 해결해 준 게 바로 **Swagger**이다.
+
+---
+
+## Swagger란?
+
+간단히 말하면, <br />
+우리가 만든 **API를 자동으로 문서화해주는 오픈소스 프레임워크**이다.
+
+Swagger UI를 띄워보면 이렇게 생겼다.
+
+<img
+  src = "https://velog.velcdn.com/images/bandh/post/2fb99de3-ae92-4efa-a702-f92e0b363409/image.png"
+  width = "800px"
+/>
+
+각 엔드포인트가 한 눈에 보이고, 클릭만 하면 API를 바로 호출할 수도 있다. <br />
+단순 문서가 아니라 **실시간 테스트 + 디버깅 툴** 역할까지 해주니, 한 번 붙여놓고 나서는 Postman을 거의 안 쓰게 됐다.
+
+### 그런데
+
+나는 Fastify를 쓰고 있었는데, 문제는 **Swagger 관련 자료가 거의 없었다**는 거다. <br />
+NextJS처럼 "공식문서 → 예제 → 따라하기" 이런 게 아니라, <br />
+검색해도 제대로 된 예제가 몇 개 없었다.
+
+Fastify는 JSON Schema를 직접 써야 하는 방식이라, <br />
+공식 문서만으론 뭔가 감이 안 오고, 구글링해도 제대로 된 예제가 거의 없었다. <br />
+그래서 삽질한 끝에 정리한 방법은 이렇다.
+
+1. 모듈 설치
+
+```
+npm install @fastify/swagger @fastify/swagger-ui
+```
+
+2. 플러그인 생성
+
+보통 plugins 디렉토리에 swagger.js를 만들어 두면 관리가 쉽다.
+
+```javascript
+const fp = require('fastify-plugin');
+const swagger = require('@fastify/swagger');
+const swaggerUi = require('@fastify/swagger-ui');
+```
+
+여기서 Swagger와 Swagger-UI를 Fastify 인스턴스에 등록한다.
+
+<img
+  src = "https://velog.velcdn.com/images/bandh/post/d02874d4-28af-4822-ae26-46830f4863e7/image.png"
+  width = "600px"
+/>
+
+---
+
+## Swagger 옵션
+
+Swagger 설정은 크게 두 가지이다.
+
+1. **Swagger**
+
+<img
+  src = "https://velog.velcdn.com/images/bandh/post/220b36a7-0836-4718-b6bc-c25e634fdd0b/image.png"
+  width = "600px"
+/>
+
+API 문서의 메타데이터를 담당한다. <br />
+예를 들어, Title, Description, Version 같은 정보들을 저장할 수 있다.
+
+2. **Swagger-UI**
+
+UI와 관련된 옵션들이다.
+
+- **routePrefix** : Swagger 문서를 볼 수 있는 URL 경로
+- **uiConfig** : Swagger UI의 인터페이스를 어떻게 보여줄지
+
+---
+
+## 내가 만든 API 추가하기
+
+Swagger를 등록하면 라우터는 자동으로 잡히지만, <br />
+파라미터와 응답 스펙은 직접 JSON Schema로 정의해야 한다.
+
+이게 Fastify의 장점이자 단점이다. <br />
+NextJS는 몇 줄이면 Swagger에 자동으로 스펙이 붙는데, <br />
+Fastify는 JSON Schema를 일일이 써줘야 해서 처음엔 번거롭다.
+
+하지만 장점도 있다. <br />
+Schema를 직접 쓰다 보니, API의 입력/출력 구조가 훨씬 명확해지고, <br />
+런타임 전에 잘못된 스펙을 조기에 잡아낼 수 있다는 게 장점이었다.
+
+<img
+  src = "https://velog.velcdn.com/images/bandh/post/8bdcacdc-3429-439d-8a40-75e0c9f9b0f8/image.png"
+  width = "600px"
+/>
+
+## 써보고 느낀 점
+- **테스트 + 문서 + 협업** <br />
+  Swagger UI에서 바로 요청을 보내고 응답까지 확인 가능하다. <br />
+  문서가 코드와 함께 자동으로 최신화되니, 개발자-QA-기획자 간의 소통이 훨씬 간단해졌다.
+- **Fastify의 학습 비용** <br />
+  JSON Schema를 직접 써야 하는 건 확실히 번거로웠다. <br />
+  하지만 반대로 타입 안정성이 강제되면서 코드 품질이 올라간다는 장점도 있었다.
+- **버그 잡는 데도 도움** <br />
+  실제로 Swagger UI에서 호출하다가 응답 구조가 이상한 걸 발견해서, <br />
+  QA 테스트 전에 버그를 수정할 수 있었던 경험이 있었다.
+
+---
+
+코드가 바뀌면 문서도 같이 바뀐다.
+그게 Swagger가 해결하는 문제의 전부다.
+
+Fastify에 붙이는 과정은 귀찮지만, 한 번 세팅하고 나면 "이 API 어떻게 써요?"라는 질문이 사라진다.

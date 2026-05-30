@@ -43,10 +43,10 @@ const TextToBinaryConverter = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-3 sm:p-6 bg-[#111213] border border-[#1D1F22]">
+    <div className="w-full max-w-4xl mx-auto p-3 sm:p-6 bg-[#FAFAFA] border border-[#D2D2D7]">
       <div className="mb-3 sm:mb-6">
-        <div className="bg-[#1D1F22] p-2 sm:p-3">
-          <p className="text-[#E2E6E9] mt-1 mb-1 sm:mt-2 sm:mb-2">
+        <div className="bg-[#F5F5F7] p-2 sm:p-3">
+          <p className="text-[#3C3C43] mt-1 mb-1 sm:mt-2 sm:mb-2">
             <span className="text-sm sm:text-base md:text-lg font-medium">
               텍스트가 어떻게 0과 1로 변환되는지 확인해보세요!
             </span>
@@ -61,7 +61,7 @@ const TextToBinaryConverter = () => {
 
       {/* 텍스트 입력 */}
       <div className="mb-3 sm:mb-6">
-        <label className="block text-sm font-medium text-[#E2E6E9] mb-2">
+        <label className="block text-sm font-medium text-[#3C3C43] mb-2">
           텍스트 입력 (최대 20자)
         </label>
         <input
@@ -69,47 +69,44 @@ const TextToBinaryConverter = () => {
           value={text}
           onChange={handleTextChange}
           placeholder="변환할 텍스트를 입력하세요"
-          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#1D1F22] focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] text-sm sm:text-lg bg-[#111213] text-[#E2E6E9] placeholder:text-[#E2E6E9]/50"
+          className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#D2D2D7] focus:outline-none focus:ring-2 focus:ring-[#1D1D1F] text-sm sm:text-lg bg-white text-[#1D1D1F] placeholder:text-[#AEAEB2]"
         />
       </div>
 
       {/* 변환 결과 */}
       {conversions.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-base sm:text-lg font-heading font-bold text-[#FFFFFF]">
+          <h3 className="text-base sm:text-lg font-heading font-bold text-[#1D1D1F]">
             변환 결과:
           </h3>
 
           {/* 변환 테이블 */}
           <div className="overflow-x-auto -mx-2 sm:mx-0">
             <div className="min-w-full px-2 sm:px-0">
-              <table className="w-full border-collapse border border-[#1D1F22] mb-0 mt-0 min-w-[300px]">
+              <table className="w-full border-collapse border border-[#D2D2D7] mb-0 mt-0 min-w-[300px]">
                 <thead>
-                  <tr className="bg-[#111213]">
-                    <th className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#FFFFFF] font-heading font-bold">
+                  <tr className="bg-[#F5F5F7]">
+                    <th className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#1D1D1F] font-heading font-bold">
                       문자
                     </th>
-                    <th className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#FFFFFF] font-heading font-bold">
+                    <th className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#1D1D1F] font-heading font-bold">
                       ASCII
                     </th>
-                    <th className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#FFFFFF] font-heading font-bold">
+                    <th className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center text-xs sm:text-sm text-[#1D1D1F] font-heading font-bold">
                       2진수
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {conversions.map((conversion, index) => (
-                    <tr
-                      key={index}
-                      className="hover:bg-[#1D1F22]"
-                    >
-                      <td className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center font-bold text-sm sm:text-base text-[#FFFFFF]">
+                    <tr key={index} className="hover:bg-[#F5F5F7]">
+                      <td className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center font-bold text-sm sm:text-base text-[#1D1D1F]">
                         &apos;{conversion.char}&apos;
                       </td>
-                      <td className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center text-sm sm:text-base text-[#E2E6E9]">
+                      <td className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center text-sm sm:text-base text-[#3C3C43]">
                         {conversion.ascii}
                       </td>
-                      <td className="border border-[#1D1F22] px-2 sm:px-3 py-1 sm:py-2 text-center font-mono text-xs sm:text-sm text-[#E2E6E9]">
+                      <td className="border border-[#D2D2D7] px-2 sm:px-3 py-1 sm:py-2 text-center font-mono text-xs sm:text-sm text-[#3C3C43]">
                         {conversion.binary}
                       </td>
                     </tr>
@@ -121,11 +118,11 @@ const TextToBinaryConverter = () => {
 
           {/* 전체 2진수 결과 */}
           <div className="mt-3 sm:mt-4">
-            <h4 className="text-sm sm:text-md font-heading font-bold mb-2 text-[#FFFFFF]">
+            <h4 className="text-sm sm:text-md font-heading font-bold mb-2 text-[#1D1D1F]">
               전체 2진수 표현:
             </h4>
-            <div className="bg-[#1D1F22] p-2 sm:p-3">
-              <div className="font-mono text-xs sm:text-sm break-all text-[#E2E6E9]">
+            <div className="bg-[#F5F5F7] p-2 sm:p-3">
+              <div className="font-mono text-xs sm:text-sm break-all text-[#3C3C43]">
                 {conversions.map((c) => c.binary).join(' ')}
               </div>
             </div>

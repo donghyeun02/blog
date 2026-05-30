@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  async rewrites() {
+    return [
+      // /minigames → public/minigames.html (정적 게임 클라이언트)
+      { source: '/minigames', destination: '/minigames.html' },
+    ];
+  },
 };
 
 export default withMDX(nextConfig);

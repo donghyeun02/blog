@@ -1,51 +1,33 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
+import LocalMdxLoader from '@/components/LocalMdxLoader';
 import { postsMeta } from '@/components/postsMeta';
-import ClientMdxLoader from './ClientMdxLoader';
 
-type PostNavInfo =
-  | { slug: string; title: string; path: string; date: string }
-  | undefined;
-type PostWithNav = {
-  title: string;
-  summary: string;
-  date: string;
-  tags: string[];
-  path: string;
-  slug: string;
-  category: string;
-  thumbnail: string;
-  mdxUrl: string;
-  prevPost: PostNavInfo;
-  nextPost: PostNavInfo;
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = postsMeta.find((p) => p.slug === slug);
+  if (!post) return {};
+  return {
+    title: `${post.title} | donghyeun02`,
+    description: post.summary,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      type: 'article',
+      url: `https://donghyeun02.com/post/${slug}`,
+      siteName: 'donghyeun02',
+    },
+  };
+}
 
-export default function PostPage({
+export default async function PostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const [slug, setSlug] = useState<string>('');
-  // params를 비동기로 처리
-  useEffect(() => {
-    params.then(({ slug }) => setSlug(slug));
-  }, [params]);
-
-  const post = postsMeta.find((p) => p.slug === slug) as
-    | PostWithNav
-    | undefined;
-
-  if (!slug || !post) return <div>글을 찾을 수 없습니다.</div>;
-
-  const handleIntegrityStatusChange = () => {
-    // integrityStatus is not used in this component
-  };
-
-  return (
-    <ClientMdxLoader
-      slug={post.slug}
-      onIntegrityStatusChange={handleIntegrityStatusChange}
-    />
-  );
+  const { slug } = await params;
+  return <LocalMdxLoader slug={slug} />;
 }

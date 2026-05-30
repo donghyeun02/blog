@@ -36,11 +36,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
         />
         <link
           rel="icon"
@@ -50,31 +48,6 @@ export default function RootLayout({
         <link
           rel="apple-touch-icon"
           href="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/profile.jpg"
-        />
-
-        {/* SEO 기본 메타태그 */}
-        <meta
-          name="description"
-          content="개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다."
-        />
-        <meta
-          name="keywords"
-          content="donghyeun02, 웹개발, 백엔드, CS, 기술 블로그, 개발, Next.js, TypeScript, MDX"
-        />
-        <meta name="author" content="donghyeun02" />
-
-        {/* Open Graph 태그 */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="donghyeun02" />
-        <meta property="og:title" content="donghyeun02 - 개발자" />
-        <meta
-          property="og:description"
-          content="개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다."
-        />
-        <meta property="og:url" content="https://donghyeun02.com" />
-        <meta
-          property="og:image"
-          content="https://donghyeun02.com/og-image.png"
         />
 
         {/* GA4 */}

@@ -28,10 +28,10 @@ const DecimalToBinaryConverter = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-[#111213] border border-[#1D1F22]">
+    <div className="w-full max-w-2xl mx-auto p-6 bg-[#FAFAFA] border border-[#D2D2D7]">
       <div className="mb-6">
-        <div className="bg-[#1D1F22] p-3">
-          <p className="text-[#E2E6E9] mt-2 mb-2">
+        <div className="bg-[#F5F5F7] p-3">
+          <p className="text-[#3C3C43] mt-2 mb-2">
             <span className="text-base sm:text-lg font-medium">
               십진수 값을 입력하여 이진수로 변환해보세요!
             </span>
@@ -48,27 +48,25 @@ const DecimalToBinaryConverter = () => {
           value={decimal}
           onChange={handleInputChange}
           placeholder="십진수를 입력하세요 (0-255)"
-          className="w-full px-4 py-3 border border-[#1D1F22] focus:outline-none focus:ring-2 focus:ring-[#FFFFFF] text-base bg-[#111213] text-[#E2E6E9] placeholder:text-[#E2E6E9]/50"
+          className="w-full px-4 py-3 border border-[#D2D2D7] focus:outline-none focus:ring-2 focus:ring-[#1D1D1F] text-base bg-white text-[#1D1D1F] placeholder:text-[#AEAEB2]"
         />
       </div>
 
       {decimal && (
         <div className="animate-fade-in">
-          <h3 className="text-lg font-heading font-bold mb-2 text-[#FFFFFF]">
+          <h3 className="text-lg font-heading font-bold mb-2 text-[#1D1D1F]">
             이진수 결과:
           </h3>
           <div className="grid grid-cols-8 gap-1">
             {binary.split('').map((bit, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center border border-[#1D1F22] p-2 bg-[#181A1B]"
+                className="flex flex-col items-center border border-[#D2D2D7] p-2 bg-[#F5F5F7]"
               >
-                <div className="text-xs text-[#E2E6E9]">
+                <div className="text-xs text-[#6E6E73]">
                   2<sup>{7 - index}</sup>
                 </div>
-                <div className="text-xl font-mono text-[#FFFFFF]">
-                  {bit}
-                </div>
+                <div className="text-xl font-mono text-[#1D1D1F]">{bit}</div>
               </div>
             ))}
           </div>
