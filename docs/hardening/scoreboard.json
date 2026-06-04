@@ -1,0 +1,14 @@
+[
+  {
+    "cycle": 1,
+    "date": "2026-06-04T06:41:12Z",
+    "dimension": "security",
+    "scoreBefore": 62,
+    "scoreAfter": 99,
+    "delta": 37,
+    "fixed": ["#1", "#2", "#11", "#12", "#13"],
+    "open": { "critical": 0, "high": 0, "medium": 0, "low": 1 },
+    "branch": "hardening/security",
+    "commit": "7e4bf4c"
+  }
+]
