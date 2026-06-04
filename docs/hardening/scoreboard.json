@@ -6,7 +6,13 @@
     "scoreBefore": 62,
     "scoreAfter": 99,
     "delta": 37,
-    "fixed": ["#1", "#2", "#11", "#12", "#13"],
+    "fixed": [
+      { "label": "path-traversal", "severity": "CRITICAL", "location": "src/app/api/local-mdx/route.ts" },
+      { "label": "public-prefixed-secret", "severity": "MEDIUM", "location": ".env (NEXT_PUBLIC_PINATA_*)" },
+      { "label": "xss-sink", "severity": "MEDIUM", "location": "src/components/Blockchain/SmartContractLegalQuiz.tsx" },
+      { "label": "missing-security-headers", "severity": "MEDIUM", "location": "next.config.ts" },
+      { "label": "dead-code", "severity": "LOW", "location": "ClientMdxLoader.tsx, src/utils/integrity.ts" }
+    ],
     "open": { "critical": 0, "high": 0, "medium": 0, "low": 1 },
     "branch": "hardening/security",
     "commit": "f66ebfd"
