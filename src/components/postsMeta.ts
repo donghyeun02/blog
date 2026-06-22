@@ -118,4 +118,12 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     date: '2026.05',
   },
+  {
+    title: '자리를 비운 사이 서비스가 더 단단해지는 법',
+    path: '/post/hardening',
+    slug: 'hardening',
+    summary: '레드팀이 공격하고 블루팀이 막는 사이클을 Claude 커맨드로 자동화한 이야기',
+    category: 'Dev',
+    date: '2026.06',
+  },
 ];

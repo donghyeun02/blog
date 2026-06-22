@@ -13,6 +13,7 @@ import ColorToBinaryConverter from './CS/Binary/ColorToBinaryConverter';
 import HttpFlowDemo from './Backend/HttpFlowDemo';
 import CentralizedVsDecentralized from './Blockchain/CentralizedVsDecentralized';
 import SmartContractLegalQuiz from './Blockchain/SmartContractLegalQuiz';
+import PathTraversalDemo from './Security/PathTraversalDemo';
 
 const AndGateSimulator = createGateSimulator({
   type: 'and',
@@ -167,6 +168,7 @@ export const mdxComponents: MDXComponents = {
   ColorToBinaryConverter,
   CentralizedVsDecentralized,
   SmartContractLegalQuiz,
+  PathTraversalDemo,
   AndGateSimulator,
   OrGateSimulator,
   NotGateSimulator,
@@ -218,6 +220,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ColorToBinaryConverter,
     CentralizedVsDecentralized,
     SmartContractLegalQuiz,
+    PathTraversalDemo,
     AndGateSimulator,
     OrGateSimulator,
     NotGateSimulator,
