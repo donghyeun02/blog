@@ -10,7 +10,7 @@ interface QuizCase {
 const cases: QuizCase[] = [
   {
     question:
-      'A와 B가 스마트컨트랙트에 1 ETH씩 예치하고, <br />"비가 오면 A가, 아니면 B가 모두 가져간다"는 조건을 코드로 작성해 배포했습니다.<br /> 이 스마트컨트랙트는 법적 계약으로 인정될 수 있을까요?',
+      'A와 B가 스마트컨트랙트에 1 ETH씩 예치하고, \n"비가 오면 A가, 아니면 B가 모두 가져간다"는 조건을 코드로 작성해 배포했습니다.\n 이 스마트컨트랙트는 법적 계약으로 인정될 수 있을까요?',
     choices: [
       {
         label: '계약으로 인정된다 (조건이 충족되었기 때문)',
@@ -28,7 +28,7 @@ const cases: QuizCase[] = [
   },
   {
     question:
-      'C가 DAO에 참여하며, DAO의 스마트컨트랙트에 따라 투표 결과에 따라 자금이 자동 분배됩니다. <br />이때 C는 법적으로 DAO의 구성원(조합원)으로 인정받을 수 있을까요?',
+      'C가 DAO에 참여하며, DAO의 스마트컨트랙트에 따라 투표 결과에 따라 자금이 자동 분배됩니다. \n이때 C는 법적으로 DAO의 구성원(조합원)으로 인정받을 수 있을까요?',
     choices: [
       {
         label: '구성원으로 인정될 수 있다 (참여와 의사표시가 명확하므로)',
@@ -46,7 +46,7 @@ const cases: QuizCase[] = [
   },
   {
     question:
-      'F와 G가 스마트컨트랙트로 자동 분배되는 복권을 만들었습니다. <br />당첨 결과에 이의가 있으면 법적으로 다툴 수 있을까요?',
+      'F와 G가 스마트컨트랙트로 자동 분배되는 복권을 만들었습니다. \n당첨 결과에 이의가 있으면 법적으로 다툴 수 있을까요?',
     choices: [
       {
         label:
@@ -88,10 +88,9 @@ export default function SmartContractLegalQuiz() {
 
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 space-y-4 border border-gray-200 dark:border-gray-700 text-center mb-6">
-      <div
-        className="mb-4 text-base font-medium text-gray-900 dark:text-gray-100"
-        dangerouslySetInnerHTML={{ __html: quiz.question }}
-      />
+      <div className="mb-4 text-base font-medium text-gray-900 dark:text-gray-100 whitespace-pre-line">
+        {quiz.question}
+      </div>
       <div className="flex flex-col gap-3 mb-2">
         {quiz.choices.map((choice, idx) => (
           <button
