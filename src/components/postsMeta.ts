@@ -114,7 +114,8 @@ export const postsMeta: PostMeta[] = [
     title: 'Claude가 이미 아는 내용을 왜 스킬로 넣지?',
     path: '/post/eccOpensource',
     slug: 'eccOpensource',
-    summary: 'ECC 오픈소스에 기여하면서 깨달은, AI 시대에 진짜 가치 있는 문서의 조건',
+    summary:
+      'ECC 오픈소스에 기여하면서 깨달은, AI 시대에 진짜 가치 있는 문서의 조건',
     category: 'Dev',
     date: '2026.05',
   },
@@ -122,8 +123,56 @@ export const postsMeta: PostMeta[] = [
     title: '자리를 비운 사이 서비스가 더 단단해지는 법',
     path: '/post/hardening',
     slug: 'hardening',
-    summary: '레드팀이 공격하고 블루팀이 막는 사이클을 Claude 커맨드로 자동화한 이야기',
+    summary:
+      '레드팀이 공격하고 블루팀이 막는 사이클을 Claude 커맨드로 자동화한 이야기',
     category: 'Dev',
     date: '2026.06',
+  },
+  {
+    title: '길을 놨다고 문이 열리지는 않는다',
+    path: '/post/ncpNetwork',
+    slug: 'ncpNetwork',
+    summary: '서버 한 대 없이 하루 종일 VPC와 Route Table만 만든 이유',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '요청은 갔는데 대답이 안 왔다',
+    path: '/post/naclAcg',
+    slug: 'naclAcg',
+    summary:
+      'NACL은 Stateless고 ACG는 Stateful이다 — 반대로 외웠다가 SSH 앞에서 멈춘 기록',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '같은 서버에 있는데 서로를 못 찾는다',
+    path: '/post/dockerNetwork',
+    slug: 'dockerNetwork',
+    summary:
+      '컨테이너가 하나에서 둘이 되고, 호스트가 하나에서 둘이 될 때 생기는 일',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '마스터 노드가 두 개가 됐다',
+    path: '/post/k3sAgentJoin',
+    slug: 'k3sAgentJoin',
+    summary: '설치 스크립트에 옵션 두 개를 빠뜨렸더니 클러스터가 갈라졌다',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '막힐 때마다 한 층씩 내려갔다',
+    path: '/post/ncpProfessional',
+    slug: 'ncpProfessional',
+    summary:
+      '네이버 클라우드 심화 과정 회고 — 네트워크부터 쿠버네티스까지, 일차별 기록',
+    category: 'Dev',
+    date: '2026.08',
   },
 ];

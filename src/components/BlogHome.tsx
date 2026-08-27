@@ -24,7 +24,10 @@ const PROJECTS = [
   },
 ] as const;
 
-const recentPosts = [...postsMeta].reverse().slice(0, HOME_POST_LIMIT);
+const recentPosts = postsMeta
+  .filter((post) => post.listed !== false)
+  .reverse()
+  .slice(0, HOME_POST_LIMIT);
 
 export default function BlogHome() {
   return (

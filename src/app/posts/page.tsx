@@ -7,7 +7,7 @@ import { postsMeta } from '@/components/postsMeta';
 const CATEGORIES = ['전체', 'CS', 'Dev', 'Blockchain'] as const;
 type Category = (typeof CATEGORIES)[number];
 
-const allPosts = [...postsMeta].reverse();
+const allPosts = postsMeta.filter((p) => p.listed !== false).reverse();
 
 export default function PostsPage() {
   const [active, setActive] = useState<Category>('전체');
@@ -28,8 +28,7 @@ export default function PostsPage() {
         </Link>
         <div className="flex items-center justify-between">
           <h1 className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest">
-            글{' '}
-            <span className="font-normal">{filtered.length}</span>
+            글 <span className="font-normal">{filtered.length}</span>
           </h1>
           <div className="flex items-center gap-1">
             {CATEGORIES.map((cat) => (
