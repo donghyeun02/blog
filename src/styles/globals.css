@@ -1,6 +1,47 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-@config "../../tailwind.config.js";
+
+/* Tailwind v4는 CSS에서 직접 토큰을 정의한다. tailwind.config.js는 없앴다. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: Pretendard, -apple-system, sans-serif;
+
+  /* 팔레트. 기존 hex를 그대로 oklch로 옮긴 값이라 화면 색은 바뀌지 않는다.
+     oklch는 밝기가 지각과 일치해서 단계를 새로 만들 때 다루기 쉽다. */
+  --color-white: oklch(100% 0 0); /* #FFFFFF */
+  --color-paper: oklch(98.51% 0 0); /* #FAFAFA */
+  --color-surface: oklch(97.07% 0.0027 286.35); /* #F5F5F7 */
+  --color-surface-hover: oklch(96.26% 0.0066 286.27); /* #F2F2F7 */
+  --color-line: oklch(86.52% 0.0068 286.26); /* #D2D2D7 */
+  --color-muted: oklch(75.2% 0.0057 286.26); /* #AEAEB2 */
+  --color-subtle: oklch(53.99% 0.0077 286.14); /* #6E6E73 */
+  --color-body: oklch(35.88% 0.012 285.78); /* #3C3C43 */
+  --color-ink: oklch(23.16% 0.0038 286.1); /* #1D1D1F */
+  --color-night: oklch(21.6% 0.0037 228.98); /* #181A1B */
+  --color-night-line: oklch(23.84% 0.0065 258.36); /* #1D1F22 */
+  --color-night-deep: oklch(18.15% 0.0026 247.97); /* #111213 */
+  --color-night-text: oklch(92.27% 0.0059 239.82); /* #E2E6E9 */
+
+  /* 기존 tailwind.config.js에 있던 별칭 */
+  --color-primary: var(--color-ink);
+  --color-secondary: var(--color-subtle);
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Digital Post Card Styles */
 .perspective-1000 {
@@ -34,11 +75,11 @@
 }
 
 :root {
-  --color-bg: #FAFAFA;
-  --color-surface: #F5F5F7;
-  --color-border: #D2D2D7;
-  --color-text: #1D1D1F;
-  --color-muted: #6E6E73;
+  --color-bg: #fafafa;
+  --color-surface: #f5f5f7;
+  --color-border: #d2d2d7;
+  --color-text: #1d1d1f;
+  --color-muted: #6e6e73;
   --toastify-toast-bd-radius: 0px;
 }
 
@@ -51,7 +92,13 @@
   body {
     background-color: var(--color-bg);
     color: var(--color-text);
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -94,7 +141,13 @@
     margin-bottom: 1rem;
     line-height: 1.8;
     color: var(--color-text);
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     font-weight: 400;
   }
   h1,
@@ -109,7 +162,11 @@
     color: var(--color-text);
     margin-top: 1.5em;
     margin-bottom: 0.75em;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif;
   }
   a {
     color: inherit;
@@ -206,7 +263,13 @@
   .prose,
   .prose-lg {
     line-height: 1.8 !important;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif !important;
   }
   .prose p,
   .prose-lg p {
@@ -226,7 +289,11 @@
   .prose-lg h4,
   .prose-lg h5,
   .prose-lg h6 {
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif !important;
     font-weight: 700 !important;
     color: var(--color-text) !important;
   }
@@ -309,7 +376,11 @@
     text-align: center !important;
     padding: 12px 16px !important;
     border: 1px solid var(--color-border) !important;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif !important;
   }
   .prose th:not(:last-child),
   .prose-lg th:not(:last-child),
@@ -516,4 +587,59 @@ b {
   .prose .text-sm {
     font-size: 0.95rem !important;
   }
+}
+
+/* ── 스크롤 기반 리빌 ─────────────────────────────────────────────
+   IntersectionObserver나 애니메이션 라이브러리 없이 브라우저가 처리한다.
+   메인 스레드를 쓰지 않고 컴포지터에서 돈다. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal-on-scroll {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+/* ── View Transitions ────────────────────────────────────────────
+   목록의 글 제목이 글 페이지 제목 자리로 이어진다. */
+::view-transition-group(.morph) {
+  animation-duration: 320ms;
+}
+
+/* 전환 중에도 클릭이 살아 있도록 오버레이가 포인터를 먹지 않게 한다. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* 방향성 있는 움직임은 멀미를 유발할 수 있어 설정을 존중한다. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  .reveal-on-scroll,
+  .post-item {
+    animation: none !important;
+  }
+}
+
+/* 한글 제목의 줄바꿈을 다듬는다. 마지막 줄에 한 단어만 남는 걸 막아 준다. */
+h1,
+h2,
+h3 {
+  text-wrap: pretty;
 }

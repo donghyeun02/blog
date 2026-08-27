@@ -1,5 +1,6 @@
 'use client';
 
+import { ViewTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
@@ -114,9 +115,15 @@ export default function BlogHome() {
               className="group block py-0 px-3 -mx-3 hover:bg-[#F2F2F7] transition-[background-color] duration-150 post-item"
               style={{ '--stagger-index': index } as React.CSSProperties}
             >
-              <h3 className="text-base font-semibold text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150 leading-snug mb-0.5">
-                {post.title}
-              </h3>
+              <ViewTransition
+                name={`post-title-${post.slug}`}
+                share="morph"
+                default="none"
+              >
+                <h3 className="text-base font-semibold text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150 leading-snug mb-0.5">
+                  {post.title}
+                </h3>
+              </ViewTransition>
               <p className="text-[15px] text-[#6E6E73] leading-snug">
                 {post.summary}
               </p>

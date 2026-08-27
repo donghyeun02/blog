@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { postsMeta } from '@/components/postsMeta';
@@ -51,12 +50,7 @@ export default function CategoryPage() {
     <div className="min-h-screen bg-[#181A1B] relative overflow-hidden transition-colors">
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-24 max-w-4xl">
         {/* Header */}
-        <motion.div
-          className="mb-16 sm:mb-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="mb-16 sm:mb-20 animate-fade-in">
           <Link
             href="/blog"
             className="inline-block mb-6 text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
@@ -69,15 +63,10 @@ export default function CategoryPage() {
           <p className="text-base sm:text-lg md:text-xl text-[#E2E6E9]">
             {categoryPosts.length}개의 포스트
           </p>
-        </motion.div>
+        </div>
 
         {/* Timeline */}
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div className="relative">
           {/* Timeline Line */}
           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#1D1F22]"></div>
 
@@ -85,22 +74,16 @@ export default function CategoryPage() {
           <div className="space-y-12 sm:space-y-16">
             {categoryPosts.map((post, index) => {
               return (
-                <motion.div
+                <div
                   key={post.slug}
-                  className="relative pl-6 sm:pl-8 md:pl-12"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  className="relative pl-6 sm:pl-8 md:pl-12 reveal-on-scroll"
                 >
                   {/* Timeline Dot */}
                   <div className="absolute left-0 top-2 w-3 h-3 sm:w-4 sm:h-4 bg-[#111213] border-2 border-[#FFFFFF] -translate-x-[5px] sm:-translate-x-[7px]"></div>
 
                   {/* Post Content */}
                   <Link href={post.path}>
-                    <motion.article
-                      className="group relative transition-all duration-150"
-                      whileHover={{ x: 4 }}
-                    >
+                    <article className="group relative transition-transform duration-150 hover:translate-x-1">
                       {/* Order Number */}
                       <div className="mb-2">
                         <span className="text-xs font-medium text-[#E2E6E9] uppercase tracking-wider">
@@ -118,13 +101,13 @@ export default function CategoryPage() {
                       <p className="text-sm sm:text-base md:text-lg text-[#E2E6E9] leading-relaxed">
                         {post.summary}
                       </p>
-                    </motion.article>
+                    </article>
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

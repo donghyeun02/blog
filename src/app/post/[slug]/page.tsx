@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ViewTransition } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { postsMeta } from '@/components/postsMeta';
@@ -59,9 +60,15 @@ export default async function PostPage({
         <p className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest mb-3">
           {post.category} · {post.date?.replace('.', '/')}
         </p>
-        <h1 className="text-3xl font-bold text-[#1D1D1F] tracking-tight leading-tight mb-12">
-          {post.title}
-        </h1>
+        <ViewTransition
+          name={`post-title-${post.slug}`}
+          share="morph"
+          default="none"
+        >
+          <h1 className="text-3xl font-bold text-[#1D1D1F] tracking-tight leading-tight mb-12">
+            {post.title}
+          </h1>
+        </ViewTransition>
         <article className="prose max-w-none">
           <Content />
         </article>

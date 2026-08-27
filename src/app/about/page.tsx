@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -8,12 +5,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#181A1B] relative overflow-hidden transition-colors">
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-24 max-w-4xl">
         {/* Header */}
-        <motion.div
-          className="mb-16 sm:mb-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="mb-16 sm:mb-20 animate-fade-in">
           <Link
             href="/"
             className="inline-block mb-6 text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
@@ -23,15 +15,10 @@ export default function AboutPage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#FFFFFF] mb-4">
             About
           </h1>
-        </motion.div>
+        </div>
 
         {/* Content */}
-        <motion.div
-          className="space-y-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <div className="space-y-8 animate-fade-in [animation-delay:200ms] [animation-fill-mode:both]">
           <div className="space-y-6 text-sm sm:text-base md:text-lg text-[#E2E6E9] leading-relaxed">
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-[#FFFFFF] mb-4">
               &quot;글을 왜 쓰는가?&quot;
@@ -406,7 +393,7 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
