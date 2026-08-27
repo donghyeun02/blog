@@ -27,6 +27,9 @@ export default function AdSense({
       }
     } catch (error) {
       console.error('AdSense error:', error);
+      // 외부 SDK(adsbygoogle) 초기화 실패를 기록하는 자리라 effect 안에서
+      // 상태를 바꾸는 것이 맞다.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAdError(true);
     }
   }, []);

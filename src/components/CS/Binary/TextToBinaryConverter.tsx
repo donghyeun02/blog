@@ -1,38 +1,19 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+// 텍스트를 ASCII 코드와 2진수로 변환
+const convertTextToBinary = (inputText: string) =>
+  Array.from(inputText, (char) => {
+    const ascii = char.charCodeAt(0);
+    return { char, ascii, binary: ascii.toString(2).padStart(8, '0') };
+  });
 
 const TextToBinaryConverter = () => {
   const [text, setText] = useState<string>('');
-  const [conversions, setConversions] = useState<
-    Array<{
-      char: string;
-      ascii: number;
-      binary: string;
-    }>
-  >([]);
 
-  // 텍스트를 ASCII 코드와 2진수로 변환
-  const convertTextToBinary = (inputText: string) => {
-    const results = [];
-    for (let i = 0; i < inputText.length; i++) {
-      const char = inputText[i];
-      const ascii = char.charCodeAt(0);
-      const binary = ascii.toString(2).padStart(8, '0');
-      results.push({ char, ascii, binary });
-    }
-    return results;
-  };
-
-  // 텍스트가 변경될 때마다 변환
-  useEffect(() => {
-    if (text) {
-      const results = convertTextToBinary(text);
-      setConversions(results);
-    } else {
-      setConversions([]);
-    }
-  }, [text]);
+  // 입력에서 곧바로 계산한다. 별도 state와 effect로 동기화하지 않는다.
+  const conversions = convertTextToBinary(text);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

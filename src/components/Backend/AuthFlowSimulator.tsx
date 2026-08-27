@@ -26,6 +26,9 @@ const STEPS = {
   ],
 };
 
+// 데모용 세션 id. 렌더 스코프 밖에 두고 이벤트 핸들러에서만 호출한다.
+const createSessionId = () => 'sess_' + Math.random().toString(36).slice(2, 10);
+
 const ARROWS_HORIZONTAL = { login: '➡️', request: '➡️', logout: '⬅️' };
 const ARROWS_VERTICAL = { login: '⬇️', request: '⬇️', logout: '⬆️' };
 
@@ -65,8 +68,9 @@ export default function AuthFlowSimulator() {
     }
   }, [log]);
 
-  useEffect(() => {
-    // 상태 초기화 시 step도 0으로
+  // 모드를 바꾸는 건 사용자 동작이므로 effect가 아니라 핸들러에서 리셋한다.
+  const handleModeChange = (nextMode: string) => {
+    setMode(nextMode);
     setStep(0);
     setIsLoggedIn(false);
     setCookie(null);
@@ -75,7 +79,7 @@ export default function AuthFlowSimulator() {
     setLog([]);
     setShowCookieVuln(false); // 모드 바뀌면 시각화 숨김
     setCompleted(false); // 모드 바뀌면 안내 메시지도 숨김
-  }, [mode]);
+  };
 
   // 단계별 동작
   const handleStep = (action: string) => {
@@ -100,7 +104,7 @@ export default function AuthFlowSimulator() {
         setShowCookieVuln(true); // 로그인 시 시각화 표시
       } else if (mode === 'session') {
         setIsLoggedIn(true);
-        const sid = 'sess_' + Math.random().toString(36).substr(2, 8);
+        const sid = createSessionId();
         setSessionId(sid);
         setServerSession({
           id: sid,
@@ -226,7 +230,7 @@ export default function AuthFlowSimulator() {
         {MODES.map((m) => (
           <button
             key={m.id}
-            onClick={() => setMode(m.id)}
+            onClick={() => handleModeChange(m.id)}
             className={`px-3 py-1 rounded text-sm font-mono border transition-colors ${
               mode === m.id
                 ? 'bg-blue-600 text-white border-blue-700'

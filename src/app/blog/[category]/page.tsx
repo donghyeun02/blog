@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -9,19 +8,6 @@ import { postsMeta } from '@/components/postsMeta';
 export default function CategoryPage() {
   const params = useParams();
   const category = params.category as string;
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return (
-      <div className="min-h-screen bg-[#181A1B] flex items-center justify-center">
-        <div className="text-[#E2E6E9] text-xl">Loading...</div>
-      </div>
-    );
-  }
 
   // 카테고리별 포스트 필터링 및 역순 정렬
   // postsMeta 배열의 원본 순서를 유지하면서 필터링 후 역순으로 정렬 (배열의 마지막이 가장 최근 글)

@@ -1,16 +1,17 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+// eslint-config-next 16부터 네이티브 flat config를 내보내므로
+// FlatCompat 없이 그대로 펼쳐 쓴다.
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  { ignores: ['.next/**', 'node_modules/**', 'public/**'] },
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  {
+    // CommonJS 설정 파일은 require()가 정상이다.
+    files: ['*.config.js', '*.config.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
 ];
 
 export default eslintConfig;

@@ -1,19 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const DecimalToBinaryConverter = () => {
   const [decimal, setDecimal] = useState<string>('');
-  const [binary, setBinary] = useState<string>('00000000');
 
-  // 십진수가 변경될 때마다 이진수 업데이트
-  useEffect(() => {
-    const num = parseInt(decimal) || 0;
-    if (num >= 0 && num <= 255) {
-      const binaryStr = num.toString(2).padStart(8, '0');
-      setBinary(binaryStr);
-    }
-  }, [decimal]);
+  // 입력에서 곧바로 계산한다. 별도 state와 effect로 동기화하지 않는다.
+  const binary = (parseInt(decimal) || 0).toString(2).padStart(8, '0');
 
   // 입력 처리
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
