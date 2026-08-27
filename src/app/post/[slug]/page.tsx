@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
-import LocalMdxLoader from '@/components/LocalMdxLoader';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { postsMeta } from '@/components/postsMeta';
+import { postsContent } from '@/components/postsContent';
+
+// 모든 글을 빌드 타임에 정적 생성한다.
+export function generateStaticParams() {
+  return postsMeta.map((post) => ({ slug: post.slug }));
+}
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -29,5 +38,34 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  return <LocalMdxLoader slug={slug} />;
+  const post = postsMeta.find((p) => p.slug === slug);
+  if (!post) notFound();
+
+  // MDX는 빌드 타임에 컴파일된다. 브라우저로 컴파일러나 하이라이터가
+  // 내려가지 않고, 본문은 HTML로 먼저 그려진다.
+  const loadContent = postsContent[slug];
+  if (!loadContent) notFound();
+  const { default: Content } = await loadContent();
+
+  return (
+    <div className="min-h-screen bg-[#FAFAFA]">
+      <div className="max-w-3xl mx-auto px-6 py-16 sm:py-24">
+        <Link
+          href="/"
+          className="inline-block text-sm text-[#AEAEB2] hover:text-[#6E6E73] transition-[color] duration-150 mb-12"
+        >
+          ← 홈으로
+        </Link>
+        <p className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest mb-3">
+          {post.category} · {post.date?.replace('.', '/')}
+        </p>
+        <h1 className="text-3xl font-bold text-[#1D1D1F] tracking-tight leading-tight mb-12">
+          {post.title}
+        </h1>
+        <article className="prose max-w-none">
+          <Content />
+        </article>
+      </div>
+    </div>
+  );
 }

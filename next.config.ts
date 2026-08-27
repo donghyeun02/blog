@@ -7,6 +7,10 @@ const withMDX = createMDX({
     // Turbopack은 직렬화 가능한 값만 받으므로 플러그인을 import한 함수가 아니라
     // 패키지 이름 문자열로 넘긴다.
     remarkPlugins: [['remark-gfm', {}]],
+    // 코드 하이라이팅도 빌드 타임에 끝낸다. shiki가 브라우저로 내려가지 않는다.
+    rehypePlugins: [
+      ['rehype-pretty-code', { theme: 'github-light', keepBackground: true }],
+    ],
   },
 });
 
