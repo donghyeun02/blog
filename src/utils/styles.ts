@@ -35,12 +35,6 @@ export const commonStyles = {
   // 레이아웃 스타일
   container: 'container mx-auto px-4 py-8 sm:py-12',
   maxWidth: 'max-w-6xl mx-auto',
-
-  // 애니메이션 스타일
-  motion: {
-    fadeIn: 'initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}',
-    slideIn: 'initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}',
-  },
 };
 
 // 반응형 클래스들
