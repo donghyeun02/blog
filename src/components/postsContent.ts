@@ -29,4 +29,5 @@ export const postsContent: Record<
   smartContract: () => import('@/app/local-mdx/smartContract.mdx'),
   'trust-your-server': () => import('@/app/local-mdx/trust-your-server.mdx'),
   windowEthereum: () => import('@/app/local-mdx/windowEthereum.mdx'),
+  whyTechBlog: () => import('@/app/local-mdx/whyTechBlog.mdx'),
 };
