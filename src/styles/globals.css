@@ -902,20 +902,14 @@ a.label-meta:hover {
 }
 
 /* ── 구성도 ──────────────────────────────────────────────────
-   본문 폭에 맞춰 줄이면 도면 안 글씨가 못 읽을 크기가 된다.
-   화면 폭까지 펼치고, 좁은 화면에서는 가로로 스크롤한다. */
+   도면을 글 폭(752px)에 맞춰 그렸으므로 확대도 축소도 하지 않는다.
+   그보다 좁은 화면에서만 비율을 유지하며 줄어든다. */
 .diagram {
-  margin: 2.2rem calc(50% - 50vw);
-  width: 100vw;
-  overflow-x: auto;
-  padding-inline: max(1.5rem, calc(50vw - 780px));
+  margin: 2.2rem 0;
 }
 
 .diagram img {
   display: block;
-  margin-inline: auto;
-  min-width: 1080px;
-  max-width: 1520px;
   width: 100%;
   height: auto;
 }
