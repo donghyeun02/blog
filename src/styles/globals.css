@@ -8,6 +8,9 @@
   --font-sans:
     Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-heading: Pretendard, -apple-system, sans-serif;
+  /* 날짜·개수·외부 링크 같은 메타 정보 전용. 시스템 폰트라 추가 요청이 없다. */
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
   /* 팔레트. 기존 hex를 그대로 oklch로 옮긴 값이라 화면 색은 바뀌지 않는다.
      oklch는 밝기가 지각과 일치해서 단계를 새로 만들 때 다루기 쉽다. */
@@ -24,6 +27,7 @@
   --color-night-line: oklch(23.84% 0.0065 258.36); /* #1D1F22 */
   --color-night-deep: oklch(18.15% 0.0026 247.97); /* #111213 */
   --color-night-text: oklch(92.27% 0.0059 239.82); /* #E2E6E9 */
+  --color-hairline: oklch(88% 0.008 286);
 
   /* 기존 tailwind.config.js에 있던 별칭 */
   --color-primary: var(--color-ink);
@@ -642,4 +646,109 @@ h1,
 h2,
 h3 {
   text-wrap: pretty;
+}
+
+/* ── 수직 리듬 ───────────────────────────────────────────────
+   여백을 rem이 아니라 줄 높이(lh)로 잡는다. 글자 크기가 달라져도
+   행간의 배수로 유지돼서 목록과 본문의 리듬이 어긋나지 않는다. */
+.rhythm > * + * {
+  margin-top: var(--rhythm-gap, 1lh);
+}
+
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 3lh;
+}
+
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35lh;
+}
+
+/* ── 목록 행 ─────────────────────────────────────────────────
+   날짜를 왼쪽 고정폭에 두고 제목을 이어 붙인다. 카드도 테두리도
+   쓰지 않고 정렬만으로 목록을 만든다. */
+.row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  align-items: baseline;
+  column-gap: 1rem;
+  padding: 0.34lh 0.6rem;
+  margin-inline: -0.6rem;
+  transition: background-color 150ms;
+}
+
+.row:hover {
+  background: var(--color-surface-hover);
+}
+
+.row-date {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  letter-spacing: -0.01em;
+}
+
+.row-title {
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-ink);
+  transition: color 150ms;
+}
+
+.row:hover .row-title {
+  color: var(--color-subtle);
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+    row-gap: 0.1lh;
+  }
+}
+
+/* ── 섹션 라벨 ───────────────────────────────────────────────
+   장식 없는 한 단어. 오른쪽에 개수나 링크가 붙는다. */
+.label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.3lh;
+  margin-bottom: 0.5lh;
+  border-bottom: 1px solid var(--color-hairline, oklch(88% 0.008 286));
+}
+
+.label h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.label-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+a.label-meta:hover {
+  color: var(--color-ink);
+}
+
+/* 외부 링크 표시 */
+.ext {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-subtle);
+  transition: color 150ms;
+}
+.ext:hover {
+  color: var(--color-ink);
 }

@@ -2,25 +2,25 @@ import Link from 'next/link';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#181A1B] relative overflow-hidden transition-colors">
-      <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-12 sm:py-16 md:py-24 max-w-4xl">
+    <div className="relative overflow-hidden">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-[3lh] pb-[3lh]">
         {/* Header */}
         <div className="mb-16 sm:mb-20 animate-fade-in">
           <Link
             href="/"
-            className="inline-block mb-6 text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+            className="inline-block mb-6 text-sm text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
           >
             ← 홈으로 돌아가기
           </Link>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#FFFFFF] mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#1D1D1F] mb-4">
             About
           </h1>
         </div>
 
         {/* Content */}
         <div className="space-y-8 animate-fade-in [animation-delay:200ms] [animation-fill-mode:both]">
-          <div className="space-y-6 text-sm sm:text-base md:text-lg text-[#E2E6E9] leading-relaxed">
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-[#FFFFFF] mb-4">
+          <div className="space-y-6 text-sm sm:text-base md:text-lg text-[#3C3C43] leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-[#1D1D1F] mb-4">
               &quot;글을 왜 쓰는가?&quot;
             </p>
             <p>
@@ -35,15 +35,15 @@ export default function AboutPage() {
               같았습니다.
             </p>
             <p>그래서 문득 궁금했습니다.</p>
-            <p className="pl-4 border-l-2 border-[#FFFFFF]">
+            <p className="pl-4 border-l-2 border-[#1D1D1F]">
               &quot;이런 글들을 조금 더 &apos;기록&apos;답게, 사라지지 않는
               형태로 남길 수는 없을까?&quot;
             </p>
             <p>그 단순한 호기심이, 이 블로그의 출발점이었습니다.</p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               글이 &apos;기록&apos;이 되는 순간
             </h2>
             <p>
@@ -52,20 +52,20 @@ export default function AboutPage() {
             </p>
             <p>
               어설프고 미완성이라도, 그때의 생각이 고스란히 남는{' '}
-              <span className="font-heading font-bold text-[#FFFFFF]">
+              <span className="font-heading font-bold text-[#1D1D1F]">
                 &apos;기록&apos;
               </span>
               은 의미가 있다고 느꼈습니다. 그래서 고민했습니다.
             </p>
-            <p className="pl-4 border-l-2 border-[#FFFFFF]">
+            <p className="pl-4 border-l-2 border-[#1D1D1F]">
               &quot;글을 단순히 저장하는 대신, 증명 가능한 형태로 남길 수는
               없을까?&quot;
             </p>
             <p>그 질문에서, 이 프로젝트가 시작됐습니다.</p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               블록체인 위의 글
             </h2>
             <p>
@@ -85,9 +85,9 @@ export default function AboutPage() {
               물론 말처럼 쉽지는 않았습니다. 예상치 못한 시행착오의 연속이었죠.
             </p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               시행착오와 타협
             </h2>
             <p>
@@ -109,9 +109,9 @@ export default function AboutPage() {
               블로그가 완성됐습니다.
             </p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               &quot;Web3는 기능이 아니라 신뢰를 설계하는 기술이다.&quot;
             </h2>
             <p>
@@ -126,21 +126,21 @@ export default function AboutPage() {
             </p>
             <p>
               Web3는 느리고, 복잡하고, 불편합니다. 하지만 그 불편함 속에{' '}
-              <span className="font-heading font-bold text-[#FFFFFF]">
+              <span className="font-heading font-bold text-[#1D1D1F]">
                 &quot;변하지 않는 무언가&quot;
               </span>
               가 남습니다.
             </p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               기록과 기술 사이에서
             </h2>
             <p>
               Web3 블로그를 만드는 과정은 흥미로웠지만, 아이러니하게도 블로그를
               완성하고 나니 정작 중요한{' '}
-              <span className="font-heading font-bold text-[#FFFFFF]">
+              <span className="font-heading font-bold text-[#1D1D1F]">
                 &apos;글쓰기&apos;
               </span>
               를 미루게 되었습니다.
@@ -163,9 +163,9 @@ export default function AboutPage() {
               트랜잭션이 아니라 이야기로 남기려 합니다.
             </p>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#FFFFFF] mb-4">
+            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#1D1D1F] mb-4">
               프로젝트 문서
             </h2>
             <p className="mb-2">
@@ -174,18 +174,18 @@ export default function AboutPage() {
             </p>
 
             {/* 프로젝트 개요 - 위에 1개 */}
-            <div className="mb-6 p-4 sm:p-6 border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-colors">
-              <h3 className="text-lg sm:text-xl font-heading font-bold text-[#FFFFFF] mb-2 mt-0">
+            <div className="mb-6 p-4 sm:p-6 border border-[#D2D2D7] hover:border-[#1D1D1F]/20 transition-colors">
+              <h3 className="text-lg sm:text-xl font-heading font-bold text-[#1D1D1F] mb-2 mt-0">
                 프로젝트 개요
               </h3>
-              <p className="text-sm sm:text-base text-[#E2E6E9] mb-4">
+              <p className="text-sm sm:text-base text-[#3C3C43] mb-4">
                 프로젝트 목적, 기술 스택, 주요 기능 요약
               </p>
               <a
                 href="https://donghyeun02.notion.site/Web3-23c2ee104c6680eaa1d2c377e781427f"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                className="inline-flex items-center text-sm text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
               >
                 노션에서 보기
                 <span className="ml-2">→</span>
@@ -194,52 +194,52 @@ export default function AboutPage() {
 
             {/* 나머지 3개 - 그리드 */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-              <div className="p-3 sm:p-4 border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-colors">
-                <h3 className="text-base sm:text-lg font-heading font-bold text-[#FFFFFF] mb-2 mt-0">
+              <div className="p-3 sm:p-4 border border-[#D2D2D7] hover:border-[#1D1D1F]/20 transition-colors">
+                <h3 className="text-base sm:text-lg font-heading font-bold text-[#1D1D1F] mb-2 mt-0">
                   개발 이슈
                 </h3>
-                <p className="text-xs sm:text-sm text-[#E2E6E9] mb-3">
+                <p className="text-xs sm:text-sm text-[#3C3C43] mb-3">
                   개발 중 겪은 실제 문제들과 해결 로그 기록
                 </p>
                 <a
                   href="https://donghyeun02.notion.site/Web3-23c2ee104c6680129082cce97e0a1519"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                  className="inline-flex items-center text-sm text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                 >
                   노션에서 보기
                   <span className="ml-2">→</span>
                 </a>
               </div>
-              <div className="p-3 sm:p-4 border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-colors">
-                <h3 className="text-base sm:text-lg font-heading font-bold text-[#FFFFFF] mb-2 mt-0">
+              <div className="p-3 sm:p-4 border border-[#D2D2D7] hover:border-[#1D1D1F]/20 transition-colors">
+                <h3 className="text-base sm:text-lg font-heading font-bold text-[#1D1D1F] mb-2 mt-0">
                   프로젝트 회고
                 </h3>
-                <p className="text-xs sm:text-sm text-[#E2E6E9] mb-3">
+                <p className="text-xs sm:text-sm text-[#3C3C43] mb-3">
                   4L 방식으로 정리한 기술적/심리적 인사이트
                 </p>
                 <a
                   href="https://donghyeun02.notion.site/Web3-feat-4L-23c2ee104c6680679da5ea58ef1ee0df#23c2ee104c668162be16eb458471bd61"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                  className="inline-flex items-center text-sm text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                 >
                   노션에서 보기
                   <span className="ml-2">→</span>
                 </a>
               </div>
-              <div className="p-3 sm:p-4 border border-[#1D1F22] hover:border-[#FFFFFF]/20 transition-colors">
-                <h3 className="text-base sm:text-lg font-heading font-bold text-[#FFFFFF] mb-2 mt-0">
+              <div className="p-3 sm:p-4 border border-[#D2D2D7] hover:border-[#1D1D1F]/20 transition-colors">
+                <h3 className="text-base sm:text-lg font-heading font-bold text-[#1D1D1F] mb-2 mt-0">
                   왜 Web3 블로그?
                 </h3>
-                <p className="text-xs sm:text-sm text-[#E2E6E9] mb-3">
+                <p className="text-xs sm:text-sm text-[#3C3C43] mb-3">
                   블로그에 Web3를 적용한 이유와 가치에 대한 설명
                 </p>
                 <a
                   href="https://donghyeun02.notion.site/Web3-23e2ee104c668044a3d2c9bb3b08a173"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                  className="inline-flex items-center text-sm text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                 >
                   노션에서 보기
                   <span className="ml-2">→</span>
@@ -247,16 +247,16 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               이 블로그의 특징
             </h2>
             <ul className="space-y-4 list-none">
               <li className="flex items-start">
-                <span className="text-[#FFFFFF] mr-3">•</span>
+                <span className="text-[#1D1D1F] mr-3">•</span>
                 <div>
-                  <span className="font-heading font-bold text-[#FFFFFF]">
+                  <span className="font-heading font-bold text-[#1D1D1F]">
                     무결성 보장
                   </span>
                   {' — '}
@@ -267,9 +267,9 @@ export default function AboutPage() {
                 </div>
               </li>
               <li className="flex items-start">
-                <span className="text-[#FFFFFF] mr-3">•</span>
+                <span className="text-[#1D1D1F] mr-3">•</span>
                 <div>
-                  <span className="font-heading font-bold text-[#FFFFFF]">
+                  <span className="font-heading font-bold text-[#1D1D1F]">
                     소유권 증명
                   </span>
                   {' — '}
@@ -280,9 +280,9 @@ export default function AboutPage() {
                 </div>
               </li>
               <li className="flex items-start">
-                <span className="text-[#FFFFFF] mr-3">•</span>
+                <span className="text-[#1D1D1F] mr-3">•</span>
                 <div>
-                  <span className="font-heading font-bold text-[#FFFFFF]">
+                  <span className="font-heading font-bold text-[#1D1D1F]">
                     탈중앙화
                   </span>
                   {' — '}
@@ -292,9 +292,9 @@ export default function AboutPage() {
                 </div>
               </li>
               <li className="flex items-start">
-                <span className="text-[#FFFFFF] mr-3">•</span>
+                <span className="text-[#1D1D1F] mr-3">•</span>
                 <div>
-                  <span className="font-heading font-bold text-[#FFFFFF]">
+                  <span className="font-heading font-bold text-[#1D1D1F]">
                     투명성
                   </span>
                   {' — '}
@@ -303,67 +303,67 @@ export default function AboutPage() {
               </li>
             </ul>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#FFFFFF] mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-[#1D1D1F] mb-4 sm:mb-6">
               기술 스택
             </h2>
-            <div className="space-y-3 text-base text-[#E2E6E9]">
+            <div className="space-y-3 text-base text-[#3C3C43]">
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   Frontend:
                 </span>{' '}
                 Next.js · TailwindCSS · TypeScript
               </p>
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   Blockchain:
                 </span>{' '}
                 Solidity · Ethers.js · Polygon Network
               </p>
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   Storage:
                 </span>{' '}
                 IPFS (Pinata) · CID
               </p>
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   Deployment:
                 </span>{' '}
                 Vercel · MetaMask
               </p>
             </div>
 
-            <div className="my-12 border-t border-[#1D1F22]"></div>
+            <div className="my-12 border-t border-[#D2D2D7]"></div>
 
             <div className="space-y-4">
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   Email:
                 </span>{' '}
                 <a
                   href="mailto:donghyeun02@gmail.com"
-                  className="text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                  className="text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                 >
                   donghyeun02@gmail.com
                 </a>
               </p>
               <p>
-                <span className="font-heading font-bold text-[#FFFFFF]">
+                <span className="font-heading font-bold text-[#1D1D1F]">
                   GitHub:
                 </span>{' '}
                 <a
                   href="https://github.com/donghyeun02"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                  className="text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                 >
                   donghyeun02
                 </a>
               </p>
               <div>
-                <p className="font-heading font-bold text-[#FFFFFF] mb-2">
+                <p className="font-heading font-bold text-[#1D1D1F] mb-2">
                   블로그 관련 깃허브:
                 </p>
                 <ul className="space-y-1 ml-4">
@@ -372,7 +372,7 @@ export default function AboutPage() {
                       href="https://github.com/donghyeun02/blog"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                      className="text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                     >
                       blog
                     </a>
@@ -383,7 +383,7 @@ export default function AboutPage() {
                       href="https://github.com/donghyeun02/blog-registry"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#E2E6E9] hover:text-[#FFFFFF] transition-colors"
+                      className="text-[#3C3C43] hover:text-[#6E6E73] transition-colors"
                     >
                       blog-registry
                     </a>
