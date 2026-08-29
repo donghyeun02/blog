@@ -1,37 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { postsMeta } from './postsMeta';
-import PostRow from './PostRow';
 import BinaryStrip from './home/BinaryStrip';
-
-const HOME_ROWS_PER_CATEGORY = 4;
-
-// 홈에서 보여줄 순서. 글이 많은 순으로 두되 순서는 고정한다.
-const CATEGORY_ORDER = ['Dev', 'CS', 'Blockchain'] as const;
-
-// 글 안에서 실제로 돌아가는 것들. 글이 아니라 만든 것으로 따로 세운다.
-const WORKS = [
-  {
-    name: '논리 게이트로 덧셈기 만들기',
-    description: 'AND·OR·XOR을 이어 붙여 반가산기와 전가산기를 조립해 본다',
-    href: '/post/calculator',
-  },
-  {
-    name: '진수 · 문자 · 색 변환기',
-    description: '십진수, 텍스트, RGB가 각각 어떻게 8비트로 바뀌는지 본다',
-    href: '/post/binary',
-  },
-  {
-    name: '경로 탈출 데모',
-    description: '이 블로그에 실제로 있었던 취약점을 그대로 재현해 둔 것',
-    href: '/post/hardening',
-  },
-  {
-    name: '중앙화 vs 탈중앙화',
-    description: '노드 하나가 죽었을 때 두 구조가 어떻게 달라지는지 비교한다',
-    href: '/post/nft',
-  },
-] as const;
+import FilterablePosts from './home/FilterablePosts';
 
 const PROJECTS = [
   {
@@ -50,14 +21,8 @@ const PROJECTS = [
   },
 ] as const;
 
-const listed = postsMeta.filter((post) => post.listed !== false);
-
-function byCategory(category: string) {
-  return listed
-    .filter((post) => post.category === category)
-    .slice()
-    .reverse();
-}
+// 배열 뒤쪽이 최신이라 뒤집어서 최신순으로 둔다.
+const listed = postsMeta.filter((post) => post.listed !== false).reverse();
 
 export default function BlogHome() {
   return (
@@ -116,57 +81,6 @@ export default function BlogHome() {
       </header>
 
       <div className="stack-lg mt-[2lh] lg:mt-0">
-        {/* 글 — 카테고리별로 나눠서 최근 것만 */}
-        {CATEGORY_ORDER.map((category) => {
-          const posts = byCategory(category);
-          if (posts.length === 0) return null;
-          const shown = posts.slice(0, HOME_ROWS_PER_CATEGORY);
-          const rest = posts.length - shown.length;
-
-          return (
-            <section key={category}>
-              <div className="label">
-                <h2>{category}</h2>
-                <Link className="label-meta" href={`/blog/${category}`}>
-                  {rest > 0 ? `+${rest}편 더` : `${posts.length}편`} →
-                </Link>
-              </div>
-              <div className="flex flex-col">
-                {shown.map((post) => (
-                  <PostRow key={post.slug} post={post} />
-                ))}
-              </div>
-            </section>
-          );
-        })}
-
-        {/* 작업 — 글 안에서 도는 것들 */}
-        <section>
-          <div className="label">
-            <h2>작업</h2>
-            <span className="label-meta">{WORKS.length}개</span>
-          </div>
-          <div className="flex flex-col">
-            {WORKS.map((work) => (
-              <Link
-                key={work.href}
-                href={work.href}
-                className="group -mx-[0.6rem] px-[0.6rem] py-[0.34lh] transition-[background-color] duration-150 hover:bg-[#F2F2F7]"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="text-[0.98rem] font-medium text-[#1D1D1F] transition-[color] duration-150 group-hover:text-[#6E6E73]">
-                    {work.name}
-                  </span>
-                  <span className="label-meta">열기 →</span>
-                </div>
-                <p className="mt-[0.1lh] text-[14px] leading-snug text-[#6E6E73]">
-                  {work.description}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-
         {/* 프로젝트 */}
         <section>
           <div className="label">
@@ -199,11 +113,7 @@ export default function BlogHome() {
           </div>
         </section>
 
-        <p>
-          <Link className="ext" href="/posts">
-            글 전체 보기 →
-          </Link>
-        </p>
+        <FilterablePosts posts={listed} />
       </div>
     </div>
   );
