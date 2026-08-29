@@ -6,7 +6,10 @@
 
 원인은 NACL 아웃바운드였다. 정확히는, 내가 나가는 쪽 규칙을 안 열어둔 것이었다.
 
-[이미지: SSH 접속 시도가 응답 없이 멈춰 있는 터미널 화면 캡처. 또는 요청은 나갔는데 응답이 돌아오지 못하고 Subnet 경계에서 막히는 그림]
+<figure className="diagram">
+  <img src="/diagrams/ssh-hang.svg" alt="요청은 도착했고 응답이 NACL 아웃바운드에서 버려졌다" />
+  <figcaption>요청은 도착했고 응답이 NACL 아웃바운드에서 버려졌다</figcaption>
+</figure>
 
 ---
 
@@ -99,7 +102,10 @@ Ops Prometheus  →  Workload Node Exporter : TCP 9100
 
 모니터링을 붙이는 일이 결국 네트워크 설계 얘기로 돌아온다는 게 좀 의외였다. 대시보드에 그래프가 안 뜬다는 증상 하나로 여섯 군데를 다 뒤져야 한다.
 
-[이미지: Ops Prometheus에서 Workload Node Exporter까지 TCP 9100 요청이 지나가는 경로 — Peering Route, 양쪽 NACL(인바운드·아웃바운드), 양쪽 ACG를 순서대로 통과하는 그림. 통과 지점마다 체크박스를 그려서 하나라도 비면 그래프가 안 뜬다는 걸 표현]
+<figure className="diagram">
+  <img src="/diagrams/scrape-path.svg" alt="Prometheus가 메트릭을 긁어오려면 여섯 군데가 맞아야 한다" />
+  <figcaption>Prometheus가 메트릭을 긁어오려면 여섯 군데가 맞아야 한다</figcaption>
+</figure>
 
 ---
 

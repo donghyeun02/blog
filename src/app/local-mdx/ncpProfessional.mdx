@@ -4,7 +4,10 @@
 
 기록을 남겨두려고 일차별로 글을 따로 썼다. 이 글은 그 넷을 묶은 목차이자, 나흘을 관통한 한 가지에 대한 이야기다.
 
-[이미지: 나흘 동안 쌓아 올린 전체 구조를 한 장으로 — 맨 아래 VPC/Subnet/Route, 그 위에 NACL·ACG, 그 위에 서버, 그 위에 Docker 컨테이너, 맨 위에 K3s Pod. 층층이 쌓이는 형태로]
+<figure className="diagram">
+  <img src="/diagrams/stack.svg" alt="나흘 동안 쌓아 올린 층 — VPC부터 K3s Pod까지" />
+  <figcaption>나흘 동안 쌓아 올린 층 — VPC부터 K3s Pod까지</figcaption>
+</figure>
 
 ---
 
@@ -88,7 +91,10 @@ Overlay 네트워크를 깔아도 노드 사이의 UDP `4789`가 막혀 있으�
 
 증상이 전부 똑같이 나오기 때문이다. 요청이 그냥 멈춘다.
 
-[이미지: 위 층 구조도를 다시 보여주되, 각 층에서 문제가 생겼을 때 사용자가 보는 증상이 전부 "타임아웃 / 응답 없음"으로 동일하다는 것을 오른쪽에 나란히 표시]
+<figure className="diagram">
+  <img src="/diagrams/stack-symptom.svg" alt="어느 층에서 막혀도 사람이 보는 증상은 하나다" />
+  <figcaption>어느 층에서 막혀도 사람이 보는 증상은 하나다</figcaption>
+</figure>
 
 ## 나흘
 

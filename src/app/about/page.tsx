@@ -71,16 +71,6 @@ const LINKS = [
     value: 'donghyeun02@gmail.com',
     href: 'mailto:donghyeun02@gmail.com',
   },
-  {
-    label: 'Blog',
-    value: 'donghyeun02/blog',
-    href: 'https://github.com/donghyeun02/blog',
-  },
-  {
-    label: 'Registry',
-    value: 'donghyeun02/blog-registry',
-    href: 'https://github.com/donghyeun02/blog-registry',
-  },
 ] as const;
 
 export default function AboutPage() {
@@ -95,8 +85,7 @@ export default function AboutPage() {
           <span className="label-meta">about</span>
         </div>
         <p className="text-[15px] leading-[1.85] text-[#3C3C43]">
-          안녕하세요, donghyeun02입니다. 이것저것 만들고 개발하며 사는
-          사람입니다.
+          안녕하세요, donghyeun02입니다.
         </p>
       </header>
 

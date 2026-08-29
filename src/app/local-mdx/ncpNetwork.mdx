@@ -59,7 +59,10 @@ Internet Gateway와 NAT Gateway는 이름이 비슷하게 생겼는데 하는 �
 
 **NAT Gateway**는 한쪽만 열린다. Private Subnet의 서버가 먼저 시작한 연결만 밖으로 내보낸다. 밖에서 먼저 두드리는 연결은 받지 않는다.
 
-[이미지: IGW와 NAT Gateway의 방향 비교 — IGW는 양방향 화살표, NAT Gateway는 안에서 밖으로만 향하는 단방향 화살표. NAT에도 공인 IP가 붙어 있지만 그 IP로 안쪽 서버에 닿을 수는 없다는 걸 X 표시로]
+<figure className="diagram">
+  <img src="/diagrams/net-direction.svg" alt="Internet Gateway는 양쪽이 열리고 NAT Gateway는 나가는 방향만 열린다" />
+  <figcaption>Internet Gateway는 양쪽이 열리고 NAT Gateway는 나가는 방향만 열린다</figcaption>
+</figure>
 
 여기서 헷갈리기 딱 좋은 게 하나 있다. NAT Gateway에도 공인 IP가 붙는다.
 
@@ -103,7 +106,10 @@ Service    →  그 포트를 실제로 듣고 있는가
 
 그래서 서버를 먼저 만들지 않았던 거였다. 서버부터 띄워놓고 접속이 안 되면, 위의 네 개 중 뭐가 문제인지 구분할 방법이 없다. 길을 다 깔아놓고 그 위에 서버를 얹으면 최소한 "길은 있다"는 건 확정하고 시작한다.
 
-[이미지: 위 네 개 층을 세로로 쌓은 그림 — 패킷이 Route → NACL → ACG → Service 순서로 통과하는 모습. 각 층에서 막혔을 때 사람이 보는 증상은 전부 "타임아웃"으로 똑같다는 걸 표시]
+<figure className="diagram">
+  <img src="/diagrams/net-layers.svg" alt="패킷이 통과해야 하는 네 개의 관문 — 어디서 막혀도 증상은 타임아웃" />
+  <figcaption>패킷이 통과해야 하는 네 개의 관문 — 어디서 막혀도 증상은 타임아웃</figcaption>
+</figure>
 
 ---
 
