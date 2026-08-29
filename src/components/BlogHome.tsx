@@ -61,11 +61,11 @@ function byCategory(category: string) {
 
 export default function BlogHome() {
   return (
-    <div className="max-w-2xl mx-auto px-6 pb-[3lh]">
-      {/* 소개 */}
-      <header className="pt-[3lh]">
-        <div className="flex items-start justify-between gap-8">
-          <div className="stack-sm">
+    <div className="home-shell max-w-5xl mx-auto px-6 pb-[3lh] pt-[3lh]">
+      {/* 소개 — 왼쪽 레일 */}
+      <header className="home-rail">
+        <div className="flex items-start gap-5 lg:flex-col lg:gap-[0.8lh]">
+          <div className="stack-sm order-2 lg:order-none">
             <h1 className="text-[1.35rem] font-bold text-[#1D1D1F] tracking-tight">
               신동현
             </h1>
@@ -75,7 +75,7 @@ export default function BlogHome() {
               파고파서 나온 결과를 이곳에 정리합니다.
             </p>
           </div>
-          <div className="relative flex-shrink-0 w-20 sm:w-24 aspect-square">
+          <div className="relative aspect-square w-20 flex-shrink-0 sm:w-24 order-1 lg:order-none">
             <Image
               src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/A64D1C12-596E-4016-8EB5-063B2BA1DEBE_1_201_a-Photoroom.png"
               alt="신동현"
@@ -115,7 +115,7 @@ export default function BlogHome() {
         </div>
       </header>
 
-      <div className="stack-lg mt-[2.5lh]">
+      <div className="stack-lg mt-[2lh] lg:mt-0">
         {/* 글 — 카테고리별로 나눠서 최근 것만 */}
         {CATEGORY_ORDER.map((category) => {
           const posts = byCategory(category);

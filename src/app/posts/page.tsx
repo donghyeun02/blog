@@ -19,7 +19,7 @@ export default function PostsPage() {
       : allPosts.filter((p) => p.category === active);
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pb-[3lh]">
+    <div className="max-w-3xl mx-auto px-6 pb-[3lh]">
       <header className="pt-[3lh]">
         <Link className="ext" href="/">
           ← 홈

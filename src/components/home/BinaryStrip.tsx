@@ -43,7 +43,7 @@ export default function BinaryStrip() {
           {bits.map((bit, i) => (
             <span
               key={i}
-              className={`grid h-[26px] w-[22px] place-items-center font-mono text-[0.82rem] tabular-nums transition-colors duration-150 ${
+              className={`grid h-[26px] w-[20px] place-items-center font-mono text-[0.82rem] tabular-nums transition-colors duration-150 ${
                 bit === '1'
                   ? 'bg-[#1D1D1F] text-[#FAFAFA]'
                   : 'bg-[#F2F2F7] text-[#AEAEB2]'

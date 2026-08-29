@@ -1,5 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
 import React from 'react';
+import { slugify, toText } from '@/utils/slug';
 
 interface TruthTableProps {
   title: string;
@@ -53,6 +54,14 @@ function TruthTable({ title, headers, rows }: TruthTableProps) {
 // 필요한 글이 각자 MDX 상단에서 import한다.
 export const mdxComponents: MDXComponents = {
   TruthTable,
+
+  // 목차가 걸 수 있도록 heading에 앵커 id를 붙인다. 목차와 같은 함수를
+  // 쓰므로 id가 어긋나지 않는다.
+  h2: ({ children, ...props }) => (
+    <h2 id={slugify(toText(children))} {...props}>
+      {children}
+    </h2>
+  ),
 
   // 마크다운은 blockquote를 p 안에 넣기도 하는데 p 안의 blockquote는
   // 유효하지 않은 HTML이라 div로 바꿔 준다.

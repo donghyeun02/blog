@@ -807,3 +807,93 @@ a.label-meta:hover {
     animation: none !important;
   }
 }
+
+/* ── 폭 ──────────────────────────────────────────────────────
+   본문은 읽기 좋은 폭을 유지하고, 남는 가로 공간은 목차나
+   소개처럼 훑는 정보에 내준다. 본문을 늘려 채우지는 않는다. */
+
+.post-shell,
+.home-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2lh 3rem;
+}
+
+@media (min-width: 1024px) {
+  .post-shell {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+  .home-shell {
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    gap: 0 4rem;
+  }
+}
+
+/* 좁은 화면에서는 목차를 접는다. 넣을 자리가 없다. */
+.toc-col {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .toc-col {
+    display: block;
+  }
+  .toc {
+    position: sticky;
+    top: 2lh;
+  }
+}
+
+.toc-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding-bottom: 0.3lh;
+  border-bottom: 1px solid var(--color-hairline);
+  margin-bottom: 0.5lh;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3lh;
+}
+
+.toc-list a {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  align-items: baseline;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--color-subtle);
+  transition: color 150ms;
+}
+
+.toc-list a:hover {
+  color: var(--color-ink);
+}
+
+.toc-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+/* 앵커로 이동할 때 제목이 헤더 밑에 숨지 않도록 여유를 둔다. */
+.prose :is(h2, h3) {
+  scroll-margin-top: 2lh;
+}
+
+/* 홈 왼쪽 열은 스크롤을 따라온다. */
+@media (min-width: 1024px) {
+  .home-rail {
+    position: sticky;
+    top: 2lh;
+  }
+}

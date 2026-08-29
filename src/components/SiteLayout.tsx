@@ -9,7 +9,7 @@ export default function SiteLayout({
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-[#1D1D1F]">
       {/* 이름은 왼쪽, 이동 링크는 오른쪽. 어느 페이지에서도 같은 자리에 있다. */}
-      <div className="max-w-2xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6">
         <header className="flex items-baseline justify-between gap-4 py-[0.9lh] border-b border-[#D2D2D7]">
           <Link
             href="/"
@@ -31,7 +31,7 @@ export default function SiteLayout({
       <main>{children}</main>
 
       <footer className="border-t border-[#D2D2D7] mt-20">
-        <div className="max-w-2xl mx-auto px-6 py-8 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-between">
           <p className="text-xs text-[#6E6E73]">© 2025 donghyeun02</p>
           <div className="flex items-center gap-1">
             <a
