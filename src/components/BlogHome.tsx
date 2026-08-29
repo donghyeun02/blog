@@ -29,28 +29,28 @@ export default function BlogHome() {
     <div className="home-shell max-w-5xl mx-auto px-6 pb-[3lh] pt-[3lh]">
       {/* 소개 — 왼쪽 레일 */}
       <header className="home-rail">
-        <div className="flex items-start gap-5 lg:flex-col lg:gap-[0.8lh]">
-          <div className="stack-sm order-2 lg:order-none">
-            <h1 className="text-[1.35rem] font-bold text-[#1D1D1F] tracking-tight">
-              신동현
-            </h1>
-            <p className="text-[15px] text-[#3C3C43] leading-[1.75] max-w-[34ch]">
-              어떻게 동작하는지 궁금한 게 많은 백엔드 개발자입니다.
-              <br />
-              파고파서 나온 결과를 이곳에 정리합니다.
-            </p>
-          </div>
-          <div className="relative aspect-square w-20 flex-shrink-0 sm:w-24 order-1 lg:order-none">
+        {/* 사진과 이름을 한 줄에 둔다. */}
+        <div className="flex items-center gap-3">
+          <div className="relative aspect-square w-16 flex-shrink-0">
             <Image
               src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/A64D1C12-596E-4016-8EB5-063B2BA1DEBE_1_201_a-Photoroom.png"
               alt="신동현"
               fill
-              sizes="96px"
+              sizes="64px"
               className="object-cover"
               priority
             />
           </div>
+          <h1 className="text-[1.35rem] font-bold tracking-tight text-[#1D1D1F]">
+            신동현
+          </h1>
         </div>
+
+        <p className="mt-[0.5lh] max-w-[34ch] text-[15px] leading-[1.75] text-[#3C3C43]">
+          어떻게 동작하는지 궁금한 게 많은 백엔드 개발자입니다.
+          <br />
+          파고파서 나온 결과를 이곳에 정리합니다.
+        </p>
 
         <nav className="flex items-baseline gap-x-4 mt-[0.8lh]">
           <a
