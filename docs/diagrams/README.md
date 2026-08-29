@@ -11,8 +11,9 @@
 제목과 각주는 그리되 viewBox에서 잘라내 화면에 안 보이게 한다(`top_cut`·`bot_cut`).
 글에 이미 제목과 본문이 있어서 도면이 그걸 반복할 이유가 없다.
 
-설명용 8장(net-*, ssh-hang, scrape-path, docker-isolated, k3s-split, stack*)은
-`narrow.py`의 단순한 상자 스타일을 쓴다.
+12장 전부 같은 스타일이다 — 일차별 구성도 4장(day1~4)과 설명용 8장
+(net-*, ssh-hang, scrape-path, docker-isolated, k3s-split, stack*) 모두
+`ncpstyle.py`를 쓴다.
 
 ## 크기
 
