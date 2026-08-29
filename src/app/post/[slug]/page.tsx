@@ -50,6 +50,7 @@ export default async function PostPage({
 
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
+      <div className="read-progress" aria-hidden="true" />
       <div className="max-w-3xl mx-auto px-6 py-16 sm:py-24">
         <Link
           href="/"

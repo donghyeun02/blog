@@ -6,7 +6,7 @@ import type { PostMeta } from '@/types';
 // 목록에서 훑을 때 필요한 건 언제 쓴 무엇인지 두 가지뿐이다.
 export default function PostRow({ post }: { post: PostMeta }) {
   return (
-    <Link href={post.path} className="row">
+    <Link href={post.path} className="row row-reveal">
       <span className="row-date">{post.date?.replace('20', '')}</span>
       <ViewTransition
         name={`post-title-${post.slug}`}

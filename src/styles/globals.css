@@ -752,3 +752,58 @@ a.label-meta:hover {
 .ext:hover {
   color: var(--color-ink);
 }
+
+/* ── 읽기 진행 바 ────────────────────────────────────────────
+   스크롤 위치를 애니메이션 타임라인으로 삼는다. 스크롤 이벤트도
+   JS도 없고, 컴포지터에서 도니까 메인 스레드를 건드리지 않는다. */
+.read-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 50;
+  height: 2px;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .read-progress {
+    animation: read-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes read-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* 지원하지 않는 브라우저에서는 바를 아예 감춘다.
+   0%에 멈춘 막대가 보이는 것보다 없는 편이 낫다. */
+@supports not (animation-timeline: scroll()) {
+  .read-progress {
+    display: none;
+  }
+}
+
+/* 목록 행이 뷰포트에 들어올 때 떠오른다. 화면 위쪽에 이미 들어와 있는
+   행은 진행도가 100%라 그대로 보인다. */
+@supports (animation-timeline: view()) {
+  .row-reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 30%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .read-progress {
+    display: none;
+  }
+  .row-reveal {
+    animation: none !important;
+  }
+}
