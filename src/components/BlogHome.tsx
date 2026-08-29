@@ -6,6 +6,13 @@ import FilterablePosts from './home/FilterablePosts';
 
 const PROJECTS = [
   {
+    name: '블로그 소개',
+    description: '이 블로그를 왜 만들었고 무슨 글을 쓰는지',
+    tech: '이 사이트',
+    href: '/about',
+    stars: null,
+  },
+  {
     name: 'KTX 자동 예매',
     description: 'KTX 잔여석을 모니터링하고 자동으로 예매하는 크롤러',
     tech: 'Java · Spring',
@@ -88,28 +95,37 @@ export default function BlogHome() {
             <span className="label-meta">{PROJECTS.length}개</span>
           </div>
           <div className="flex flex-col">
-            {PROJECTS.map((project) => (
-              <a
-                key={project.name}
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group px-[0.6rem] -mx-[0.6rem] py-[0.34lh] transition-[background-color] duration-150 hover:bg-[#F2F2F7]"
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="text-[0.98rem] font-medium text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150">
-                    {project.name}
-                  </span>
-                  <span className="label-meta">
-                    {project.stars != null ? `★ ${project.stars}` : '↗'}
-                  </span>
-                </div>
-                <p className="text-[14px] text-[#6E6E73] leading-snug mt-[0.1lh]">
-                  {project.description}
-                </p>
-                <p className="label-meta mt-[0.1lh]">{project.tech}</p>
-              </a>
-            ))}
+            {PROJECTS.map((project) => {
+              const isExternal = project.href.startsWith('http');
+              const Row = isExternal ? 'a' : Link;
+              return (
+                <Row
+                  key={project.name}
+                  href={project.href}
+                  {...(isExternal
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                  className="group -mx-[0.6rem] px-[0.6rem] py-[0.34lh] transition-[background-color] duration-150 hover:bg-[#F2F2F7]"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span className="text-[0.98rem] font-medium text-[#1D1D1F] transition-[color] duration-150 group-hover:text-[#6E6E73]">
+                      {project.name}
+                    </span>
+                    <span className="label-meta">
+                      {project.stars != null
+                        ? `★ ${project.stars}`
+                        : isExternal
+                          ? '↗'
+                          : '→'}
+                    </span>
+                  </div>
+                  <p className="mt-[0.1lh] text-[14px] leading-snug text-[#6E6E73]">
+                    {project.description}
+                  </p>
+                  <p className="label-meta mt-[0.1lh]">{project.tech}</p>
+                </Row>
+              );
+            })}
           </div>
         </section>
 

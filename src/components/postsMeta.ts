@@ -175,13 +175,4 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     date: '2026.08',
   },
-  {
-    title: '문서는 틀린 적이 없다',
-    path: '/post/whyTechBlog',
-    slug: 'whyTechBlog',
-    summary:
-      '공식 문서를 다 읽고도 막히는 이유, 그리고 남의 블로그가 그 자리를 메우는 방식',
-    category: 'Dev',
-    date: '2026.08',
-  },
 ];
