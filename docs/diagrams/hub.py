@@ -1,7 +1,7 @@
 from ncpstyle import *
 
 LAYERS = [
-    ('K3s Pod',          '4일차', 'Pod CIDR 10.42.0.0/16 · Service 10.43.0.0/16'),
+    ('K3s Pod',          '4~5일차', 'Pod CIDR 10.42.0.0/16 · Service · 매니페스트'),
     ('Docker Container', '3일차', 'bridge · Overlay UDP 4789'),
     ('Server',           '2일차', 'ACG · 서버 NIC에서 검사'),
     ('Subnet',           '1일차', 'NACL · Subnet 경계에서 검사'),
@@ -13,7 +13,7 @@ def stack(symptom):
     if symptom:
         title(s, '증상', '어느 층에서 막혀도 요청이 그냥 멈춘다')
     else:
-        title(s, '층', '나흘 동안 쌓아 올린 것')
+        title(s, '층', '실습에서 쌓아 올린 것')
     BW = 400 if symptom else CONTENT
     for i, (nm, day, det) in enumerate(LAYERS):
         y = 86 + i*58

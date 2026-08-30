@@ -6,7 +6,7 @@ title(s, '2일차', 'NACL과 ACG')
 user(s, 90, 100)
 node_side(s, 250, 100, 'ssl-vpn', 'SSL VPN', 'IP Pool /23 · 443')
 arrow(s, 'M 118 100 L 231 100')
-arrow(s, 'M 400 100 L 400 172')
+arrow(s, 'M 400 138 L 400 182')
 
 # Ops VPC
 vpc(s, M, 172, CONTENT, 96, 'cnp-s01-ops-vpc  10.50.0.0/16')
@@ -49,9 +49,10 @@ arrow(s, f'M {SX-22} {RES} L {AX+GW} {RES}', dash='4 4')
 arrow(s, f'M {AX} {RES} L {NX+GW} {RES}', dash='4 4')
 label(s, (AX+GW+SX-22)/2, RES+16, '임시포트')
 
-CORR = 12
-arrow(s, f'M 250 246 L {CORR} 246 L {CORR} {REQ} L {NX} {REQ}')
-arrow(s, f'M {NX} {RES} L {CORR} {RES}', dash='4 4')
+# 요청과 응답이 각자 통로를 쓴다. 둘 다 Ops 서버 박스에서 시작하고 끝난다.
+REQ_CORR, RES_CORR = 22, 8
+arrow(s, f'M 264 240 L {REQ_CORR} 240 L {REQ_CORR} {REQ} L {NX} {REQ}')
+arrow(s, f'M {NX} {RES} L {RES_CORR} {RES} L {RES_CORR} 254 L 264 254', dash='4 4')
 
 notes(s, 560, ['NACL은 요청과 응답을 각각 열어야 한다'])
 open('day2.svg','w',encoding='utf-8').write(s.render())

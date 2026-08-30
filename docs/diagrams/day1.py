@@ -4,7 +4,8 @@ s = canvas(560)
 title(s, '1일차 — 나가는 길만 있다', 'VPC 경로 구성 · 서버는 아직 없다')
 
 # 인터넷
-node_side(s, CW/2-30, 100, 'internet', '인터넷')
+INET_X, INET_Y, RAIL = CW/2-40, 92, 138
+node_side(s, INET_X, INET_Y, 'internet', '인터넷')
 
 VY, VH = 176, 300
 VW = 310
@@ -28,13 +29,17 @@ for x, plab, natlab, natsub, rlab, ghost in [
     # 나가는 길 : 빈 자리 → NAT → 인터넷
     c = x + VW - 62
     arrow(s, f'M {c} {PRI_Y+42} L {c} {PUB_Y+SH}')
-    arrow(s, f'M {c} {PUB_Y} L {c} 124')
+    # NAT에서 위로 올라가 레일에 붙고, 레일을 따라 인터넷 아이콘 아래로 모인다
+    plain(s, f'M {c} {PUB_Y} L {c} {RAIL} L {INET_X} {RAIL}')
+    label(s, c, RAIL-14, 'Internet Gateway')
     # 들어오는 길은 없다
     b = x + 170
     arrow(s, f'M {b} {PUB_Y+SH} L {b} {PRI_Y+42}', dash='4 4')
     cross(s, b, (PUB_Y+SH+PRI_Y)/2)
 
-label(s, OX+VW-62, 160, 'TCP 80·443')
+# 레일에서 인터넷 아이콘으로 들어가는 화살표는 한 번만
+arrow(s, f'M {INET_X} {RAIL} L {INET_X} {INET_Y+21}')
+label(s, OX+VW-62, 162, 'TCP 80·443')
 
 # Peering
 GC = (OX+VW + WX)/2
