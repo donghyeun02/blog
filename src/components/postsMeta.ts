@@ -175,4 +175,13 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     date: '2026.08',
   },
+  {
+    title: '전부 Running인데 응답이 없다',
+    path: '/post/k8sManifest',
+    slug: 'k8sManifest',
+    summary: 'Pod 상태만 보면 다 정상이다. Label 한 글자가 다르면 그렇게 된다',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
 ];

@@ -48,11 +48,11 @@ open('net-layers.svg','w',encoding='utf-8').write(s.render())
 
 # ── 3. 멈춘 SSH
 s = canvas(300)
-title(s, '멈춘 SSH', '요청은 도착했고 응답이 버려졌다')
+title(s, 'SSH', '요청은 도착했고 응답이 버려졌다')
 s.rect(M, 86, CONTENT, 84, stroke='#1D1D1F', sw=1.2, fill='#1D1D1F')
 s.text(M+18, 110, 'ubuntu@cnp-s01-ops-mgmt-svr:~$ ssh 10.60.48.6', size=10, fill='#E8EAED', mono=True)
-s.text(M+18, 146, '_', size=10, fill='#E8EAED', mono=True)
-s.text(CW-M-18, 146, '응답 없음 · 에러도 없음', size=9, fill='#9AA0A6', mono=True, anchor='end')
+s.text(M+18, 146, 'confused 에러', size=10, fill='#F28B82', mono=True)
+s.text(CW-M-18, 146, '포트가 닫혔다는 말은 아니다', size=9, fill='#9AA0A6', mono=True, anchor='end')
 node_side(s, M+50, 218, 'server', 'ops-mgmt')
 node_side(s, CW-M-190, 218, 'server', 'wld-mon')
 arrow(s, f'M {M+190} 206 L {CW-M-212} 206')
@@ -60,7 +60,7 @@ label(s, CW/2, 194, '요청 TCP 22 — 도착')
 arrow(s, f'M {CW-M-212} 234 L {M+190} 234', dash='4 4')
 cross(s, CW/2, 234, 6)
 label(s, CW/2, 258, '응답 — NACL 아웃바운드 규칙이 없어 버려진다', fill=MUTED)
-notes(s, 284, ['거절이 아니라 무응답이라 에러가 안 난다'])
+notes(s, 284, ['요청은 갔는데 대답이 안 돌아와 클라이언트 쪽에서 애매한 에러가 난다'])
 open('ssh-hang.svg','w',encoding='utf-8').write(s.render())
 
 # ── 4. 수집 경로
