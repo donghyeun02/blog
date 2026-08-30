@@ -176,10 +176,11 @@ export const postsMeta: PostMeta[] = [
     date: '2026.08',
   },
   {
-    title: '전부 Running인데 응답이 없다',
+    title: '닷새 만에 처음 안 막힌 날',
     path: '/post/k8sManifest',
     slug: 'k8sManifest',
-    summary: 'Pod 상태만 보면 다 정상이다. Label 한 글자가 다르면 그렇게 된다',
+    summary:
+      'Deployment와 Service를 잇는 건 Label 문자열 하나뿐이다. 여기서 틀리면 조용히 틀린다',
     category: 'Dev',
     date: '2026.08',
     listed: false,
