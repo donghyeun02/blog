@@ -1,0 +1,132 @@
+5일차는 클러스터 위에 처음으로 애플리케이션을 얹는 날이었다. Deployment로 Pod를 띄우고 Service로 통로를 낸다.
+
+닷새 중에 아무것도 안 막힌 날은 이날이 처음이었다. 앞선 날들은 뭔가 안 되는 데서 시작하곤 했는데, 이날은 YAML을 쓰고 `apply`하니까 그냥 됐다.
+
+그래서 좀 이상했다. 강의 자료는 유독 한 곳을 반복해서 경고했기 때문이다.
+
+<figure className="diagram">
+  <img src="/diagrams/k8s-selector.svg" alt="Service는 Label로 Pod를 고른다. 한 글자가 다르면 Endpoints가 빈다" />
+  <figcaption>Service는 Label로 Pod를 고른다. 한 글자가 다르면 Endpoints가 빈다</figcaption>
+</figure>
+
+---
+
+## 명령형과 선언형
+
+**무엇인가.** 클러스터에 뭔가를 만드는 방식이 두 가지라고 했다. 명령으로 시키는 쪽과, 원하는 상태를 파일에 적어두고 맞추라고 하는 쪽이다.
+
+| 구분 | 명령형 | 선언형 |
+| --- | --- | --- |
+| 명령 | `kubectl run` · `kubectl create` | `kubectl apply -f` |
+| 기록이 남는 곳 | 셸 히스토리 | YAML 파일 |
+| 같은 걸 또 실행하면 | 이미 있다고 오류 | 파일 내용에 맞춰 준다 |
+| 뭐가 바뀌었는지 | 확인할 방법이 마땅찮다 | 파일 차이로 본다 |
+
+**언제 쓰나.** 잠깐 확인해볼 때는 `kubectl run`이 빠르다. 삼 초면 뜬다. 그런데 그게 뭐였는지는 내 셸 히스토리에만 남는다. 계속 쓸 거면 `apply` 쪽이라고 했다. 파일이 곧 기록이고, 다시 적용해도 오류가 안 나고 파일에 적힌 상태로 맞춰 준다.
+
+4일차에 설치 명령 한 줄 차이로 클러스터가 갈라졌던 걸 생각하면, "명령이 아니라 파일이 남는다"는 게 그냥 취향 문제는 아닌 것 같았다.
+
+---
+
+## Label과 Selector
+
+**무엇인가.** Label은 리소스에 붙이는 이름표고, Selector는 그 이름표로 대상을 고르는 조건이다.
+
+**언제 쓰나.** 쿠버네티스에서 무언가가 다른 무언가를 가리켜야 할 때 거의 항상 이 방식을 쓴다고 이해했다. Deployment가 자기 Pod를 고를 때도, Service가 트래픽 보낼 Pod를 고를 때도 그렇다.
+
+Deployment YAML과 Service YAML은 서로를 모른다.
+
+```yaml
+# Deployment
+spec:
+  selector:
+    matchLabels:
+      app: market-web      # ← 내가 관리할 Pod를 고르는 조건
+  template:
+    metadata:
+      labels:
+        app: market-web    # ← 내가 만들 Pod에 붙일 이름표
+```
+
+```yaml
+# Service
+spec:
+  selector:
+    app: market-web        # ← 트래픽을 보낼 Pod를 고르는 조건
+```
+
+두 파일을 잇는 건 `app: market-web`이라는 문자열 하나뿐이다. 참조도 아니고 ID도 아니다. 그냥 같은 글자인지 비교한다.
+
+자료가 경고하던 게 이거였다. Service의 selector를 `app: market-web-old`로 적으면 이렇게 된다.
+
+| 구분 | Pod 상태 | Service Endpoints |
+| --- | --- | --- |
+| Label이 맞을 때 | `Running` | Pod IP 2개 |
+| Label이 다를 때 | `Running` 그대로 | 비어 있음 |
+
+**Pod는 아무 문제가 없다.** 죽지도 않고 경고도 안 뜬다. Service 입장에서 조건에 맞는 Pod가 하나도 없을 뿐이다.
+
+그래서 서비스가 응답을 안 하면 `kubectl get pods`가 아니라 이걸 먼저 보라고 했다.
+
+```bash
+kubectl get endpoints market-web
+```
+
+여기가 비어 있으면 Pod 문제가 아니라 글자 문제라는 뜻이다.
+
+selector가 "저장된 목록"이 아니라는 것도 이날 알았다. Service는 만들어질 때 Pod 목록을 받아 적어두지 않고 매번 Label을 다시 맞춰 본다. Pod가 새로 뜨거나 사라지면 Endpoint 목록이 그때마다 다시 계산된다. 그래서 Pod를 지웠다 다시 띄워도 Service를 건드릴 필요가 없다.
+
+부분 일치는 없다고 했다. selector에 적은 키와 값이 전부 맞아야 고른다.
+
+---
+
+## Deployment · ReplicaSet · Pod
+
+**무엇인가.** Deployment를 하나 만들면 실제로는 세 층이 생긴다.
+
+```text
+Deployment    배포 전략과 리비전 이력을 가진다
+     ↓
+ReplicaSet    replicas 수만큼 Pod가 떠 있도록 유지한다
+     ↓
+Pod           컨테이너를 실제로 실행한다
+```
+
+사람이 직접 다루는 층은 Deployment 하나다. ReplicaSet은 Deployment가 만들고 Pod는 ReplicaSet이 만든다.
+
+**언제 이 층을 알아야 하나.** Deployment를 건드리는 방법이 여러 가지인데 결과가 두 갈래로 갈리기 때문이다.
+
+| 구분 | scale | rollout |
+| --- | --- | --- |
+| 바꾸는 값 | `replicas` — 몇 개 떠 있는지 | 이미지·설정 — 무엇이 떠 있는지 |
+| ReplicaSet | 그대로 두고 Pod 수만 조정 | 새 ReplicaSet을 만든다 |
+
+개수를 바꾸는 것과 내용을 바꾸는 것이 다르다는 말이 처음엔 당연하게 들렸는데, ReplicaSet 층을 보고 나서야 왜 다른지 알았다. 개수는 기존 ReplicaSet이 알아서 채우면 되고 내용은 새 ReplicaSet을 세워야 한다.
+
+---
+
+## 롤백
+
+여기서 rollback이 왜 되는지가 나온다.
+
+배포가 끝나도 **옛 ReplicaSet이 지워지지 않는다.** Pod 수만 0으로 줄어든 채 남아 있다.
+
+그래서 되돌리라고 하면 새로 만들 게 없다. 옛 ReplicaSet의 replicas를 다시 올리고 새 것을 0으로 내리면 끝이다.
+
+다만 되돌아오는 건 Deployment 정의뿐이라고 했다. 볼륨에 쌓인 데이터는 같이 안 돌아온다. 되돌린다는 말이 "그때로 돌아간다"는 뜻은 아니다.
+
+---
+
+이날 안 막힌 게 내가 이해해서인지 그냥 실습 순서를 따라가서인지는 아직 모르겠다. Label을 일부러 틀리게 적어보진 않았으니까.
+
+다만 앞선 날들과 이날의 실패 모양이 다르다는 건 알겠다. NACL은 에러라도 띄웠고 K3s는 클러스터가 두 개가 되긴 했다. 여기서 틀리면 `kubectl get pods`가 전부 `Running`이라고 말해준다. 아무것도 잘못됐다고 하지 않는다.
+
+선언형이라는 게 원하는 상태를 적어두면 알아서 맞춰준다는 뜻인데, 원하는 상태를 잘못 적으면 그 잘못된 상태에 정확히 맞춰준다는 것도 같은 얘기인 것 같다.
+
+---
+
+*네이버 클라우드 심화 과정 회고 5일차 · [전체 목차로](/post/ncpProfessional)*
+
+← 이전 · [4일차 (K3s, Server와 Agent)](/post/k3sAgentJoin)
+
+다음 · [6일차 (NodePort, Ingress, NKS, HPA)](/post/k8sToNks) →

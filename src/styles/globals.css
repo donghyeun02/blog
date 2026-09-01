@@ -1,6 +1,51 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-@config "../../tailwind.config.js";
+
+/* Tailwind v4는 CSS에서 직접 토큰을 정의한다. tailwind.config.js는 없앴다. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: Pretendard, -apple-system, sans-serif;
+  /* 날짜·개수·외부 링크 같은 메타 정보 전용. 시스템 폰트라 추가 요청이 없다. */
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* 팔레트. 기존 hex를 그대로 oklch로 옮긴 값이라 화면 색은 바뀌지 않는다.
+     oklch는 밝기가 지각과 일치해서 단계를 새로 만들 때 다루기 쉽다. */
+  --color-white: oklch(100% 0 0); /* #FFFFFF */
+  --color-paper: oklch(98.51% 0 0); /* #FAFAFA */
+  --color-surface: oklch(97.07% 0.0027 286.35); /* #F5F5F7 */
+  --color-surface-hover: oklch(96.26% 0.0066 286.27); /* #F2F2F7 */
+  --color-line: oklch(86.52% 0.0068 286.26); /* #D2D2D7 */
+  --color-muted: oklch(75.2% 0.0057 286.26); /* #AEAEB2 */
+  --color-subtle: oklch(53.99% 0.0077 286.14); /* #6E6E73 */
+  --color-body: oklch(35.88% 0.012 285.78); /* #3C3C43 */
+  --color-ink: oklch(23.16% 0.0038 286.1); /* #1D1D1F */
+  --color-night: oklch(21.6% 0.0037 228.98); /* #181A1B */
+  --color-night-line: oklch(23.84% 0.0065 258.36); /* #1D1F22 */
+  --color-night-deep: oklch(18.15% 0.0026 247.97); /* #111213 */
+  --color-night-text: oklch(92.27% 0.0059 239.82); /* #E2E6E9 */
+  --color-hairline: oklch(88% 0.008 286);
+
+  /* 기존 tailwind.config.js에 있던 별칭 */
+  --color-primary: var(--color-ink);
+  --color-secondary: var(--color-subtle);
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Digital Post Card Styles */
 .perspective-1000 {
@@ -34,11 +79,11 @@
 }
 
 :root {
-  --color-bg: #FAFAFA;
-  --color-surface: #F5F5F7;
-  --color-border: #D2D2D7;
-  --color-text: #1D1D1F;
-  --color-muted: #6E6E73;
+  --color-bg: #fafafa;
+  --color-surface: #f5f5f7;
+  --color-border: #d2d2d7;
+  --color-text: #1d1d1f;
+  --color-muted: #6e6e73;
   --toastify-toast-bd-radius: 0px;
 }
 
@@ -51,12 +96,21 @@
   body {
     background-color: var(--color-bg);
     color: var(--color-text);
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     line-height: 1.8;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     max-width: 100vw;
-    overflow-x: hidden;
+    /* hidden은 스크롤 컨테이너를 만들어서 position: sticky가 뷰포트가 아니라
+       body 기준으로 붙는다(목차가 안 따라오던 원인). clip은 잘라내기만 하고
+       스크롤 컨테이너를 만들지 않아 가로 넘침 방지 의도는 그대로 유지된다. */
+    overflow-x: clip;
   }
   *,
   *::before,
@@ -94,7 +148,13 @@
     margin-bottom: 1rem;
     line-height: 1.8;
     color: var(--color-text);
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     font-weight: 400;
   }
   h1,
@@ -109,7 +169,11 @@
     color: var(--color-text);
     margin-top: 1.5em;
     margin-bottom: 0.75em;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif;
   }
   a {
     color: inherit;
@@ -206,7 +270,13 @@
   .prose,
   .prose-lg {
     line-height: 1.8 !important;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif !important;
   }
   .prose p,
   .prose-lg p {
@@ -226,7 +296,11 @@
   .prose-lg h4,
   .prose-lg h5,
   .prose-lg h6 {
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif !important;
     font-weight: 700 !important;
     color: var(--color-text) !important;
   }
@@ -309,7 +383,11 @@
     text-align: center !important;
     padding: 12px 16px !important;
     border: 1px solid var(--color-border) !important;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif !important;
+    font-family:
+      'Pretendard Variable',
+      'Pretendard',
+      -apple-system,
+      sans-serif !important;
   }
   .prose th:not(:last-child),
   .prose-lg th:not(:last-child),
@@ -516,4 +594,330 @@ b {
   .prose .text-sm {
     font-size: 0.95rem !important;
   }
+}
+
+/* ── 스크롤 기반 리빌 ─────────────────────────────────────────────
+   IntersectionObserver나 애니메이션 라이브러리 없이 브라우저가 처리한다.
+   메인 스레드를 쓰지 않고 컴포지터에서 돈다. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal-on-scroll {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+/* ── View Transitions ────────────────────────────────────────────
+   목록의 글 제목이 글 페이지 제목 자리로 이어진다. */
+::view-transition-group(.morph) {
+  animation-duration: 320ms;
+}
+
+/* 전환 중에도 클릭이 살아 있도록 오버레이가 포인터를 먹지 않게 한다. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* 방향성 있는 움직임은 멀미를 유발할 수 있어 설정을 존중한다. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  .reveal-on-scroll,
+  .post-item {
+    animation: none !important;
+  }
+}
+
+/* 한글 제목의 줄바꿈을 다듬는다. 마지막 줄에 한 단어만 남는 걸 막아 준다. */
+h1,
+h2,
+h3 {
+  text-wrap: pretty;
+}
+
+/* ── 수직 리듬 ───────────────────────────────────────────────
+   여백을 rem이 아니라 줄 높이(lh)로 잡는다. 글자 크기가 달라져도
+   행간의 배수로 유지돼서 목록과 본문의 리듬이 어긋나지 않는다. */
+.rhythm > * + * {
+  margin-top: var(--rhythm-gap, 1lh);
+}
+
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 3lh;
+}
+
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35lh;
+}
+
+/* ── 목록 행 ─────────────────────────────────────────────────
+   날짜를 왼쪽 고정폭에 두고 제목을 이어 붙인다. 카드도 테두리도
+   쓰지 않고 정렬만으로 목록을 만든다. */
+.row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  align-items: baseline;
+  column-gap: 1rem;
+  padding: 0.34lh 0.6rem;
+  margin-inline: -0.6rem;
+  transition: background-color 150ms;
+}
+
+.row:hover {
+  background: var(--color-surface-hover);
+}
+
+.row-date {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  letter-spacing: -0.01em;
+}
+
+.row-title {
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-ink);
+  transition: color 150ms;
+}
+
+.row:hover .row-title {
+  color: var(--color-subtle);
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+    row-gap: 0.1lh;
+  }
+}
+
+/* ── 섹션 라벨 ───────────────────────────────────────────────
+   장식 없는 한 단어. 오른쪽에 개수나 링크가 붙는다. */
+.label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.3lh;
+  margin-bottom: 0.5lh;
+  border-bottom: 1px solid var(--color-hairline, oklch(88% 0.008 286));
+}
+
+.label h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.label-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+a.label-meta:hover {
+  color: var(--color-ink);
+}
+
+/* 외부 링크 표시 */
+.ext {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-subtle);
+  transition: color 150ms;
+}
+.ext:hover {
+  color: var(--color-ink);
+}
+
+/* ── 읽기 진행 바 ────────────────────────────────────────────
+   스크롤 위치를 애니메이션 타임라인으로 삼는다. 스크롤 이벤트도
+   JS도 없고, 컴포지터에서 도니까 메인 스레드를 건드리지 않는다. */
+.read-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 50;
+  height: 2px;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .read-progress {
+    animation: read-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes read-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* 지원하지 않는 브라우저에서는 바를 아예 감춘다.
+   0%에 멈춘 막대가 보이는 것보다 없는 편이 낫다. */
+@supports not (animation-timeline: scroll()) {
+  .read-progress {
+    display: none;
+  }
+}
+
+/* 목록 행이 뷰포트에 들어올 때 떠오른다. 화면 위쪽에 이미 들어와 있는
+   행은 진행도가 100%라 그대로 보인다. */
+@supports (animation-timeline: view()) {
+  .row-reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 30%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .read-progress {
+    display: none;
+  }
+  .row-reveal {
+    animation: none !important;
+  }
+}
+
+/* ── 폭 ──────────────────────────────────────────────────────
+   본문은 읽기 좋은 폭을 유지하고, 남는 가로 공간은 목차나
+   소개처럼 훑는 정보에 내준다. 본문을 늘려 채우지는 않는다. */
+
+.post-shell,
+.home-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2lh 3rem;
+}
+
+@media (min-width: 1024px) {
+  .post-shell {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+  .home-shell {
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    gap: 0 4rem;
+  }
+}
+
+/* 좁은 화면에서는 목차를 접는다. 넣을 자리가 없다. */
+.toc-col {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .toc-col {
+    display: block;
+  }
+  .toc {
+    position: sticky;
+    top: 2lh;
+  }
+}
+
+.toc-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding-bottom: 0.3lh;
+  border-bottom: 1px solid var(--color-hairline);
+  margin-bottom: 0.5lh;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3lh;
+}
+
+.toc-list a {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  align-items: baseline;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--color-subtle);
+  transition: color 150ms;
+}
+
+.toc-list a:hover {
+  color: var(--color-ink);
+}
+
+.toc-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+/* 앵커로 이동할 때 제목이 헤더 밑에 숨지 않도록 여유를 둔다. */
+.prose :is(h2, h3) {
+  scroll-margin-top: 2lh;
+}
+
+/* 홈 왼쪽 열은 스크롤을 따라온다. */
+@media (min-width: 1024px) {
+  .home-rail {
+    position: sticky;
+    top: 2lh;
+  }
+}
+
+/* ── 구성도 ──────────────────────────────────────────────────
+   도면을 글 폭(752px)에 맞춰 그렸으므로 확대도 축소도 하지 않는다.
+   그보다 좁은 화면에서만 비율을 유지하며 줄어든다. */
+.diagram {
+  margin: 2.2rem 0;
+}
+
+.diagram img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.diagram figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 0.6rem;
+  text-align: center;
 }

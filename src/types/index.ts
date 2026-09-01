@@ -8,6 +8,8 @@ export interface PostMeta {
   category: string;
   thumbnail?: string;
   order?: number; // 카테고리 내 순서
+  // 시리즈의 개별 편. 목록에는 노출하지 않고 시리즈 인덱스 글에서만 링크한다.
+  listed?: boolean;
   prevPost?: {
     slug: string;
     title: string;

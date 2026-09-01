@@ -1,0 +1,134 @@
+심화 과정 첫날은 종일 네트워크만 만들었다. VPC 두 개, Subnet 여러 개, Route Table 다섯 개, NAT Gateway 세 개. 서버는 한 대도 만들지 않았다.
+
+서버를 안 만들고 길부터 까는 게 처음엔 순서가 이상하다고 생각했는데, 하루가 끝날 때쯤 왜 그렇게 하는지 조금 알 것 같았다. 아래는 이날 배운 것들을 내가 이해한 대로 정리한 것이다.
+
+<figure className="diagram">
+  <img src="/diagrams/day1.svg" alt="1일차 구성도 — Ops VPC와 Workload VPC, NAT Gateway, Internet Gateway, VPC Peering" />
+  <figcaption>1일차 구성도 — Ops VPC와 Workload VPC, NAT Gateway, Internet Gateway, VPC Peering</figcaption>
+</figure>
+
+---
+
+## VPC
+
+**무엇인가.** 클라우드 안에 내가 쓸 사설 IP 대역을 통째로 하나 떼어 받는 것이다. 여기 안에서만 쓰는 주소 체계를 내가 정한다.
+
+**언제 쓰나.** 서버를 만들기 전에 무조건 먼저 있어야 한다. 서버는 어딘가의 Subnet 안에 들어가야 하고 Subnet은 VPC 안에 있어야 하니까, 실질적으로 클라우드에서 뭘 하든 첫 단추다.
+
+**흐름.** 대역을 정하고 → 그 안을 Subnet으로 자르고 → 각 Subnet에 Route Table을 붙인다. 이 순서가 뒤집히지 않는다.
+
+이 과정에서는 두 개를 만들었다.
+
+| VPC | 대역 | 역할 |
+| --- | --- | --- |
+| Ops | `10.50.0.0/16` | 관리·모니터링 |
+| Workload | `10.60.0.0/16` | 실제 서비스 실행 |
+
+관리용과 서비스용을 굳이 따로 만든 건 서비스 쪽을 통째로 갈아엎어도 관리 도구는 그대로 남기기 위해서라고 했다. 대신 나눈 대가로 나중에 Peering이라는 숙제가 하나 생긴다.
+
+---
+
+## Subnet
+
+**무엇인가.** VPC 대역을 더 작게 자른 구획이다. 서버는 VPC가 아니라 이 Subnet 안에 들어간다.
+
+**언제 쓰나.** 같은 VPC 안에서도 성격이 다른 서버들을 갈라놓고 싶을 때다. 밖에서 직접 닿아야 하는 서버와 안에서만 도는 서버를 같은 칸에 두면 규칙을 따로 걸 수가 없다.
+
+여기서 내가 원래 잘못 알고 있던 게 하나 있다. 나는 Public Subnet이면 인터넷에 나갈 수 있고 Private Subnet이면 못 나간다고 생각했다. 그게 아니었다.
+
+Public이냐 Private이냐는 그 Subnet을 어떤 용도로 쓸지 정해둔 이름표에 가깝다고 이해했다. 패킷이 실제로 어디로 갈지는 그 Subnet에 붙은 Route Table이 정한다. 이름이 아니라 붙어 있는 표가 결정한다.
+
+---
+
+## Route Table
+
+**무엇인가.** "이 목적지로 가는 패킷은 다음에 여기로 보내라"를 적어둔 표다. 칸이 두 개다.
+
+- **Destination** — 패킷이 향하는 목적지 CIDR
+- **Target** — 거기로 가려면 다음에 어디로 넘길지
+
+**언제 쓰나.** Subnet 하나를 만들 때마다 따라온다. 어느 Route Table에 붙이느냐로 그 Subnet의 성격이 정해지기 때문이다.
+
+**흐름.** VPC를 만들면 `LOCAL` 경로 하나가 자동으로 생긴다. 자기 VPC 대역 안의 목적지는 알아서 찾아간다는 뜻이다. 그 밖으로 나가는 경로(`0.0.0.0/0`)는 내가 직접 적어줘야 하고, Target으로 Internet Gateway를 쓰느냐 NAT Gateway를 쓰느냐가 그 Subnet의 성격이 된다.
+
+강사님이 표로 정리해준 게 있었는데, 세 줄 다 내가 그전까지 대충 알고 있던 것이었다.
+
+| 내가 알고 있던 것 | 실제로 확인해야 하는 것 |
+| --- | --- |
+| Private Subnet은 인터넷을 못 쓴다 | NAT Gateway를 향한 `0.0.0.0/0` Route가 있는지 |
+| Public Subnet이면 밖에서 서버로 들어온다 | 공인 IP, NACL, ACG, 서비스 LISTEN을 각각 |
+| NAT Gateway를 만들면 알아서 쓴다 | Private Route Table의 `0.0.0.0/0` Target |
+
+정리하면 Route Table은 통신을 허용하는 물건이 아니다. 갈 곳만 정해주고 그 통신을 허용할지 말지는 뒤에서 다른 것들이 판단한다. 이 한 문장이 이날 들은 것 중에 제일 크게 남았다.
+
+---
+
+## Internet Gateway와 NAT Gateway
+
+이름이 비슷하게 생겼는데 하는 일이 반대라고 했다.
+
+**Internet Gateway.** VPC에 붙는 인터넷 출입구다. Public Route Table이 여기를 바라보면 그 Subnet의 서버는 밖으로 나갈 수 있고, 조건이 맞으면 밖에서 들어올 수도 있다. 오고 가는 게 둘 다 열린다.
+
+**NAT Gateway.** 한쪽만 열린다. Private Subnet의 서버가 먼저 시작한 연결만 밖으로 내보내고 밖에서 먼저 두드리는 연결은 받지 않는다.
+
+<figure className="diagram">
+  <img src="/diagrams/net-direction.svg" alt="Internet Gateway는 양쪽이 열리고 NAT Gateway는 나가는 방향만 열린다" />
+  <figcaption>Internet Gateway는 양쪽이 열리고 NAT Gateway는 나가는 방향만 열린다</figcaption>
+</figure>
+
+**언제 쓰나.** 안쪽 서버가 패키지를 받거나 외부 API를 부르는 것처럼 나가기만 하면 될 때 NAT Gateway를 쓴다. 밖에서 들어와야 하는 서버는 Public Subnet에 두고 Internet Gateway 쪽을 본다.
+
+NAT Gateway에도 공인 IP가 붙는데, 여기가 헷갈리기 좋은 지점이었다. 그 IP를 알아냈다고 해서 안쪽 Private 서버에 SSH가 열리는 건 아니다. 나가는 문과 들어오는 문이 같은 문이 아니라고 이해했다.
+
+그리고 NAT Gateway는 Zone마다 따로 뒀다. KR-2의 Private Subnet이 KR-1의 NAT를 바라보게 두면 동작은 하지만 존을 넘나드는 트래픽이 계속 생긴다고 했다.
+
+---
+
+## VPC Peering
+
+**무엇인가.** 서로 다른 VPC 두 개를 사설 대역 그대로 이어주는 연결이다.
+
+**언제 쓰나.** 이 과정처럼 VPC를 용도별로 나눠놓고, 그래도 한쪽에서 다른 쪽을 봐야 할 때다. Ops의 Prometheus가 Workload의 서버를 긁어와야 하니 이어야 했다.
+
+**흐름.** Peering을 만들 때 Request VPC와 Accept VPC를 고른다. 그리고 이게 끝이 아니다. 양쪽 Route Table에 상대 VPC의 CIDR을 각각 넣어줘야 한다. Ops 쪽에 `10.60.0.0/16`, Workload 쪽에 `10.50.0.0/16`.
+
+| Peering 명 | Request VPC | Accept VPC | 목적 |
+| --- | --- | --- | --- |
+| `ops-wld-peer` | Ops | Workload | Ops에서 Workload로 접근 |
+| `wld-ops-peer` | Workload | Ops | Workload에서 Ops로 응답 전달 |
+
+Peering 상태가 "운영 중"이어도 이 Route가 없으면 패킷은 갈 곳을 못 찾는다. 연결선을 그어놓고 지도에는 표시를 안 한 셈이라고 이해했다.
+
+또 하나, Peering은 전이되지 않는다고 했다. A와 B가 연결되고 B와 C가 연결돼 있어도 A에서 C로는 못 간다. 처음엔 불편해 보였는데, 전이가 되면 VPC를 나눈 의미가 없어지니까 그래야 맞는 것 같기도 했다.
+
+---
+
+## 네 개의 관문
+
+하루를 정리해보니 패킷 하나가 목적지에 닿으려면 통과해야 하는 곳이 네 군데였다.
+
+```text
+Route      →  어디로 보낼지 정한다
+NACL       →  Subnet 경계에서 검사한다
+ACG        →  서버의 랜카드에서 검사한다
+Service    →  그 포트를 실제로 듣고 있는가
+```
+
+<figure className="diagram">
+  <img src="/diagrams/net-layers.svg" alt="패킷이 통과해야 하는 네 개의 관문" />
+  <figcaption>패킷이 통과해야 하는 네 개의 관문</figcaption>
+</figure>
+
+하나만 비어 있어도 통신이 안 되는데 증상은 넷 다 비슷하게 나온다. 그냥 안 된다.
+
+서버를 먼저 안 만든 이유가 여기 있는 것 같았다. 서버부터 띄워놓고 접속이 안 되면 이 넷 중 뭐가 문제인지 구분할 방법이 없다. 길을 다 깔아놓고 그 위에 서버를 얹으면 적어도 "길은 있다"는 것만은 확정하고 시작한다.
+
+---
+
+물론 하루 만에 이게 몸에 붙지는 않았다. 바로 다음 날 나는 SSH가 안 된다며 한참을 헤맸고, 원인은 정확히 이 네 관문 중 하나였다.
+
+---
+
+*네이버 클라우드 심화 과정 회고 1일차 · [전체 목차로](/post/ncpProfessional)*
+
+다음 · [2일차 (NACL, ACG, Prometheus)](/post/naclAcg) →

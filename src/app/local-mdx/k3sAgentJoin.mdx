@@ -1,0 +1,177 @@
+K3s 서버 두 대를 만들고 설치 스크립트를 돌렸다. 양쪽 다 같은 명령이었다.
+
+```bash
+curl -sfL https://get.k3s.io | sh -
+```
+
+한 대는 컨트롤 플레인, 한 대는 워커로 쓸 생각이었다. 설치가 끝나고 첫 번째 서버에서 노드 목록을 봤다.
+
+```bash
+kubectl get nodes
+```
+
+한 대만 나왔다. 두 번째 서버에서도 똑같이 쳐봤다. 거기서도 한 대만 나왔다. 자기 자신만.
+
+<figure className="diagram">
+  <img src="/diagrams/k3s-split.svg" alt="K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다" />
+  <figcaption>K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다</figcaption>
+</figure>
+
+이날 배운 것과 이 상황을 내가 어떻게 이해했는지 정리해둔다.
+
+---
+
+## 컨트롤 플레인과 워커 노드
+
+**무엇인가.** 쿠버네티스 클러스터의 노드는 역할이 두 가지로 나뉜다.
+
+**컨트롤 플레인** 쪽에는 결정하는 것들이 들어간다.
+
+* `kube-apiserver` — 요청을 받고 검증한다
+* `etcd` — 원하는 상태를 저장한다
+* `kube-scheduler` — Pod를 어느 노드에 둘지 정한다
+* `kube-controller-manager` — 실제 상태와 원하는 상태의 차이를 줄인다
+
+**워커 노드** 쪽에는 실행하는 것들이 들어간다.
+
+* `kubelet` — 배정받은 Pod를 띄우고 상태를 보고한다
+* `kube-proxy` — Service 주소를 Pod로 이어준다
+* 컨테이너 런타임 — 컨테이너를 실제로 실행한다
+
+**언제 이 구분이 필요한가.** 노드를 몇 대로 할지, 어느 노드에 뭘 설치할지 정할 때다. 나는 이 구분을 알고 있다고 생각했는데, 정작 설치할 때는 신경 쓰지 않았다.
+
+---
+
+## K3s
+
+**무엇인가.** 위의 구성요소를 바이너리 하나로 묶은 쿠버네티스 배포판이다. API도 객체도 그대로라 `kubectl` 문법이 달라지지 않는다.
+
+**언제 쓰나.** 학습용이나 소규모 환경처럼 설치를 가볍게 가져가고 싶을 때 쓴다고 했다. 컨테이너 런타임(`containerd`)이 이미 들어 있어서 도커를 따로 안 깔아도 된다.
+
+K3s에서는 두 역할을 **server**와 **agent**라고 부른다.
+
+| 구분 | server | agent |
+| --- | --- | --- |
+| 결정 구성요소 | API Server, 저장소, Scheduler, Controller | 없음 |
+| 실행 구성요소 | kubelet, containerd, kube-proxy | kubelet, containerd, kube-proxy |
+| Pod 실행 | 한다 | 한다 |
+
+server에는 agent의 구성요소가 같이 들어 있고 agent에는 server의 구성요소가 없다. 그래서 server 한 대만으로도 클러스터가 돌아간다.
+
+<figure className="diagram">
+  <img src="/diagrams/day4.svg" alt="4일차 구성도 — Server와 Agent의 구성요소 비대칭" />
+  <figcaption>4일차 구성도 — Server와 Agent의 구성요소 비대칭</figcaption>
+</figure>
+
+이게 내 문제의 원인이었다.
+
+---
+
+## K3S_URL
+
+**흐름.** `get.k3s.io` 설치 스크립트는 실행될 때 환경 변수 `K3S_URL`이 있는지를 본다. 이 값 하나로 역할이 갈린다.
+
+```text
+K3S_URL 없음  →  server로 설치.  자체 저장소와 API Server를 띄운다.
+K3S_URL 있음  →  agent로 설치.  그 주소의 server에 합류한다.
+```
+
+나는 양쪽 다 아무 옵션 없이 실행했다. 그러니까 두 번째 서버도 자기가 새 클러스터의 주인이라고 판단했다. SQLite로 자기 저장소를 만들고 API Server를 띄우고 `k3s.service`를 등록했다.
+
+노드가 안 붙은 게 아니었다. 클러스터가 두 개가 된 것이었다.
+
+등록되는 서비스 이름부터 다르다.
+
+```text
+server →  k3s.service
+agent  →  k3s-agent.service
+```
+
+증상만 보면 "워커가 마스터에 연결이 안 된다"로 읽힌다. 앞서 NACL 때문에 한 번 막힌 적이 있어서 방화벽 쪽을 먼저 떠올렸다. 그런데 애초에 두 번째 서버가 첫 번째 서버로 연결을 시도한 적이 없었다.
+
+---
+
+## 연결 방향
+
+여기서 하나 더 알게 된 게 있다. 연결을 여는 쪽은 항상 agent다.
+
+```text
+Agent   ──  TCP 6443  ──→   Server
+```
+
+agent가 server의 `6443`으로 연결을 열고 kubelet 트래픽도 그 터널을 재사용해서 돌아온다. server가 agent 쪽으로 먼저 접속하는 일은 없다.
+
+방화벽 규칙을 짤 때 이 방향을 알고 모르고의 차이가 크다. 모르면 양방향을 다 열게 되고 알면 한 방향만 열면 된다.
+
+---
+
+## 되돌리는 흐름
+
+두 번째 서버는 이미 server로 설치돼 버렸으니, 지우고 다시 깔아야 했다.
+
+**1. agent로 쓸 서버에서 기존 설치 제거**
+
+```bash
+/usr/local/bin/k3s-uninstall.sh
+```
+
+server로 깔렸으면 `k3s-uninstall.sh`, agent로 깔렸으면 `k3s-agent-uninstall.sh`다. 파일 이름으로 내가 뭘 깔았는지 확인할 수 있다.
+
+**2. server에서 조인 토큰 확인**
+
+```bash
+sudo cat /var/lib/rancher/k3s/server/node-token
+```
+
+이 토큰은 클러스터 가입 권한 그 자체다. Git이나 캡처에 남기지 말라고 했다.
+
+**3. agent 옵션을 넣어서 재설치**
+
+```bash
+curl -sfL https://get.k3s.io | \
+  K3S_URL=https://<server_IP>:6443 \
+  K3S_TOKEN=<토큰> \
+  sh -
+```
+
+**4. server에서 확인**
+
+```bash
+kubectl get nodes
+```
+
+두 대가 `Ready`로 나오면 된 것이다.
+
+---
+
+## 버전과 대역
+
+설치할 때 값을 안 넘기면 그 시점의 최신 버전을 받는다. 오전에 설치한 사람과 오후에 다시 설치한 사람이 서로 다른 버전을 쓰게 된다는 뜻이다. server와 agent 버전이 어긋나면 노드가 `Ready`로 안 올라온다고 했다.
+
+그래서 버전을 고정한다. 명령에 적어두면 나중에 기본값이 바뀌어도 이 클러스터의 값은 그대로 남는다.
+
+대역도 마찬가지다.
+
+| 값 | 기본값 | 쓰임 |
+| --- | --- | --- |
+| Pod CIDR | `10.42.0.0/16` | Pod 하나하나에 나눠주는 주소 |
+| Service CIDR | `10.43.0.0/16` | Service가 받는 가상 주소 |
+| Cluster DNS | `10.43.0.10` | CoreDNS Service 주소 |
+
+셋 다 K3s 기본값인데, 그래도 명시적으로 적는다. 이 대역이 VPC나 VPN Pool, 교육장 LAN과 겹치지 않는지도 확인해야 한다.
+
+겹치면 노드가 라우팅 표를 볼 때 같은 주소를 두 곳이 주장하게 된다. 앞 글에서 도커 브리지 대역 얘기를 했는데 똑같은 문제다. 층만 하나 올라갔다.
+
+---
+
+설치 명령 한 줄에서 옵션 두 개를 빼먹었더니 완전히 다른 서비스가 올라갔다. 실패한 것도 아니고 에러가 난 것도 아니다. 스크립트는 성공했고, 성공한 결과가 내가 원한 것과 달랐을 뿐이다.
+
+`kubectl get nodes`에 한 대만 나오는 걸 보고 나는 "연결이 안 됐다"고 읽었다. 실제로는 "연결할 생각이 없었다"였다. 증상을 어떻게 읽느냐에 따라 방화벽을 뒤지느냐 설치 로그를 뒤지느냐가 갈린다는 걸 이날 알았다.
+
+---
+
+*네이버 클라우드 심화 과정 회고 4일차 · [전체 목차로](/post/ncpProfessional)*
+
+← 이전 · [3일차 (Docker 네트워크, Overlay)](/post/dockerNetwork)
+
+다음 · [5일차 (Deployment, Service, Label)](/post/k8sManifest) →

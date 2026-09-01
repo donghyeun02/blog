@@ -114,7 +114,8 @@ export const postsMeta: PostMeta[] = [
     title: 'Claude가 이미 아는 내용을 왜 스킬로 넣지?',
     path: '/post/eccOpensource',
     slug: 'eccOpensource',
-    summary: 'ECC 오픈소스에 기여하면서 깨달은, AI 시대에 진짜 가치 있는 문서의 조건',
+    summary:
+      'ECC 오픈소스에 기여하면서 깨달은, AI 시대에 진짜 가치 있는 문서의 조건',
     category: 'Dev',
     date: '2026.05',
   },
@@ -122,8 +123,76 @@ export const postsMeta: PostMeta[] = [
     title: '자리를 비운 사이 서비스가 더 단단해지는 법',
     path: '/post/hardening',
     slug: 'hardening',
-    summary: '레드팀이 공격하고 블루팀이 막는 사이클을 Claude 커맨드로 자동화한 이야기',
+    summary:
+      '레드팀이 공격하고 블루팀이 막는 사이클을 Claude 커맨드로 자동화한 이야기',
     category: 'Dev',
     date: '2026.06',
+  },
+  {
+    title: '1일차 (VPC, Subnet, Route Table)',
+    path: '/post/ncpNetwork',
+    slug: 'ncpNetwork',
+    summary: '서버를 만들기 전에 길부터 깔았다 — VPC와 Subnet, Route Table, NAT Gateway, VPC Peering',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '2일차 (NACL, ACG, Prometheus)',
+    path: '/post/naclAcg',
+    slug: 'naclAcg',
+    summary:
+      'NACL은 Stateless, ACG는 Stateful — 아웃바운드를 안 열어서 SSH가 막힌 날',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '3일차 (Docker 네트워크, Overlay)',
+    path: '/post/dockerNetwork',
+    slug: 'dockerNetwork',
+    summary:
+      '컨테이너가 둘이 되면 이름이 필요하고, 호스트가 둘이 되면 터널이 필요하다',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '4일차 (K3s, Server와 Agent)',
+    path: '/post/k3sAgentJoin',
+    slug: 'k3sAgentJoin',
+    summary: 'K3S_URL 하나로 server와 agent가 갈린다 — 옵션을 빼먹고 클러스터를 두 개 만든 날',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '네이버 클라우드 심화 과정 회고',
+    path: '/post/ncpProfessional',
+    slug: 'ncpProfessional',
+    summary:
+      '네트워크부터 관리형 쿠버네티스까지, 6일 과정을 일차별로 정리한 목차',
+    category: 'Dev',
+    date: '2026.08',
+  },
+  {
+    title: '5일차 (Deployment, Service, Label)',
+    path: '/post/k8sManifest',
+    slug: 'k8sManifest',
+    summary:
+      'Deployment와 Service를 잇는 건 Label 문자열 하나뿐이다. 여기서 틀리면 조용히 틀린다',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
+  },
+  {
+    title: '6일차 (NodePort, Ingress, NKS, HPA)',
+    path: '/post/k8sToNks',
+    slug: 'k8sToNks',
+    summary:
+      '직접 만들던 것을 관리형 쿠버네티스에 넘겼다 — NodePort와 Ingress부터 ALB, HPA, 무중단 배포까지',
+    category: 'Dev',
+    date: '2026.08',
+    listed: false,
   },
 ];

@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { postsMeta } from '@/components/postsMeta';
+import PostRow from '@/components/PostRow';
 
-const CATEGORIES = ['전체', 'CS', 'Dev', 'Blockchain'] as const;
+const CATEGORIES = ['전체', 'Dev', 'CS', 'Blockchain'] as const;
 type Category = (typeof CATEGORIES)[number];
 
-const allPosts = [...postsMeta].reverse();
+const allPosts = postsMeta.filter((p) => p.listed !== false).reverse();
 
 export default function PostsPage() {
   const [active, setActive] = useState<Category>('전체');
@@ -18,60 +19,47 @@ export default function PostsPage() {
       : allPosts.filter((p) => p.category === active);
 
   return (
-    <div className="max-w-2xl mx-auto px-6 pb-24">
-      <div className="pt-16 sm:pt-24 mb-12">
-        <Link
-          href="/"
-          className="inline-block text-sm text-[#AEAEB2] hover:text-[#6E6E73] transition-[color] duration-150 mb-8"
-        >
-          ← 홈으로
+    <div className="max-w-3xl mx-auto px-6 pb-[3lh]">
+      <header className="pt-[3lh]">
+        <Link className="ext" href="/">
+          ← 홈
         </Link>
-        <div className="flex items-center justify-between">
-          <h1 className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest">
-            글{' '}
-            <span className="font-normal">{filtered.length}</span>
-          </h1>
-          <div className="flex items-center gap-1">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={`px-3 py-1 text-sm transition-[background-color,color] duration-150 ${
-                  active === cat
-                    ? 'bg-[#1D1D1F] text-white'
-                    : 'text-[#6E6E73] hover:bg-[#F5F5F7]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+
+        <div className="label mt-[1.5lh]">
+          <h2>글</h2>
+          <span className="label-meta">{filtered.length}편</span>
         </div>
-      </div>
+
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-[0.8lh]">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActive(cat)}
+              className={`label-meta transition-[color] duration-150 ${
+                active === cat
+                  ? 'text-[#1D1D1F] underline underline-offset-4'
+                  : 'hover:text-[#1D1D1F]'
+              }`}
+              aria-pressed={active === cat}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </header>
 
       {filtered.length === 0 ? (
-        <p className="text-[15px] text-[#AEAEB2]">
-          해당 카테고리의 글이 없습니다.
-        </p>
+        <p className="text-[15px] text-[#6E6E73]">아직 글이 없습니다.</p>
       ) : (
         <div className="flex flex-col">
-          {filtered.map((post, index) => (
-            <Link
-              key={post.slug}
-              href={`/post/${post.slug}`}
-              className="group block py-2 px-3 -mx-3 hover:bg-[#F2F2F7] transition-[background-color] duration-150 post-item"
-              style={{ '--stagger-index': index } as React.CSSProperties}
-            >
-              <h3 className="text-base font-semibold text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150 leading-snug mb-0.5">
-                {post.title}
-              </h3>
-              <p className="text-[15px] text-[#6E6E73] leading-snug">
+          {filtered.map((post) => (
+            <div key={post.slug}>
+              <PostRow post={post} />
+              <p className="text-[14px] text-[#6E6E73] leading-snug pl-[5.5rem] pr-[0.6rem] pb-[0.3lh] max-[480px]:pl-[0.6rem]">
                 {post.summary}
               </p>
-              <p className="text-sm text-[#AEAEB2] mt-0.5">
-                {post.category} · {post.date?.replace('.', '/')}
-              </p>
-            </Link>
+            </div>
           ))}
         </div>
       )}

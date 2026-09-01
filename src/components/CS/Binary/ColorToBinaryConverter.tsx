@@ -1,31 +1,24 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+const toBinary = (value: number) => value.toString(2).padStart(8, '0');
 
 const ColorToBinaryConverter = () => {
   const [selectedColor, setSelectedColor] = useState<string>('#ff0000');
-  const [rgbValues, setRgbValues] = useState({ r: 255, g: 0, b: 0 });
-  const [binaryValues, setBinaryValues] = useState({
-    r: '11111111',
-    g: '00000000',
-    b: '00000000',
-  });
 
-  // 색상이 변경될 때마다 RGB와 2진수 값 업데이트
-  useEffect(() => {
-    // hex 색상을 RGB로 변환
-    const hex = selectedColor.replace('#', '');
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-
-    setRgbValues({ r, g, b });
-    setBinaryValues({
-      r: r.toString(2).padStart(8, '0'),
-      g: g.toString(2).padStart(8, '0'),
-      b: b.toString(2).padStart(8, '0'),
-    });
-  }, [selectedColor]);
+  // 선택한 색에서 곧바로 계산한다. 별도 state와 effect로 동기화하지 않는다.
+  const hex = selectedColor.replace('#', '');
+  const rgbValues = {
+    r: parseInt(hex.slice(0, 2), 16),
+    g: parseInt(hex.slice(2, 4), 16),
+    b: parseInt(hex.slice(4, 6), 16),
+  };
+  const binaryValues = {
+    r: toBinary(rgbValues.r),
+    g: toBinary(rgbValues.g),
+    b: toBinary(rgbValues.b),
+  };
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedColor(e.target.value);

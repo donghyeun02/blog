@@ -1,13 +1,17 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
 import { postsMeta } from './postsMeta';
-
-const HOME_POST_LIMIT = 8;
+import BinaryStrip from './home/BinaryStrip';
+import FilterablePosts from './home/FilterablePosts';
 
 const PROJECTS = [
+  {
+    name: '블로그 소개',
+    description: '이 블로그를 왜 만들었고 무슨 글을 쓰는지',
+    tech: '이 사이트',
+    href: '/about',
+    stars: null,
+  },
   {
     name: 'KTX 자동 예매',
     description: 'KTX 잔여석을 모니터링하고 자동으로 예매하는 크롤러',
@@ -24,112 +28,109 @@ const PROJECTS = [
   },
 ] as const;
 
-const recentPosts = [...postsMeta].reverse().slice(0, HOME_POST_LIMIT);
+// 배열 뒤쪽이 최신이라 뒤집어서 최신순으로 둔다.
+const listed = postsMeta.filter((post) => post.listed !== false).reverse();
 
 export default function BlogHome() {
   return (
-    <div className="max-w-2xl mx-auto px-6 flex flex-col gap-10 pb-20">
-      {/* Profile */}
-      <section className="pt-16 sm:pt-24">
-        <div className="flex items-start justify-between gap-6 mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-[#1D1D1F] tracking-tight mb-4">
-              신동현
-            </h1>
-            <p className="text-base text-[#3C3C43] leading-[1.8]">
-              어떻게 동작하는지 궁금한 게 많은 백엔드 개발자입니다.
-              <br />
-              파고파서 나온 결과를 이곳에 정리합니다.{' '}
-              <a
-                href="https://github.com/donghyeun02"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#1D1D1F] underline underline-offset-2 hover:text-[#6E6E73] transition-[color] duration-150"
-              >
-                GitHub
-              </a>
-            </p>
-          </div>
-          <div className="relative flex-shrink-0 w-32 sm:w-44 aspect-square">
+    <div className="home-shell max-w-5xl mx-auto px-6 pb-[3lh] pt-[3lh]">
+      {/* 소개 — 왼쪽 레일 */}
+      <header className="home-rail">
+        {/* 사진과 이름을 한 줄에 둔다. */}
+        <div className="flex items-center gap-3">
+          <div className="relative aspect-square w-16 flex-shrink-0">
             <Image
               src="https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/A64D1C12-596E-4016-8EB5-063B2BA1DEBE_1_201_a-Photoroom.png"
-              alt="donghyeun02"
+              alt="신동현"
               fill
+              sizes="64px"
               className="object-cover"
               priority
             />
           </div>
+          <h1 className="text-[1.35rem] font-bold tracking-tight text-[#1D1D1F]">
+            신동현
+          </h1>
         </div>
-      </section>
 
-      {/* Projects */}
-      <section>
-        <h2 className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest mb-3">
-          프로젝트
-        </h2>
-        <div className="flex flex-col">
-          {PROJECTS.map((project) => (
-            <a
-              key={project.name}
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group py-0 px-3 -mx-3 hover:bg-[#F2F2F7] transition-[background-color] duration-150"
-            >
-              <div className="flex items-center justify-between gap-4 mb-0.3">
-                <h3 className="text-base font-semibold text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150 leading-snug">
-                  {project.name}
-                </h3>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  {project.stars != null && (
-                    <span className="text-sm text-[#AEAEB2] tabular-nums">
-                      ★ {project.stars}
+        <p className="mt-[0.5lh] max-w-[34ch] text-[15px] leading-[1.75] text-[#3C3C43]">
+          어떻게 동작하는지 궁금한 게 많은 백엔드 개발자입니다.
+          <br />
+          파고파서 나온 결과를 이곳에 정리합니다.
+        </p>
+
+        <nav className="flex items-baseline gap-x-4 mt-[0.8lh]">
+          <a
+            className="ext"
+            href="https://github.com/donghyeun02"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            github ↗
+          </a>
+          <a
+            className="ext"
+            href="https://instagram.com/donghyeun_02"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            instagram ↗
+          </a>
+          <Link className="ext" href="/about">
+            about →
+          </Link>
+        </nav>
+
+        {/* 설명 대신 하나 돌려 본다. 이 블로그가 뭘 하는 곳인지가 한 줄로 보인다. */}
+        <div className="mt-[1.4lh]">
+          <BinaryStrip />
+        </div>
+      </header>
+
+      <div className="stack-lg mt-[2lh] lg:mt-0">
+        {/* 프로젝트 */}
+        <section>
+          <div className="label">
+            <h2>프로젝트</h2>
+            <span className="label-meta">{PROJECTS.length}개</span>
+          </div>
+          <div className="flex flex-col">
+            {PROJECTS.map((project) => {
+              const isExternal = project.href.startsWith('http');
+              const Row = isExternal ? 'a' : Link;
+              return (
+                <Row
+                  key={project.name}
+                  href={project.href}
+                  {...(isExternal
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                  className="group -mx-[0.6rem] px-[0.6rem] py-[0.34lh] transition-[background-color] duration-150 hover:bg-[#F2F2F7]"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span className="text-[0.98rem] font-medium text-[#1D1D1F] transition-[color] duration-150 group-hover:text-[#6E6E73]">
+                      {project.name}
                     </span>
-                  )}
-                  <ExternalLink className="w-4 h-4 text-[#C7C7CC]" />
-                </div>
-              </div>
-              <p className="text-[15px] text-[#6E6E73] leading-snug">
-                {project.description}
-              </p>
-              <p className="text-sm text-[#AEAEB2] mt-0.5">{project.tech}</p>
-            </a>
-          ))}
-        </div>
-      </section>
+                    <span className="label-meta">
+                      {project.stars != null
+                        ? `★ ${project.stars}`
+                        : isExternal
+                          ? '↗'
+                          : '→'}
+                    </span>
+                  </div>
+                  <p className="mt-[0.1lh] text-[14px] leading-snug text-[#6E6E73]">
+                    {project.description}
+                  </p>
+                  <p className="label-meta mt-[0.1lh]">{project.tech}</p>
+                </Row>
+              );
+            })}
+          </div>
+        </section>
 
-      {/* Posts */}
-      <section>
-        <h2 className="text-sm font-semibold text-[#AEAEB2] uppercase tracking-widest mb-3">
-          최근 글
-        </h2>
-        <div className="flex flex-col">
-          {recentPosts.map((post, index) => (
-            <Link
-              key={post.slug}
-              href={`/post/${post.slug}`}
-              className="group block py-0 px-3 -mx-3 hover:bg-[#F2F2F7] transition-[background-color] duration-150 post-item"
-              style={{ '--stagger-index': index } as React.CSSProperties}
-            >
-              <h3 className="text-base font-semibold text-[#1D1D1F] group-hover:text-[#6E6E73] transition-[color] duration-150 leading-snug mb-0.5">
-                {post.title}
-              </h3>
-              <p className="text-[15px] text-[#6E6E73] leading-snug">
-                {post.summary}
-              </p>
-              <p className="text-sm text-[#AEAEB2] mt-0.5">
-                {post.category} · {post.date?.replace('.', '/')}
-              </p>
-            </Link>
-          ))}
-        </div>
-        <Link
-          href="/posts"
-          className="inline-block mt-8 text-sm text-[#1D1D1F] underline underline-offset-2 hover:text-[#6E6E73] transition-[color] duration-150"
-        >
-          모든 글 보기 →
-        </Link>
-      </section>
+        <FilterablePosts posts={listed} />
+      </div>
     </div>
   );
 }
