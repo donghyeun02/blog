@@ -1,0 +1,252 @@
+마지막 날은 진도가 제일 많이 나갔다. NodePort에서 시작해서 Ingress, ConfigMap, 볼륨, Namespace까지 k3s에서 정리하고 그다음에 관리형 쿠버네티스(NKS)로 넘어갔다. 시간이 모자라서 건너뛴 대목도 있었다.
+
+앞의 닷새가 "직접 만드는" 쪽이었다면 이날은 "클라우드가 만들어 주는 것을 쓰는" 쪽이었다. 아래는 이날 나온 것들을 내가 이해한 대로 정리한 것이다.
+
+<figure className="diagram">
+  <img src="/diagrams/day6.svg" alt="6일차 구성도 — ALB Ingress에서 두 존의 노드 풀로" />
+  <figcaption>6일차 구성도 — ALB Ingress에서 두 존의 노드 풀로</figcaption>
+</figure>
+
+---
+
+## NodePort
+
+**무엇인가.** 클러스터의 모든 노드에 같은 포트를 하나씩 열어두는 Service 타입이다.
+
+**언제 쓰나.** 5일차에 만든 ClusterIP는 클러스터 안에서만 닿는 주소라 밖에서는 아예 못 쓴다. 밖에서 들어와야 할 때 쓰는 첫 번째 방법이 NodePort였다.
+
+여기서 포트가 세 개 나오는데 이걸 구분하는 게 이날 앞부분의 핵심이었다.
+
+| 값 | 어디의 포트인가 | 예시 |
+| --- | --- | --- |
+| `nodePort` | 노드가 밖으로 여는 포트 | 30080 |
+| `port` | Service 자신의 포트 | 80 |
+| `targetPort` | Pod 컨테이너가 실제로 듣는 포트 | 80 |
+
+요청은 `외부 → nodePort → port → targetPort → 컨테이너` 순으로 지나간다. 셋 다 다른 숫자여도 된다. `nodePort`는 `30000-32767` 범위에서 고른다. 안 적으면 비어 있는 걸 자동으로 잡아준다.
+
+**흐름.** Deployment를 올리고 → `type: NodePort`인 Service를 붙이고 → `kubectl get nodes -o wide`로 노드 IP를 확인해서 → `노드IP:30080`으로 접속한다.
+
+실습에서 노드 두 대의 IP로 각각 접속했는데 둘 다 똑같이 응답했다. Pod가 그 노드에 없어도 그렇다. `kube-proxy`가 Pod가 있는 노드로 넘겨주기 때문이라고 했다. "포트가 열린 노드"와 "Pod가 있는 노드"가 같을 필요는 없다.
+
+<figure className="diagram">
+  <img src="/diagrams/nodeport-ports.svg" alt="nodePort · port · targetPort는 서로 다른 층의 포트다" />
+  <figcaption>nodePort · port · targetPort는 서로 다른 층의 포트다</figcaption>
+</figure>
+
+---
+
+## Ingress
+
+**무엇인가.** 호스트와 경로를 보고 트래픽을 어느 Service로 보낼지 정하는 규칙이다. L7 라우팅이라고 했다.
+
+**언제 쓰나.** NodePort는 서비스가 하나 늘 때마다 포트가 하나씩 는다. 주소 하나로 여러 서비스를 나눠 받고 싶을 때 Ingress를 쓴다.
+
+여기서 헷갈렸던 게 하나 있다. Ingress는 **규칙**이고 그 규칙을 실제로 처리하는 건 **Ingress Controller**라는 별도의 존재다. k3s에는 traefik이 내장돼 있어서 그게 처리했다.
+
+**흐름.** `kubectl get ingressclass`로 이 클러스터의 컨트롤러 이름을 확인하고 → `ingressClassName`에 그 이름을 적고 → `rules`에 경로별로 어느 Service로 보낼지 적는다. 클러스터마다 이름이 다를 수 있으니 매번 확인하라고 했는데, 왜 그래야 하는지는 오후에 NKS로 넘어가면서 알게 됐다.
+
+---
+
+## ConfigMap과 Secret
+
+**무엇인가.** 설정값을 컨테이너 이미지에서 떼어내 클러스터에 따로 두는 것이다. 민감하지 않은 값은 ConfigMap, 비밀번호나 API 키 같은 건 Secret에 담는다.
+
+**언제 쓰나.** 설정을 코드에 박아두면 개발용과 운영용 이미지를 따로 빌드해야 한다. 같은 이미지를 쓰고 값만 바꿔 끼우려고 쓴다.
+
+**흐름.** ConfigMap이나 Secret을 만들고 → Pod에 환경변수로 넣거나 파일로 마운트한다.
+
+두 가지를 새로 알았다.
+
+하나는 반영 시점이다. 환경변수로 넣은 값은 이미 떠 있는 Pod에 자동으로 반영되지 않는다. Pod를 다시 만들어야 한다.
+
+다른 하나는 Secret의 base64가 암호화가 아니라는 것이다. 디코딩하면 원문이 그대로 나온다. 그래서 저장할 때의 암호화와 접근 제어는 별개로 챙겨야 한다고 했다.
+
+---
+
+## 볼륨과 PVC
+
+**무엇인가.** 컨테이너가 지워지면 그 안에 쓴 데이터도 같이 사라진다. 그래서 Pod에 별도의 저장 공간을 붙이는 게 볼륨이다.
+
+이날 본 건 세 가지였다.
+
+| 방식 | 어디에 남나 | 한계 |
+| --- | --- | --- |
+| `emptyDir` | Pod가 사는 동안만 | Pod가 지워지면 같이 사라진다 |
+| `hostPath` | 그 노드의 디렉터리 | 다른 노드로 옮기면 없다 |
+| PVC (`local-path`) | 결국 어느 한 노드의 디렉터리 | Pod가 그 노드에 묶인다 |
+
+**PV·PVC·StorageClass.** PVC는 "10Gi가 필요하다"고 요청하는 쪽, PV는 실제 저장 공간, StorageClass는 그 PV를 어떻게 만들지 정해둔 틀이다. k3s는 PVC를 만들면 PV가 자동으로 생기는 동적 프로비저닝 방식이었다.
+
+`accessModes`도 여기서 나왔다. `ReadWriteOnce`는 한 번에 한 노드만 붙일 수 있다는 뜻이다. 종합 실습에서 Pod 두 개를 띄웠더니 같은 노드로 몰렸는데, 이유가 이것이었다.
+
+---
+
+## Namespace
+
+**무엇인가.** 하나의 클러스터를 논리적으로 나눠 쓰는 구획이다.
+
+**언제 쓰나.** 여러 팀이나 여러 환경이 한 클러스터를 쓸 때 이름이 겹치지 않게 하고 권한과 자원을 나누려고 쓴다.
+
+기본으로 네 개(`default`, `kube-system`, `kube-public`, `kube-node-lease`)가 있고 모든 리소스가 Namespace에 속하는 건 아니라고 했다. 노드나 PV처럼 클러스터 전체에 속하는 것들이 있다.
+
+쓰다 보니 정리할 때 편했다. Namespace 하나를 지우면 그 안의 것들이 같이 정리된다.
+
+---
+
+## 관리형 쿠버네티스 — NKS
+
+여기서부터 오후였다. 지금까지 직접 설치해서 쓰던 것을 클라우드가 관리해 주는 클러스터로 옮긴다.
+
+**무엇인가.** 컨트롤 플레인을 클라우드가 맡아주는 쿠버네티스다. 4일차에 내가 `curl | sh -`로 깔았던 그 부분이 아예 안 보인다.
+
+**언제 쓰나.** 컨트롤 플레인을 직접 돌보고 싶지 않을 때다. 대신 클라우드 자원과 맞닿는 부분을 새로 배워야 한다.
+
+노드를 다루는 방식부터 달랐다. 4일차에는 서버 한 대를 만들고 토큰으로 붙였는데, NKS는 같은 사양의 **노드 풀**을 만들고 개수만 정한다. 노드는 여러 **존**에 나뉘어 배치된다.
+
+인증도 달랐다. k3s는 server 노드의 인증서 파일을 통째로 복사해 왔는데, NKS는 `ncp-iam-authenticator`가 API 인증키로 매번 토큰을 받아온다. kubeconfig를 두 개 두고 골라 쓰는 법도 이날 배웠다.
+
+강사님이 표로 정리해준 게 이해에 제일 도움이 됐다.
+
+| 항목 | k3s | NKS |
+| --- | --- | --- |
+| Pod · Deployment · Service | 표준 매니페스트 | 같음 |
+| ConfigMap · Secret | 표준 매니페스트 | 같음 |
+| `kubectl` 명령 | get · describe · apply | 같음 |
+| 컨트롤 플레인 | 내 서버에서 보임 | 보이지 않음 |
+| 노드 추가 | 토큰으로 조인 | 노드 풀 개수 변경 |
+| 인증 | 인증서 파일 복사 | 계정 기반 토큰 |
+| 네트워크 플러그인 | flannel | Cilium (고정) |
+| 밖으로 노출 | 노드 IP · NodePort | 실제 로드밸런서 |
+| Ingress Controller | traefik 내장 | ALB |
+| 기본 StorageClass | local-path | nks-block-storage |
+
+정리하면 **매니페스트와 kubectl은 그대로고 클라우드 자원과 닿는 지점만 달라진다.** 실제로 5일차에 쓴 Deployment YAML을 한 줄도 안 고치고 그대로 올렸는데 그냥 떴다.
+
+---
+
+## 로드밸런서
+
+**무엇인가.** `type: LoadBalancer`로 Service를 만들면 콘솔에 실제 로드밸런서 장비가 하나 생긴다. 매니페스트 한 장이 클라우드 자원을 만들어 낸다.
+
+**언제 쓰나.** NodePort는 노드 IP를 알아야 하고 그 노드가 죽으면 그 주소는 못 쓴다. 실제 서비스에서는 앞에 고정된 진입점이 필요하다.
+
+**흐름.** 어느 서브넷에 놓을지 정하고 → 어노테이션으로 설정을 적고 → Service를 만들면 → `EXTERNAL-IP`에 주소가 붙는다.
+
+여기서 **어노테이션**이 처음 제대로 나왔다. Label과 생김새는 같은데 쓰임이 다르다. Label은 대상을 고르는 데 쓰고 어노테이션은 부가 정보를 붙이는 데 쓴다. 클라우드 설정은 전부 이 어노테이션으로 얹는다.
+
+자주 쓰는 다섯 개를 봤다. `internal`(사설이냐 공인이냐), `layer-type`, `size`, `subnet-id`, `algorithm`. 사설 LB를 먼저 만들고 그다음 공인 LB를 만들어 두 개를 비교했는데, 사설 쪽은 관리 노드에서만 닿고 공인 쪽은 인터넷에서 닿았다.
+
+---
+
+## ALB Ingress
+
+오전에 traefik으로 하던 걸 이번엔 클라우드 장비가 한다.
+
+매니페스트는 그대로다. `apiVersion`도 `rules` 구조도 오전에 쓴 그대로고 바뀌는 건 `ingressClassName`이 `traefik`에서 `alb`가 되는 것과 어노테이션이 붙는 것뿐이다. 아침에 "클러스터마다 이름이 다르니 매번 확인하라"고 한 말이 여기서 실제가 됐다.
+
+대신 조건이 하나 붙는다. **ALB가 가리키는 Service는 전부 NodePort 타입이어야 한다.** ALB는 클러스터 밖에 있는 장비라서 클러스터 안에서만 유효한 ClusterIP로는 Pod에 닿을 수 없기 때문이다. traefik은 클러스터 안 Pod였으니 ClusterIP로도 됐는데, 그대로 옮기면 여기서 막힌다.
+
+이게 조용히 실패한다. Ingress는 만들어지고 기존 설정이 있었으면 밖에서는 계속 응답한다. 바뀐 게 반영이 안 될 뿐이다. `kubectl describe ingress`의 Events에 `has no NodePort`가 있는지 봐야 알 수 있다고 했다.
+
+---
+
+## 헬스체크
+
+로드밸런서는 뒤에 있는 노드가 살아 있는지 알 방법이 없어서 직접 물어본다. 그 확인 경로를 어노테이션으로 정해둔다.
+
+판정이 한 번에 바뀌지 않는다는 게 먼저 나왔다. 연속으로 몇 번 성공하거나 실패해야 살았다 죽었다를 정한다. 그래서 설정을 고치고 바로 확인해서 "안 고쳐졌다"고 판단하면 안 된다고 했다.
+
+여기서 헷갈릴 만한 지점을 짚어줬다. 헬스체크 경로를 잘못 적어두면 앱은 멀쩡한데 ALB는 모든 노드를 죽었다고 보고 `503`을 낸다. 이때 `kubectl get pods`를 쳐보면 전부 `Running`이다. 쿠버네티스 쪽만 봐서는 아무 문제가 없어서 콘솔의 로드밸런서 상태를 같이 봐야 한다고 했다.
+
+<figure className="diagram">
+  <img src="/diagrams/alb-health.svg" alt="같은 시점에 쿠버네티스는 Running, ALB는 모든 노드 비정상" />
+  <figcaption>같은 시점에 쿠버네티스는 Running, ALB는 모든 노드 비정상</figcaption>
+</figure>
+
+---
+
+## HPA
+
+**무엇인가.** Pod 개수를 사용률에 맞춰 자동으로 늘리고 줄이는 것이다. 5일차에 `kubectl scale`로 사람이 하던 일을 대신한다.
+
+이 실습은 일부러 안 되는 상태부터 시작했다. `requests` 없이 HPA를 걸어보는 것이다.
+
+```bash
+kubectl create deployment hpa-demo --image=nginx:1.27-alpine --replicas=2
+kubectl autoscale deployment hpa-demo --cpu=50% --min=2 --max=6
+```
+
+1분을 기다려도 `TARGETS`가 `cpu: <unknown>/50%`였고 개수는 움직이지 않았다. 그런데 오류 메시지는 어디에도 안 나온다. HPA는 만들어졌고 그냥 아무 일도 안 한다.
+
+이유는 `describe`를 봐야 나왔다.
+
+```bash
+kubectl describe hpa hpa-demo | sed -n '/Conditions/,/Events/p'
+```
+
+`ScalingActive`가 `False`, 이유가 `FailedGetResourceMetric`, 메시지에 `missing request for cpu`.
+
+`requests`는 "이 컨테이너에 최소한 이만큼은 필요하다"고 적어두는 값이다. HPA는 사용률을 재는 건데 그 분모가 이 값이라, 안 적어두면 계산 자체가 안 되는 것이었다.
+
+`requests`에 `cpu: 700m`을 넣고 다시 올리니 그때부터 숫자가 나왔다. HPA가 동작을 안 하면 볼 곳은 항상 `describe hpa`의 Conditions라고 했다.
+
+---
+
+## Cluster Autoscaler
+
+**무엇인가.** HPA가 Pod를 늘렸는데 놓을 자리가 없을 때, 노드 자체를 늘리는 것이다.
+
+**흐름.** 콘솔에서 노드 풀에 Autoscaler를 켜고 → Pending인 Pod가 생기면 → Autoscaler가 노드를 추가한다.
+
+실습에서 노드 하나에 Pod가 몇 개 들어가는지 직접 계산했다. `allocatable.cpu`가 `1930m`이고 Pod 하나가 `700m`을 요청하니 노드당 두 개다. 시스템 Pod도 자리를 쓰니 세 개는 안 된다. 노드가 넷이면 여덟 개가 한계다.
+
+그래서 `replicas=14`로 늘렸더니 여덟 개는 `Running`, 나머지는 `Pending`이 됐다. Pending인 Pod를 `describe`하니 `0/4 nodes are available: 4 Insufficient cpu`가 나왔고 잠시 뒤 노드가 실제로 늘어났다.
+
+줄어드는 건 훨씬 느리다고 했다. 10분 이상 걸린다.
+
+---
+
+## 무중단 배포와 롤백
+
+마지막은 앞의 것들을 다 합쳐서 3일차에 도커로 만들었던 캠퍼스 마켓 앱을 NKS에 올리는 실습이었다. Redis와 API를 올리고 그 앞에 Web을 두고 ALB Ingress로 인터넷에 열었다.
+
+그 상태에서 서비스를 열어둔 채로 새 버전을 배포해 봤다. 창을 하나 더 열어서 2초마다 요청을 계속 보내놓고 원래 창에서 일부러 없는 태그로 배포한다.
+
+```bash
+kubectl set image deployment/web web=$REGISTRY/campus-market-web:nope
+```
+
+`image updated`가 먼저 출력되고 이 시점에는 오류가 없다. `rollout status`가 기다리다가 타임아웃으로 끝난다.
+
+Pod를 보면 기존 세 개는 `Running` 그대로고 새로 만들어진 하나만 `ImagePullBackOff`다. Deployment가 새것이 준비돼야 옛것을 지우는 방식이라 기존 Pod를 건드리지 않은 것이다.
+
+그리고 계속 두드리던 창을 보면 `200`이 끊이지 않고 이어져 있다. 배포는 실패했는데 사용자는 아무것도 몰랐다.
+
+Pod를 여러 개 두는 이유가 여기서 드러났는데, 동시에 무서운 얘기이기도 했다. 사용자가 모른다는 건 배포가 실패한 걸 나도 모르고 넘어갈 수 있다는 뜻이다. `rollout status`의 결과를 반드시 확인해야 하는 이유라고 했다.
+
+---
+
+## 지우는 것까지가 실습
+
+k3s에서는 매니페스트를 지우면 그걸로 끝이었다. NKS는 다르다고 했다.
+
+- `type: LoadBalancer` Service 하나 = 실제 로드밸런서 하나 (시간 단위 과금)
+- PVC 하나 = 실제 스토리지 하나 (용량만큼 과금)
+- Autoscaler를 켜두면 서버가 저절로 늘어난다
+
+매니페스트 한 장이 콘솔에 실제 장비를 만들어 놓는다는 게 이날 제일 낯선 부분이었다. 그래서 실습마다 정리 단계가 붙어 있었다. Namespace 하나 지우면 안의 게 같이 정리된다는 것도 여기서 쓸모가 있었다.
+
+---
+
+닷새 동안 VPC부터 시작해서 방화벽, 컨테이너, 클러스터, 매니페스트까지 직접 만들었는데, 마지막 날은 그중 상당 부분을 클라우드에 넘겼다.
+
+넘기고 나니까 매니페스트와 `kubectl`은 하나도 안 바뀌었다. 대신 어노테이션, 존, 노드 풀, 과금처럼 클라우드 쪽 어휘가 새로 붙었다. 앞의 닷새가 없었으면 이 어휘들이 뭘 대신하고 있는 건지 몰랐을 것 같다.
+
+물론 하루에 이만큼 지나갔으니 지금 손에 남은 건 일부일 것이다. 실습 순서를 따라간 것과 이해한 것을 아직 잘 구분하지 못하겠다. 그래도 어디를 봐야 하는지는 몇 군데 알게 됐다. Endpoints가 비었는지, `describe hpa`의 Conditions가 뭐라고 하는지, ALB Events에 `has no NodePort`가 있는지. 다음에 막히면 여기부터 볼 생각이다.
+
+---
+
+*네이버 클라우드 심화 과정 회고 6일차 · [전체 목차로](/post/ncpProfessional)*
+
+← 이전 · [5일차 (Deployment, Service, Label)](/post/k8sManifest)

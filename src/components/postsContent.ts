@@ -30,4 +30,5 @@ export const postsContent: Record<
   'trust-your-server': () => import('@/app/local-mdx/trust-your-server.mdx'),
   windowEthereum: () => import('@/app/local-mdx/windowEthereum.mdx'),
   k8sManifest: () => import('@/app/local-mdx/k8sManifest.mdx'),
+  k8sToNks: () => import('@/app/local-mdx/k8sToNks.mdx'),
 };

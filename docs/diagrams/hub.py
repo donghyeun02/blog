@@ -1,7 +1,8 @@
 from ncpstyle import *
 
 LAYERS = [
-    ('K3s Pod',          '4~5일차', 'Pod CIDR 10.42.0.0/16 · Service · 매니페스트'),
+    ('노출과 확장',       '6일차', 'NodePort · Ingress · ALB · HPA'),
+    ('K3s · NKS Pod',   '4~6일차', 'Deployment · Service · Label · 매니페스트'),
     ('Docker Container', '3일차', 'bridge · Overlay UDP 4789'),
     ('Server',           '2일차', 'ACG · 서버 NIC에서 검사'),
     ('Subnet',           '1일차', 'NACL · Subnet 경계에서 검사'),

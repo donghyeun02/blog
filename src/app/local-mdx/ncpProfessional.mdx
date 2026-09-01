@@ -1,21 +1,21 @@
-학교에서 네이버 클라우드(NCP) 심화 과정을 듣고 있다. 총 6일 과정 중 5일 차까지 마친 상태다.
+학교에서 네이버 클라우드(NCP) 심화 과정을 들었다. 총 6일 과정을 모두 마쳤다.
 
-VPC, NACL, ACG 등 기본 네트워크 세팅부터 시작해 Docker, K3s 클러스터 구축과 쿠버네티스 매니페스트 작성까지 진행했다. 실습 과정에서 겪은 문제와 일차별 기록을 정리해 둔다.
+VPC와 Subnet부터 시작해 방화벽, Docker, K3s 클러스터, 쿠버네티스 매니페스트를 거쳐 마지막 날 관리형 쿠버네티스(NKS)까지 갔다. 일차별로 무엇을 했고 그중 내가 어디까지 이해했는지를 정리해 둔다.
 
 ---
 
 ## SSH 접속과 NACL 아웃바운드 설정
 
-실습 2일 차에 서버를 생성하고 SSH 접속을 시도했을 때, 연결이 진행되지 않고 `confused` 에러가 발생했다.
+2일 차에 서버를 만들고 SSH 접속을 시도했을 때 연결이 안 붙고 `confused` 에러가 났다.
 
-인바운드로 내 IP와 22번 포트는 허용해 둔 상태였다. 기존에 AWS EC2만 사용할 때는 보안 그룹(Security Group) 아웃바운드가 기본적으로 전체 허용(`0.0.0.0/0`)이었기 때문에 인바운드만 설정하면 접속이 가능했다.
+인바운드로 내 IP와 22번 포트는 허용해 둔 상태였다. 기존에 AWS EC2만 썼을 때는 보안 그룹(Security Group) 아웃바운드가 기본적으로 전체 허용(`0.0.0.0/0`)이라 인바운드만 설정하면 접속이 됐다.
 
-혼자 해결되지 않아 강사님께 여쭤봤고, 설정을 확인한 후 NACL 아웃바운드가 차단되어 있다는 원인을 파악했다. 강의 자료 표에도 아웃바운드 설정이 있었으나 이를 건너뛰면서 발생한 문제였다.
+혼자 해결되지 않아 강사님께 여쭤봤고 설정을 같이 확인하고 나서야 NACL 아웃바운드가 차단되어 있다는 걸 알았다. 강의 자료 표에도 아웃바운드 설정이 있었는데 내가 건너뛰면서 생긴 문제였다.
 
 * **ACG (Stateful):** 들어온 요청을 기억하므로 인바운드만 열어도 나가는 응답이 통과된다.
 * **NACL (Stateless):** 요청과 응답을 별개로 다루므로 인바운드와 아웃바운드를 각각 설정해야 한다.
 
-요청은 서버 22번 포트로 들어갔으나, 서버가 내 PC의 임시 포트(`32768-65535`)로 대답을 보내는 아웃바운드가 막혀 있어 `confused` 에러가 발생했다.
+요청은 서버 22번 포트로 들어갔는데, 서버가 내 PC의 임시 포트(`32768-65535`)로 대답을 보내는 아웃바운드가 막혀 있어서 `confused` 에러가 났다.
 
 <figure className="diagram">
   <img src="/diagrams/ssh-hang.svg" alt="요청은 도착했고 응답이 NACL 아웃바운드에서 버려진다" />
@@ -24,38 +24,81 @@ VPC, NACL, ACG 등 기본 네트워크 세팅부터 시작해 Docker, K3s 클러
 
 ---
 
+## 전체 구성
+
+엿새 동안 만든 것을 한 장에 모으면 이렇게 된다.
+
 <figure className="diagram">
-  <img src="/diagrams/stack.svg" alt="실습에서 쌓아 올린 층 — VPC부터 K3s Pod까지" />
-  <figcaption>실습에서 쌓아 올린 층 — VPC부터 K3s Pod까지</figcaption>
+  <img src="/diagrams/overall.svg" alt="엿새 동안 만든 것 — Ops VPC, Workload VPC, K3s, 그리고 NKS" />
+  <figcaption>엿새 동안 만든 것 — Ops VPC, Workload VPC, K3s, 그리고 NKS</figcaption>
 </figure>
 
-## 일차별 실습 기록 모음
-
-### 1. [네트워크] VPC, Subnet, Route Table (8/24)
-서버 생성 전 VPC 2개, Subnet, Route Table 5개, NAT Gateway 3개를 세팅했다.
-Public/Private Subnet의 역할 차이, Internet Gateway와 NAT Gateway의 차이, VPC Peering 세팅 내용을 다룬다.
-👉 **[포스트 읽으러 가기](/post/ncpNetwork)**
-
-### 2. [방화벽] NACL, ACG, SSL VPN (8/25)
-SSH `confused` 에러 원인이었던 NACL 아웃바운드 설정과 Stateless/Stateful의 차이를 다룬다.
-Server 생성, Prometheus, Grafana 메트릭 수집 세팅을 정리했다.
-👉 **[포스트 읽으러 가기](/post/naclAcg)**
-
-### 3. [컨테이너] Docker 네트워크 구조 (8/26)
-Docker 컨테이너 간 네트워크 격리 문제와, 서버 내 `eth0` 및 `docker0` 가상 네트워크 구조를 정리했다.
-👉 **[포스트 읽으러 가기](/post/dockerNetwork)**
-
-### 4. [오케스트레이션] K3s Server와 Agent 분기 (8/27)
-서버 2대에 옵션 없이 `get.k3s.io` 설치 스크립트를 실행했다가 양쪽 다 마스터 노드(Server)로 동작한 이슈를 다룬다.
-`K3S_URL`과 `K3S_TOKEN` 옵션을 지정해 Agent로 재연결하는 과정을 정리했다.
-👉 **[포스트 읽으러 가기](/post/k3sAgentJoin)**
-
-### 5. [쿠버네티스] K3s 매니페스트 작성 (8/28)
-ReplicaSet, Deployment, Service 등 쿠버네티스 리소스 매니페스트 작성 실습을 진행했다.
-👉 **[포스트 읽으러 가기](/post/k8sManifest)**
+관리용 VPC와 서비스용 VPC를 따로 두고 Peering으로 이었다. 안쪽 서버는 공인 IP 없이 SSL VPN으로 들어가고 나갈 때만 NAT Gateway를 쓴다. 서비스용 VPC 안에는 존을 나눠 서버를 두 대 두고 그 위에 Docker Swarm과 K3s를 차례로 올렸다. 마지막 날 만든 NKS는 별개의 클러스터라 아래에 따로 그렸다.
 
 ---
 
-## 마치며
+## 층이 쌓이는 순서
 
-5일간 실습을 진행하며 직접 겪었던 이슈와 해결 과정을 일차별로 기록해 두었다. 남은 6일 차 과정을 마무리하고 복습용 기록으로 남긴다.
+과정이 끝나고 보니 엿새가 층을 하나씩 올리는 순서였다. VPC와 Subnet 위에 방화벽이 서고 그 위에 서버가 뜨고 서버 위에 컨테이너가, 컨테이너 위에 클러스터가 올라간다. 마지막 날 배운 것들은 그 위에서 밖으로 열고 개수를 늘리는 얘기였다.
+
+<figure className="diagram">
+  <img src="/diagrams/stack.svg" alt="실습에서 쌓아 올린 층 — VPC부터 노출과 확장까지" />
+  <figcaption>실습에서 쌓아 올린 층 — VPC부터 노출과 확장까지</figcaption>
+</figure>
+
+막힐 때마다 원인이 내가 보던 층이 아니라 그 아래 층에 있었다. 컨테이너가 서로를 못 찾는 것도, 노드가 안 붙는 것도, 결국은 아래에서 무언가가 비어 있어서였다. 위 층이 아래 층을 대신해 주지 않는다는 게 엿새 동안 가장 자주 확인한 것이다.
+
+---
+
+## 일차별 기록
+
+### 1일차 — VPC, Subnet, Route Table (8/24)
+서버를 만들기 전에 VPC 2개, Subnet, Route Table 5개, NAT Gateway 3개를 먼저 세팅했다.
+Public/Private Subnet의 차이가 이름표에 가깝다는 것, Internet Gateway와 NAT Gateway가 여는 방향이 반대라는 것, VPC Peering은 양쪽 Route까지 넣어야 이어진다는 것을 다룬다.
+👉 **[포스트 읽으러 가기](/post/ncpNetwork)**
+
+### 2일차 — NACL, ACG, Prometheus (8/25)
+SSH `confused` 에러의 원인이었던 NACL 아웃바운드와 Stateless/Stateful의 차이를 정리했다.
+SSL VPN, 그리고 Prometheus와 Node Exporter로 메트릭을 긁어오는 구성이 결국 방화벽 얘기로 돌아오는 과정을 다룬다.
+👉 **[포스트 읽으러 가기](/post/naclAcg)**
+
+### 3일차 — Docker 네트워크, Overlay (8/26)
+컨테이너가 둘이 되면 이름이 필요하고 호스트가 둘이 되면 터널이 필요하다는 것을 다룬다.
+`docker0` 브리지와 사용자 정의 네트워크, 포트 세 층, Swarm Overlay가 지나가는 UDP 4789를 정리했다.
+👉 **[포스트 읽으러 가기](/post/dockerNetwork)**
+
+### 4일차 — K3s, Server와 Agent (8/27)
+서버 2대에 옵션 없이 `get.k3s.io` 설치 스크립트를 실행했다가 양쪽 다 Server로 올라간 이슈를 다룬다.
+`K3S_URL` 하나로 역할이 갈린다는 것과 `K3S_TOKEN`을 넣어 Agent로 다시 붙인 과정을 정리했다.
+👉 **[포스트 읽으러 가기](/post/k3sAgentJoin)**
+
+### 5일차 — Deployment, Service, Label (8/28)
+Deployment와 Service를 잇는 게 Label 문자열 하나뿐이라는 것, 여기서 틀리면 Pod가 전부 `Running`인 채로 조용히 틀린다는 것을 다룬다.
+명령형과 선언형의 차이, Deployment·ReplicaSet·Pod 세 층과 롤백이 되는 이유를 정리했다.
+👉 **[포스트 읽으러 가기](/post/k8sManifest)**
+
+### 6일차 — NodePort, Ingress, NKS, HPA (8/31)
+NodePort와 Ingress로 클러스터 밖에 서비스를 열고 ConfigMap·Secret·볼륨·Namespace까지 k3s에서 정리했다.
+이후 관리형 쿠버네티스(NKS)로 옮겨 로드밸런서와 ALB Ingress, HPA와 Cluster Autoscaler, 무중단 배포와 롤백을 다룬다.
+👉 **[포스트 읽으러 가기](/post/k8sToNks)**
+
+---
+
+## 다시 막히면 볼 곳
+
+엿새 동안 막힌 지점들을 정리하면 볼 곳이 몇 군데 나온다.
+
+- SSH가 안 붙으면 — NACL은 요청과 응답을 각각 본다. 인바운드만 열려 있지 않은지
+- 컨테이너가 서로를 못 찾으면 — 같은 사용자 정의 네트워크에 붙어 있는지, 노드가 다르면 UDP 4789가 열려 있는지
+- `kubectl get nodes`에 한 대만 나오면 — 방화벽이 아니라 설치 옵션(`K3S_URL`)
+- 서비스가 응답을 안 하면 — Pod 상태 말고 `kubectl get endpoints`
+- HPA가 안 움직이면 — `kubectl describe hpa`의 Conditions
+- ALB가 반영을 안 하면 — `kubectl describe ingress`의 Events에 `has no NodePort`
+
+---
+
+## 느낀점
+
+{/* ─── 여기에 직접 쓸 부분 ─── */}
+
+_아직 정리 중._

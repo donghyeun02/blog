@@ -1,6 +1,6 @@
 # 구성도 생성
 
-네이버 클라우드 심화 과정 회고 4편에 들어가는 SVG 구성도를 만드는 스크립트.
+네이버 클라우드 심화 과정 회고 6편에 들어가는 SVG 구성도를 만드는 스크립트.
 
 ## 스타일
 
@@ -11,9 +11,11 @@
 제목과 각주는 그리되 viewBox에서 잘라내 화면에 안 보이게 한다(`top_cut`·`bot_cut`).
 글에 이미 제목과 본문이 있어서 도면이 그걸 반복할 이유가 없다.
 
-12장 전부 같은 스타일이다 — 일차별 구성도 4장(day1~4)과 설명용 8장
-(net-*, ssh-hang, scrape-path, docker-isolated, k3s-split, stack*) 모두
-`ncpstyle.py`를 쓴다.
+17장 전부 같은 스타일이다 — 일차별 구성도 5장(day1~4, day6), 전체 구성도 1장(overall)과 설명용 11장
+(net-*, ssh-hang, scrape-path, docker-isolated, k3s-split, stack*,
+k8s-selector, nodeport-ports, alb-health) 모두 `ncpstyle.py`를 쓴다.
+
+`top_cut`·`bot_cut`을 실제로 잘라내는 건 `lib.py`의 `Svg.render()`다.
 
 ## 크기
 
@@ -25,8 +27,11 @@
 
 ```bash
 python3 day1.py          # public/diagrams용 SVG를 이 폴더에 생성
+python3 day6.py          # 6일차 구성도
+python3 extras6.py       # 6일차 설명용 2장
+python3 overall.py       # 허브의 전체 구성도
 ./shot.sh day1.svg day1.png   # 눈으로 확인 (Chrome 헤드리스)
-cp day*.svg ../../public/diagrams/
+cp *.svg ../../public/diagrams/
 ```
 
 ## 아이콘
@@ -40,4 +45,4 @@ PPTX는 zip이라 `ppt/media`에 PNG가 들어 있고, 슬라이드 XML의 아�
 
 ## 값의 출처
 
-리소스 이름·대역·포트는 강의 자료(P02·P07·P08·P12·P27~P29)에서 대조한 값이다.
+리소스 이름·대역·포트는 강의 자료(P02·P07·P08·P12·P16·P27~P29·P35·P36)에서 대조한 값이다.
