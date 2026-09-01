@@ -25,6 +25,8 @@ def esc(s): return html.escape(str(s), quote=True)
 class Svg:
     def __init__(self, w, h):
         self.w, self.h, self.p = w, h, []
+        # 제목·각주는 그리되 viewBox에서 잘라내 화면에는 안 보이게 한다.
+        self.top_cut, self.bot_cut = 0, None
     def add(self, s): self.p.append(s); return self
     def text(self, x, y, s, size=13, fill=INK, weight='400', mono=False, anchor='start', op=1):
         f = FM if mono else FS
@@ -52,12 +54,14 @@ class Svg:
         self.add(f'<line x1="{x-s}" y1="{y-s}" x2="{x+s}" y2="{y+s}" stroke="{INK}" stroke-width="2.4" stroke-linecap="round"/>')
         self.add(f'<line x1="{x+s}" y1="{y-s}" x2="{x-s}" y2="{y+s}" stroke="{INK}" stroke-width="2.4" stroke-linecap="round"/>')
     def render(self):
-        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" '
-                f'viewBox="0 0 {self.w} {self.h}">'
+        top = self.top_cut
+        vh = (self.bot_cut if self.bot_cut is not None else self.h) - top
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{vh}" '
+                f'viewBox="0 {top} {self.w} {vh}">'
                 f'<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" '
                 f'markerHeight="7" orient="auto-start-reverse">'
                 f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{INK}"/></marker></defs>'
-                f'<rect width="{self.w}" height="{self.h}" fill="{BG}"/>'
+                f'<rect x="0" y="{top}" width="{self.w}" height="{vh}" fill="{BG}"/>'
                 + ''.join(self.p) + '</svg>')
 
 def titled(s, title, subtitle):
