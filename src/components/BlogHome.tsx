@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { postsMeta } from './postsMeta';
-import BinaryStrip from './home/BinaryStrip';
+import StudioStrip from './home/StudioStrip';
 import FilterablePosts from './home/FilterablePosts';
 
 const PROJECTS = [
@@ -10,6 +10,13 @@ const PROJECTS = [
     description: '이 블로그를 왜 만들었고 무슨 글을 쓰는지',
     tech: '이 사이트',
     href: '/about',
+    stars: null,
+  },
+  {
+    name: '다이어그램 스튜디오',
+    description: 'ERD, 아키텍처, 흐름도를 만드는 곳',
+    tech: '이 사이트',
+    href: '/studio',
     stars: null,
   },
   {
@@ -81,9 +88,9 @@ export default function BlogHome() {
           </Link>
         </nav>
 
-        {/* 설명 대신 하나 돌려 본다. 이 블로그가 뭘 하는 곳인지가 한 줄로 보인다. */}
+        {/* 스튜디오 입구. 무엇을 그릴 수 있는 곳인지가 한눈에 보인다. */}
         <div className="mt-[1.4lh]">
-          <BinaryStrip />
+          <StudioStrip />
         </div>
       </header>
 
