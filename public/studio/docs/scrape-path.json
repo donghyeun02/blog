@@ -1,0 +1,230 @@
+{
+ "id": "scrape-path",
+ "title": "Prometheus가 메트릭을 긁어오는 길",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 677.5,
+   "height": 506,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "prom",
+   "type": "icon",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "data": {
+    "iconId": "server",
+    "label": "Ops",
+    "sub": "Prometheus"
+   }
+  },
+  {
+   "id": "c0",
+   "type": "box",
+   "position": {
+    "x": 220,
+    "y": 14
+   },
+   "data": {
+    "label": "Peering Route",
+    "kind": "service",
+    "sub": "상대 CIDR 경로",
+    "width": 240
+   }
+  },
+  {
+   "id": "c1",
+   "type": "box",
+   "position": {
+    "x": 220,
+    "y": 110
+   },
+   "data": {
+    "label": "Ops NACL",
+    "kind": "service",
+    "sub": "OUT 9100",
+    "width": 240
+   }
+  },
+  {
+   "id": "c2",
+   "type": "box",
+   "position": {
+    "x": 220,
+    "y": 206
+   },
+   "data": {
+    "label": "Ops ACG",
+    "kind": "service",
+    "sub": "OUT 9100",
+    "width": 240
+   }
+  },
+  {
+   "id": "c3",
+   "type": "box",
+   "position": {
+    "x": 220,
+    "y": 302
+   },
+   "data": {
+    "label": "Wld NACL",
+    "kind": "service",
+    "sub": "IN 9100",
+    "width": 240
+   }
+  },
+  {
+   "id": "c4",
+   "type": "box",
+   "position": {
+    "x": 220,
+    "y": 398
+   },
+   "data": {
+    "label": "Wld ACG",
+    "kind": "service",
+    "sub": "IN 9100",
+    "width": 240
+   }
+  },
+  {
+   "id": "exp",
+   "type": "icon",
+   "position": {
+    "x": 540,
+    "y": 384
+   },
+   "data": {
+    "iconId": "server",
+    "label": "Node Exporter",
+    "sub": "LISTEN 9100"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "prom",
+   "target": "c0",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 1
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "c0",
+   "target": "c1",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 2
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "c1",
+   "target": "c2",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 3
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "c2",
+   "target": "c3",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 4
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e5",
+   "type": "flow",
+   "source": "c3",
+   "target": "c4",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 5
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e6",
+   "type": "flow",
+   "source": "c4",
+   "target": "exp",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 6
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  }
+ ]
+}

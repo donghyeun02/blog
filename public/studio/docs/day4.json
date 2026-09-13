@@ -1,0 +1,214 @@
+{
+ "id": "day4",
+ "title": "4일차 — Server와 Agent",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 774,
+   "height": 650,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "ops",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 20
+   },
+   "zIndex": -1,
+   "width": 750,
+   "height": 118,
+   "data": {
+    "label": "cnp-s01-ops-vpc  10.50.0.0/16",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "wld",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 200
+   },
+   "zIndex": -1,
+   "width": 750,
+   "height": 390,
+   "data": {
+    "label": "cnp-s01-wld-vpc  10.60.0.0/16",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "k3s",
+   "type": "area",
+   "position": {
+    "x": 15,
+    "y": 228
+   },
+   "zIndex": -1,
+   "width": 720,
+   "height": 346,
+   "data": {
+    "label": "K3s 클러스터",
+    "variant": "zone"
+   }
+  },
+  {
+   "id": "sA",
+   "type": "area",
+   "position": {
+    "x": 30,
+    "y": 262
+   },
+   "zIndex": -1,
+   "width": 340,
+   "height": 296,
+   "data": {
+    "label": "K3s Server  10.60.8.0/24",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "aA",
+   "type": "area",
+   "position": {
+    "x": 380,
+    "y": 262
+   },
+   "zIndex": -1,
+   "width": 340,
+   "height": 296,
+   "data": {
+    "label": "K3s Agent  10.60.9.0/24",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "mgmt",
+   "type": "icon",
+   "position": {
+    "x": 210,
+    "y": 32
+   },
+   "data": {
+    "iconId": "server",
+    "label": "관리 서버",
+    "sub": "kubectl"
+   }
+  },
+  {
+   "id": "srv",
+   "type": "icon",
+   "position": {
+    "x": 210,
+    "y": 310
+   },
+   "data": {
+    "iconId": "server",
+    "label": "k3s-srv",
+    "sub": "k3s.service"
+   }
+  },
+  {
+   "id": "srvN",
+   "type": "note",
+   "position": {
+    "x": 48,
+    "y": 474
+   },
+   "data": {
+    "text": "결정 — apiserver · SQLite\n         scheduler · controller-manager\n실행 — kubelet · containerd · kube-proxy"
+   }
+  },
+  {
+   "id": "agt",
+   "type": "icon",
+   "position": {
+    "x": 510,
+    "y": 310
+   },
+   "data": {
+    "iconId": "server",
+    "label": "k3s-agt",
+    "sub": "k3s-agent.service"
+   }
+  },
+  {
+   "id": "agtN",
+   "type": "note",
+   "position": {
+    "x": 398,
+    "y": 474
+   },
+   "data": {
+    "text": "결정 — 없음\n실행 — kubelet · containerd · kube-proxy"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "mgmt",
+   "target": "srv",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "kubectl"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "agt",
+   "target": "srv",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "Agent가 먼저 연다 · 6443"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "srv",
+   "target": "agt",
+   "sourceHandle": "b",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 3,
+    "blocked": true,
+    "label": "Server는 먼저 안 건다"
+   }
+  }
+ ]
+}

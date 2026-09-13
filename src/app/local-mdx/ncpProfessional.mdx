@@ -1,3 +1,5 @@
+import StudioDiagram from '@/components/studio/StudioDiagram';
+
 학교에서 네이버 클라우드(NCP) 심화 과정을 들었다. 총 6일 과정을 모두 마쳤다.
 
 VPC와 Subnet부터 시작해 방화벽, Docker, K3s 클러스터, 쿠버네티스 매니페스트를 거쳐 마지막 날 관리형 쿠버네티스(NKS)까지 갔다. 일차별로 무엇을 했고 그중 내가 어디까지 이해했는지를 정리해 둔다.
@@ -17,10 +19,7 @@ VPC와 Subnet부터 시작해 방화벽, Docker, K3s 클러스터, 쿠버네티�
 
 요청은 서버 22번 포트로 들어갔는데, 서버가 내 PC의 임시 포트(`32768-65535`)로 대답을 보내는 아웃바운드가 막혀 있어서 `confused` 에러가 났다.
 
-<figure className="diagram">
-  <img src="/diagrams/ssh-hang.svg" alt="요청은 도착했고 응답이 NACL 아웃바운드에서 버려진다" />
-  <figcaption>요청은 도착했고 응답이 NACL 아웃바운드에서 버려진다</figcaption>
-</figure>
+<StudioDiagram doc="ssh-hang" ratio={1.978} caption="요청은 도착했고 응답이 NACL 아웃바운드에서 버려진다" />
 
 ---
 
@@ -28,10 +27,7 @@ VPC와 Subnet부터 시작해 방화벽, Docker, K3s 클러스터, 쿠버네티�
 
 엿새 동안 만든 것을 한 장에 모으면 이렇게 된다.
 
-<figure className="diagram">
-  <img src="/diagrams/overall.svg" alt="엿새 동안 만든 것 — Ops VPC, Workload VPC, K3s, 그리고 NKS" />
-  <figcaption>엿새 동안 만든 것 — Ops VPC, Workload VPC, K3s, 그리고 NKS</figcaption>
-</figure>
+<StudioDiagram doc="overall" ratio={0.678} caption="엿새 동안 만든 것 — Ops VPC, Workload VPC, K3s, 그리고 NKS" />
 
 관리용 VPC와 서비스용 VPC를 따로 두고 Peering으로 이었다. 안쪽 서버는 공인 IP 없이 SSL VPN으로 들어가고 나갈 때만 NAT Gateway를 쓴다. 서비스용 VPC 안에는 존을 나눠 서버를 두 대 두고 그 위에 Docker Swarm과 K3s를 차례로 올렸다. 마지막 날 만든 NKS는 별개의 클러스터라 아래에 따로 그렸다.
 
@@ -41,10 +37,7 @@ VPC와 Subnet부터 시작해 방화벽, Docker, K3s 클러스터, 쿠버네티�
 
 과정이 끝나고 보니 엿새가 층을 하나씩 올리는 순서였다. VPC와 Subnet 위에 방화벽이 서고 그 위에 서버가 뜨고 서버 위에 컨테이너가, 컨테이너 위에 클러스터가 올라간다. 마지막 날 배운 것들은 그 위에서 밖으로 열고 개수를 늘리는 얘기였다.
 
-<figure className="diagram">
-  <img src="/diagrams/stack.svg" alt="실습에서 쌓아 올린 층 — VPC부터 노출과 확장까지" />
-  <figcaption>실습에서 쌓아 올린 층 — VPC부터 노출과 확장까지</figcaption>
-</figure>
+<StudioDiagram doc="stack" ratio={0.935} caption="실습에서 쌓아 올린 층 — VPC부터 노출과 확장까지" />
 
 막힐 때마다 원인이 내가 보던 층이 아니라 그 아래 층에 있었다. 컨테이너가 서로를 못 찾는 것도, 노드가 안 붙는 것도, 결국은 아래에서 무언가가 비어 있어서였다. 위 층이 아래 층을 대신해 주지 않는다는 게 엿새 동안 가장 자주 확인한 것이다.
 

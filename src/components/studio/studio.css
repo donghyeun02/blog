@@ -1,0 +1,787 @@
+/* 스튜디오 — 블로그와 같은 밝은 종이 위에, 네이버 클라우드 레퍼런스 도면의 파랑을 강조색으로 쓴다. */
+
+.studio,
+.studio-viewer {
+  --s-ink: var(--color-ink, #1d1d1f);
+  --s-body: #3c3c43;
+  --s-subtle: #6e6e73;
+  --s-muted: #aeaeb2;
+  --s-line: #d2d2d7;
+  --s-hair: #e5e5ea;
+  --s-paper: #fafafa;
+  --s-surface: #f2f2f7;
+  --s-white: #ffffff;
+  --s-blue: #1e88e5;
+  --s-blue-soft: #e3f0fc;
+  --s-vpc: #4a9be8;
+  --s-zone: #8fc0ea;
+  --s-zone-fill: #f7fbff;
+  --s-danger: #c62828;
+  --s-mono: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  --s-fast: 150ms;
+}
+
+.studio {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-inline: 16px;
+  padding-block: 16px 8px;
+  color: var(--s-ink);
+}
+
+/* 전역에서 폼 요소 글자색을 배경색(#fafafa)으로 두고 있어, 색을 따로 안 준 버튼이 안 보인다.
+   :where로 우선순위를 0으로 둬서 .studio-btn 같은 개별 색 지정은 그대로 이긴다. */
+:where(.studio) :is(button, input, select, textarea) {
+  color: var(--s-ink);
+}
+
+/* ── 도구 막대 ─────────────────────────────────────────── */
+.studio-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+}
+.studio-bar-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.studio-brand {
+  font-family: var(--s-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--s-subtle);
+  margin-right: 4px;
+}
+.studio-notice {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--s-body);
+  background: var(--s-blue-soft);
+  padding: 6px 6px 6px 12px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+/* ── 입력·버튼 ─────────────────────────────────────────── */
+.studio-input {
+  width: 100%;
+  font-size: 13px;
+  color: var(--s-ink);
+  background: var(--s-white);
+  border: 1px solid var(--s-line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  transition: border-color var(--s-fast);
+}
+.studio-input:hover {
+  border-color: var(--s-muted);
+}
+.studio-input:focus-visible {
+  outline: 2px solid var(--s-blue);
+  outline-offset: 1px;
+  border-color: var(--s-blue);
+}
+.studio-input--mono {
+  font-family: var(--s-mono);
+  font-size: 12px;
+}
+.studio-input--bar {
+  width: auto;
+  max-width: 14rem;
+}
+textarea.studio-input {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.studio-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--s-white);
+  background: var(--s-ink);
+  border: 1px solid var(--s-ink);
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition:
+    background-color var(--s-fast),
+    color var(--s-fast),
+    border-color var(--s-fast);
+}
+.studio-btn:hover {
+  background: #3a3a3c;
+}
+.studio-btn:active {
+  transform: translateY(1px);
+}
+.studio-btn--ghost {
+  color: var(--s-ink);
+  background: transparent;
+  border-color: var(--s-line);
+}
+.studio-btn--ghost:hover {
+  background: var(--s-surface);
+  border-color: var(--s-muted);
+}
+.studio-btn--danger {
+  color: var(--s-danger);
+  background: transparent;
+  border-color: #f2c4c4;
+  margin-top: 4px;
+}
+.studio-btn--danger:hover {
+  background: #fdecec;
+}
+.studio-btn:focus-visible,
+.studio-seg-btn:focus-visible,
+.studio-shape-item:focus-visible,
+.studio-icon-item:focus-visible,
+.studio-category:focus-visible,
+.studio-chip:focus-visible,
+.studio-x:focus-visible {
+  outline: 2px solid var(--s-blue);
+  outline-offset: 2px;
+}
+
+.studio-seg {
+  display: inline-flex;
+  border: 1px solid var(--s-line);
+  border-radius: 7px;
+  padding: 2px;
+  background: var(--s-white);
+}
+.studio-seg-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--s-subtle);
+  padding: 4px 12px;
+  border-radius: 5px;
+  transition:
+    background-color var(--s-fast),
+    color var(--s-fast);
+}
+.studio-seg-btn:hover {
+  color: var(--s-ink);
+}
+.studio-seg-btn.is-on {
+  color: var(--s-white);
+  background: var(--s-blue);
+}
+.studio-step-count {
+  font-family: var(--s-mono);
+  font-size: 12px;
+  color: var(--s-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.studio-x {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--s-subtle);
+  border-radius: 4px;
+}
+.studio-x:hover {
+  color: var(--s-ink);
+  background: var(--s-surface);
+}
+
+/* 좁은 화면에서는 도구 막대가 캔버스를 밀어내지 않게 줄인다. */
+@media (max-width: 640px) {
+  .studio {
+    gap: 8px;
+    padding-block: 10px 4px;
+  }
+  .studio-bar {
+    gap: 6px;
+  }
+  .studio-bar-group {
+    gap: 6px;
+  }
+  .studio-brand {
+    display: none;
+  }
+  .studio-btn,
+  .studio-seg-btn {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+  .studio-input--bar {
+    max-width: 10.5rem;
+    padding-block: 5px;
+  }
+  .studio-palette {
+    max-height: 180px;
+  }
+}
+
+/* ── 세 칸 배치 ────────────────────────────────────────── */
+.studio-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+.studio-palette,
+.studio-inspector {
+  background: var(--s-white);
+  border: 1px solid var(--s-hair);
+  border-radius: 8px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.studio-palette {
+  max-height: 240px;
+}
+.studio-canvas {
+  position: relative;
+  height: 64dvh;
+  min-height: 420px;
+  background: var(--s-paper);
+  border: 1px solid var(--s-hair);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .studio-body {
+    grid-template-columns: 15.5rem minmax(0, 1fr) 16.5rem;
+    height: calc(100dvh - 9.5rem);
+    min-height: 560px;
+  }
+  .studio-palette {
+    max-height: none;
+  }
+  .studio-canvas {
+    height: auto;
+    min-height: 0;
+  }
+}
+
+/* ── 팔레트 ────────────────────────────────────────────── */
+.studio-palette-inner,
+.studio-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+}
+.studio-palette-inner > section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.studio-panel-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--s-ink);
+}
+.studio-count {
+  font-family: var(--s-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--s-muted);
+}
+.studio-palette-credit {
+  margin: -4px 0 8px;
+  font-family: var(--s-mono);
+  font-size: 0.68rem;
+  color: var(--s-subtle);
+}
+.studio-palette-credit a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--s-fast);
+}
+.studio-palette-credit a:hover {
+  color: var(--s-ink);
+}
+
+.studio-shape-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.studio-shape-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 7px 9px;
+  text-align: left;
+  border: 1px solid var(--s-hair);
+  border-radius: 6px;
+  cursor: grab;
+  transition:
+    border-color var(--s-fast),
+    background-color var(--s-fast);
+}
+.studio-shape-item:hover {
+  border-color: var(--s-blue);
+  background: var(--s-blue-soft);
+}
+.studio-shape-item:active {
+  cursor: grabbing;
+}
+.studio-shape-name {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.studio-shape-hint {
+  font-family: var(--s-mono);
+  font-size: 10px;
+  color: var(--s-muted);
+}
+
+.studio-categories {
+  display: flex;
+  flex-direction: column;
+}
+.studio-category {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 7px 2px;
+  font-size: 12.5px;
+  color: var(--s-body);
+  border-bottom: 1px solid var(--s-hair);
+  transition: color var(--s-fast);
+}
+.studio-category:hover,
+.studio-category[aria-expanded='true'] {
+  color: var(--s-ink);
+  font-weight: 600;
+}
+.studio-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding-block: 8px;
+}
+.studio-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 2px;
+  border-radius: 6px;
+  cursor: grab;
+  transition: background-color var(--s-fast);
+}
+.studio-icon-item:hover {
+  background: var(--s-blue-soft);
+}
+.studio-icon-item img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.studio-icon-item span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 9.5px;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--s-body);
+}
+.studio-empty {
+  font-size: 12.5px;
+  color: var(--s-muted);
+}
+
+/* ── 속성 패널 ─────────────────────────────────────────── */
+.studio-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.studio-field-label {
+  font-family: var(--s-mono);
+  font-size: 10.5px;
+  color: var(--s-subtle);
+}
+.studio-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--s-body);
+}
+.studio-help {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--s-subtle);
+}
+.studio-help b {
+  color: var(--s-ink);
+  font-weight: 600;
+}
+.studio-col-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.studio-col-edit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto auto auto;
+  gap: 4px;
+  align-items: center;
+}
+.studio-col-edit .studio-input {
+  padding: 4px 6px;
+}
+.studio-chip {
+  font-family: var(--s-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--s-muted);
+  border: 1px solid var(--s-hair);
+  border-radius: 4px;
+  padding: 3px 4px;
+}
+.studio-chip.is-on {
+  color: var(--s-blue);
+  border-color: var(--s-blue);
+  background: var(--s-blue-soft);
+}
+
+/* ── 캔버스 위 노드 ─────────────────────────────────────── */
+.studio-handle {
+  width: 9px !important;
+  height: 9px !important;
+  background: var(--s-white) !important;
+  border: 1.4px solid var(--s-blue) !important;
+  opacity: 0;
+  transition: opacity var(--s-fast);
+}
+.react-flow__node:hover .studio-handle,
+.react-flow__node.selected .studio-handle,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto,
+.react-flow.studio-connecting .studio-handle {
+  opacity: 1;
+}
+.studio-handle--row {
+  width: 7px !important;
+  height: 7px !important;
+}
+
+.studio-icon {
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 92px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition:
+    background-color 250ms,
+    box-shadow 250ms;
+}
+.studio-icon-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.studio-icon-missing {
+  width: 44px;
+  height: 44px;
+  border: 1.4px dashed var(--s-muted);
+  border-radius: 6px;
+}
+.studio-icon-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+.studio-icon-sub,
+.studio-box-sub {
+  font-family: var(--s-mono);
+  font-size: 9.5px;
+  color: var(--s-muted);
+  text-align: center;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.studio-box {
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 132px;
+  padding: 11px 16px;
+  background: var(--s-white);
+  border: 1.4px solid var(--s-ink);
+  border-radius: 6px;
+  transition:
+    border-color 250ms,
+    box-shadow 250ms,
+    background-color 250ms;
+}
+.studio-box-label {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.studio-box--client {
+  border-radius: 999px;
+}
+.studio-box--database {
+  border-radius: 50% / 16px;
+  padding-block: 15px;
+}
+.studio-box--queue {
+  border-style: double;
+  border-width: 3px;
+}
+.studio-box--external {
+  border-style: dashed;
+  border-color: var(--s-subtle);
+  color: var(--s-subtle);
+}
+
+.studio-note {
+  max-width: 260px;
+  padding: 4px 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--s-body);
+  white-space: pre-wrap;
+  border-radius: 4px;
+}
+
+.studio-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1.2px solid var(--s-line);
+  border-radius: 4px;
+}
+.studio-area-label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--s-subtle);
+}
+.studio-area--vpc {
+  border: 1.5px dashed var(--s-vpc);
+}
+.studio-area--vpc .studio-area-label {
+  top: -18px;
+  left: 2px;
+  font-family: var(--s-mono);
+  color: var(--s-vpc);
+}
+.studio-area--zone {
+  border-color: var(--s-zone);
+  background: var(--s-zone-fill);
+}
+.studio-area--zone .studio-area-label {
+  color: var(--s-blue);
+}
+.studio-area--subnet {
+  background: rgb(255 255 255 / 0.6);
+}
+.studio-area--plain {
+  border-style: dotted;
+}
+.studio-resize-line {
+  border-color: var(--s-blue) !important;
+}
+.studio-resize-handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--s-white) !important;
+  border: 1.4px solid var(--s-blue) !important;
+  border-radius: 2px;
+}
+
+.studio-table {
+  min-width: 230px;
+  background: var(--s-white);
+  border: 1.4px solid var(--s-ink);
+  border-radius: 6px;
+  overflow: visible;
+  transition:
+    border-color 250ms,
+    box-shadow 250ms;
+}
+.studio-table-head {
+  padding: 7px 12px;
+  font-family: var(--s-mono);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--s-surface);
+  border-bottom: 1px solid var(--s-line);
+  border-radius: 5px 5px 0 0;
+}
+.studio-table-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: baseline;
+  padding: 5px 12px;
+  font-family: var(--s-mono);
+  font-size: 11px;
+}
+.studio-table-row + .studio-table-row {
+  border-top: 1px solid var(--s-hair);
+}
+.studio-col-key {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--s-blue);
+}
+.studio-col-type {
+  color: var(--s-muted);
+}
+
+/* 선택과 단계 재생의 강조 */
+.studio-icon.is-selected,
+.studio-note.is-selected {
+  box-shadow: 0 0 0 1.5px var(--s-blue);
+}
+.studio-box.is-selected,
+.studio-table.is-selected {
+  border-color: var(--s-blue);
+}
+.studio-icon.is-active {
+  background: var(--s-blue-soft);
+  box-shadow: 0 0 0 1.5px var(--s-blue);
+}
+.studio-box.is-active,
+.studio-table.is-active {
+  border-color: var(--s-blue);
+  background: var(--s-blue-soft);
+  box-shadow: 0 0 0 5px rgb(30 136 229 / 0.14);
+}
+
+/* ── 선 라벨 ───────────────────────────────────────────── */
+.studio-edge-label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 6px;
+  font-family: var(--s-mono);
+  font-size: 10.5px;
+  color: var(--s-subtle);
+  background: var(--s-paper);
+  border-radius: 4px;
+  pointer-events: all;
+  transition: opacity 200ms;
+}
+/* 투명도를 낮추면 라벨 뒤로 선이 비쳐 취소선처럼 보인다. 바탕은 두고 글자만 옅게 한다. */
+.studio-edge-label.is-dimmed {
+  color: var(--s-muted);
+}
+.studio-edge-label.is-dimmed .studio-step {
+  background: var(--s-muted);
+}
+.studio-step {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding-inline: 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--s-white);
+  background: var(--s-ink);
+  border-radius: 999px;
+  transition: background-color 200ms;
+}
+.studio-step.is-current {
+  background: var(--s-blue);
+}
+.studio-card {
+  position: absolute;
+  padding: 0 3px;
+  font-family: var(--s-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--s-ink);
+  background: var(--s-paper);
+  pointer-events: none;
+}
+.studio-packets circle {
+  filter: drop-shadow(0 0 3px rgb(30 136 229 / 0.55));
+}
+
+/* ── 전역 리셋과의 충돌 ────────────────────────────────── */
+/* 전역의 svg { max-width: 100% } 때문에 폭이 0인 뷰포트 레이어 안의 선 svg가
+   폭 0이 되고, SVG는 폭이 0이면 그리지 않는다. 캔버스 안에서만 되돌린다. */
+.studio-canvas svg {
+  max-width: none;
+}
+/* 예전 논리회로 위젯용 전역 .react-flow__handle 규칙이 크기·색을 덮어써서 여기서 다시 잡는다. */
+.studio-canvas .react-flow__handle.studio-handle {
+  border-radius: 50% !important;
+  box-shadow: none !important;
+}
+
+/* ── React Flow 기본 컨트롤을 사이트 톤으로 ─────────────── */
+.studio-canvas .react-flow__controls {
+  box-shadow: none;
+  border: 1px solid var(--s-hair);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.studio-canvas .react-flow__controls-button {
+  border-bottom-color: var(--s-hair);
+}
+.studio-canvas .react-flow__minimap {
+  border: 1px solid var(--s-hair);
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .studio-canvas .react-flow__minimap {
+    display: none;
+  }
+}
+
+/* ── 막힌 통신 ─────────────────────────────────────────── */
+.studio-edge-label.is-blocked {
+  color: #d93025;
+}
+.studio-blocked {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d93025;
+}
+
+/* ── 보이지 않는 여백 영역 ─────────────────────────────── */
+.studio-area--ghost {
+  border: none;
+  background: transparent;
+  pointer-events: none;
+}
+.studio-area--ghost .studio-area-label {
+  display: none;
+}

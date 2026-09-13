@@ -901,23 +901,11 @@ a.label-meta:hover {
   }
 }
 
-/* ── 구성도 ──────────────────────────────────────────────────
-   도면을 글 폭(752px)에 맞춰 그렸으므로 확대도 축소도 하지 않는다.
-   그보다 좁은 화면에서만 비율을 유지하며 줄어든다. */
-.diagram {
-  margin: 2.2rem 0;
-}
-
-.diagram img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.diagram figcaption {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-muted);
-  margin-top: 0.6rem;
-  text-align: center;
+/* ── 스튜디오 ────────────────────────────────────────────────
+   머리글은 글 폭(max-w-5xl)에 맞춰져 있어, 화면을 꽉 채우는 스튜디오 위에서는 좌우 끝이
+   어긋난다. 스튜디오 페이지에서만 머리글을 스튜디오와 같은 폭·여백(16px)으로 편다.
+   서버가 그리는 .studio-page를 기준으로 삼아 편집기가 뜨기 전에도 폭이 튀지 않는다. */
+.site-header:has(~ main .studio-page) {
+  max-width: none;
+  padding-inline: 16px;
 }

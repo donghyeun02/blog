@@ -1,0 +1,110 @@
+{
+ "id": "docker-isolated",
+ "title": "같은 호스트라도 붙은 네트워크가 다르면 통하지 않는다",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 784,
+   "height": 260,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "host",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 760,
+   "height": 240,
+   "data": {
+    "label": "Docker 호스트 한 대",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "b1",
+   "type": "area",
+   "position": {
+    "x": 20,
+    "y": 44
+   },
+   "zIndex": -1,
+   "width": 340,
+   "height": 176,
+   "data": {
+    "label": "bridge (기본)",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "b2",
+   "type": "area",
+   "position": {
+    "x": 400,
+    "y": 44
+   },
+   "zIndex": -1,
+   "width": 340,
+   "height": 176,
+   "data": {
+    "label": "bridge (다른 네트워크)",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "web",
+   "type": "icon",
+   "position": {
+    "x": 144,
+    "y": 90
+   },
+   "data": {
+    "iconId": "server",
+    "label": "web",
+    "sub": "nginx 80"
+   }
+  },
+  {
+   "id": "api",
+   "type": "icon",
+   "position": {
+    "x": 524,
+    "y": 90
+   },
+   "data": {
+    "iconId": "server",
+    "label": "api",
+    "sub": "node 3000"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "web",
+   "target": "api",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "blocked": true,
+    "label": "이름으로 못 찾는다"
+   }
+  }
+ ]
+}

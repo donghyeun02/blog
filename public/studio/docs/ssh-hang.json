@@ -1,0 +1,161 @@
+{
+ "id": "ssh-hang",
+ "title": "요청은 도착했고 응답이 버려졌다",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 736,
+   "height": 372,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "term",
+   "type": "note",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "data": {
+    "text": "ubuntu@ops-mgmt:~$ ssh 10.60.48.6\n→ confused 에러"
+   }
+  },
+  {
+   "id": "mgmt",
+   "type": "icon",
+   "position": {
+    "x": 20,
+    "y": 84
+   },
+   "data": {
+    "iconId": "server",
+    "label": "ops-mgmt",
+    "sub": "10.50.0.x"
+   }
+  },
+  {
+   "id": "naclIn",
+   "type": "icon",
+   "position": {
+    "x": 320,
+    "y": 84
+   },
+   "data": {
+    "iconId": "acl",
+    "label": "NACL IN",
+    "sub": "TCP 22 허용"
+   }
+  },
+  {
+   "id": "mon",
+   "type": "icon",
+   "position": {
+    "x": 620,
+    "y": 84
+   },
+   "data": {
+    "iconId": "server",
+    "label": "wld-mon",
+    "sub": "10.60.48.6"
+   }
+  },
+  {
+   "id": "naclOut",
+   "type": "icon",
+   "position": {
+    "x": 320,
+    "y": 250
+   },
+   "data": {
+    "iconId": "acl",
+    "label": "NACL OUT",
+    "sub": "임시 포트 규칙 없음"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "mgmt",
+   "target": "naclIn",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "TCP 22"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "naclIn",
+   "target": "mon",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "도착"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "mon",
+   "target": "naclOut",
+   "sourceHandle": "b",
+   "targetHandle": "r",
+   "data": {
+    "animated": true,
+    "step": 3,
+    "dashed": true,
+    "label": "응답"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "naclOut",
+   "target": "mgmt",
+   "sourceHandle": "l",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 4,
+    "blocked": true,
+    "label": "여기서 버려진다"
+   }
+  }
+ ]
+}

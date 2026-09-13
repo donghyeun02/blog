@@ -1,13 +1,12 @@
+import StudioDiagram from '@/components/studio/StudioDiagram';
+
 도커는 전에도 써봤다. 이미지 빌드하고 컨테이너 띄우고 포트 하나 열어서 접속되는 것까지.
 
 그런데 이번에 컨테이너가 두 개가 되면서 질문이 하나 생겼다. Web 컨테이너에서 API 컨테이너를 부르려면 어떻게 하는가?
 
 같은 서버 안에 있어도 그냥 되는 게 아니었다. 셋째 날에 배운 것들을 내가 이해한 대로 적어둔다.
 
-<figure className="diagram">
-  <img src="/diagrams/docker-isolated.svg" alt="같은 호스트라도 붙은 네트워크가 다르면 통하지 않는다" />
-  <figcaption>같은 호스트라도 붙은 네트워크가 다르면 통하지 않는다</figcaption>
-</figure>
+<StudioDiagram doc="docker-isolated" ratio={3.015} caption="같은 호스트라도 붙은 네트워크가 다르면 통하지 않는다" />
 
 ---
 
@@ -103,10 +102,7 @@ Published Port가 열리는 "호스트"는 도커 데몬이 있는 서버다. �
 KR-1 노드  ←── VXLAN / UDP 4789 ──→  KR-2 노드
 ```
 
-<figure className="diagram">
-  <img src="/diagrams/day3.svg" alt="3일차 구성도 — Overlay 평면과 실제 VPC 평면" />
-  <figcaption>3일차 구성도 — Overlay 평면과 실제 VPC 평면</figcaption>
-</figure>
+<StudioDiagram doc="day3" ratio={1.407} caption="3일차 구성도 — Overlay 평면과 실제 VPC 평면" />
 
 Overlay를 깔았다고 VPC Route나 ACG, NACL이 없어지지는 않는다. 노드 사이의 UDP 4789가 막혀 있으면 컨테이너는 여전히 서로를 못 찾는다.
 

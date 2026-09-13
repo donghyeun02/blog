@@ -1,0 +1,256 @@
+{
+ "id": "day6",
+ "title": "6일차 — ALB Ingress에서 두 존의 노드 풀로",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 774,
+   "height": 574,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "vpc",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 130
+   },
+   "zIndex": -1,
+   "width": 750,
+   "height": 424,
+   "data": {
+    "label": "NKS VPC  ·  컨트롤 플레인은 보이지 않는다",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "lb",
+   "type": "area",
+   "position": {
+    "x": 15,
+    "y": 158
+   },
+   "zIndex": -1,
+   "width": 720,
+   "height": 128,
+   "data": {
+    "label": "LB Subnet",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "z1",
+   "type": "area",
+   "position": {
+    "x": 15,
+    "y": 304
+   },
+   "zIndex": -1,
+   "width": 352,
+   "height": 234,
+   "data": {
+    "label": "KR-1 존",
+    "variant": "zone"
+   }
+  },
+  {
+   "id": "z2",
+   "type": "area",
+   "position": {
+    "x": 383,
+    "y": 304
+   },
+   "zIndex": -1,
+   "width": 352,
+   "height": 234,
+   "data": {
+    "label": "KR-2 존",
+    "variant": "zone"
+   }
+  },
+  {
+   "id": "inet",
+   "type": "icon",
+   "position": {
+    "x": 329,
+    "y": 0
+   },
+   "data": {
+    "iconId": "internet",
+    "label": "인터넷"
+   }
+  },
+  {
+   "id": "alb",
+   "type": "icon",
+   "position": {
+    "x": 301,
+    "y": 170
+   },
+   "data": {
+    "iconId": "application-load-balancer",
+    "label": "ALB Ingress",
+    "sub": "ingressClassName: alb"
+   }
+  },
+  {
+   "id": "p1",
+   "type": "icon",
+   "position": {
+    "x": 40,
+    "y": 430
+   },
+   "data": {
+    "iconId": "server",
+    "label": "노드 풀",
+    "sub": "NodePort 30080"
+   }
+  },
+  {
+   "id": "a1",
+   "type": "icon",
+   "position": {
+    "x": 200,
+    "y": 430
+   },
+   "data": {
+    "iconId": "auto-scaling",
+    "label": "Cluster Autoscaler",
+    "sub": "Pending이면 노드 추가"
+   }
+  },
+  {
+   "id": "p2",
+   "type": "icon",
+   "position": {
+    "x": 408,
+    "y": 430
+   },
+   "data": {
+    "iconId": "server",
+    "label": "노드 풀",
+    "sub": "NodePort 30080"
+   }
+  },
+  {
+   "id": "a2",
+   "type": "icon",
+   "position": {
+    "x": 568,
+    "y": 430
+   },
+   "data": {
+    "iconId": "auto-scaling",
+    "label": "Cluster Autoscaler",
+    "sub": "Pending이면 노드 추가"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "inet",
+   "target": "alb",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "HTTPS"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "alb",
+   "target": "p1",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "NodePort 30080"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "alb",
+   "target": "p2",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 2
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "a1",
+   "target": "p1",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": false,
+    "dashed": true,
+    "label": "노드를 늘린다"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e5",
+   "type": "flow",
+   "source": "a2",
+   "target": "p2",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": false,
+    "dashed": true
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  }
+ ]
+}

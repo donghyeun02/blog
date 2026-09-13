@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const pages = ['/posts', '/log', '/about'].map((path) => ({
+  const pages = ['/posts', '/log', '/about', '/studio'].map((path) => ({
     url: `https://donghyeun02.com${path}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,

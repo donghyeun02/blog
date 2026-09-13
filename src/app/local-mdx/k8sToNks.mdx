@@ -1,11 +1,10 @@
+import StudioDiagram from '@/components/studio/StudioDiagram';
+
 마지막 날은 진도가 제일 많이 나갔다. NodePort에서 시작해서 Ingress, ConfigMap, 볼륨, Namespace까지 k3s에서 정리하고 그다음에 관리형 쿠버네티스(NKS)로 넘어갔다. 시간이 모자라서 건너뛴 대목도 있었다.
 
 앞의 닷새가 "직접 만드는" 쪽이었다면 이날은 "클라우드가 만들어 주는 것을 쓰는" 쪽이었다. 아래는 이날 나온 것들을 내가 이해한 대로 정리한 것이다.
 
-<figure className="diagram">
-  <img src="/diagrams/day6.svg" alt="6일차 구성도 — ALB Ingress에서 두 존의 노드 풀로" />
-  <figcaption>6일차 구성도 — ALB Ingress에서 두 존의 노드 풀로</figcaption>
-</figure>
+<StudioDiagram doc="day6" ratio={1.348} caption="6일차 구성도 — ALB Ingress에서 두 존의 노드 풀로" />
 
 ---
 
@@ -29,10 +28,7 @@
 
 실습에서 노드 두 대의 IP로 각각 접속했는데 둘 다 똑같이 응답했다. Pod가 그 노드에 없어도 그렇다. `kube-proxy`가 Pod가 있는 노드로 넘겨주기 때문이라고 했다. "포트가 열린 노드"와 "Pod가 있는 노드"가 같을 필요는 없다.
 
-<figure className="diagram">
-  <img src="/diagrams/nodeport-ports.svg" alt="nodePort · port · targetPort는 서로 다른 층의 포트다" />
-  <figcaption>nodePort · port · targetPort는 서로 다른 층의 포트다</figcaption>
-</figure>
+<StudioDiagram doc="nodeport-ports" ratio={2.419} caption="nodePort · port · targetPort는 서로 다른 층의 포트다" />
 
 ---
 
@@ -159,10 +155,7 @@
 
 여기서 헷갈릴 만한 지점을 짚어줬다. 헬스체크 경로를 잘못 적어두면 앱은 멀쩡한데 ALB는 모든 노드를 죽었다고 보고 `503`을 낸다. 이때 `kubectl get pods`를 쳐보면 전부 `Running`이다. 쿠버네티스 쪽만 봐서는 아무 문제가 없어서 콘솔의 로드밸런서 상태를 같이 봐야 한다고 했다.
 
-<figure className="diagram">
-  <img src="/diagrams/alb-health.svg" alt="같은 시점에 쿠버네티스는 Running, ALB는 모든 노드 비정상" />
-  <figcaption>같은 시점에 쿠버네티스는 Running, ALB는 모든 노드 비정상</figcaption>
-</figure>
+<StudioDiagram doc="alb-health" ratio={1.958} caption="같은 시점에 쿠버네티스는 Running, ALB는 모든 노드 비정상" />
 
 ---
 

@@ -1,0 +1,192 @@
+{
+ "id": "k8s-selector",
+ "title": "Service는 Label로 Pod를 고른다",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 824,
+   "height": 440,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "ok",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 380,
+   "height": 420,
+   "data": {
+    "label": "맞을 때",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "ng",
+   "type": "area",
+   "position": {
+    "x": 420,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 380,
+   "height": 420,
+   "data": {
+    "label": "한 글자가 다를 때",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "svca",
+   "type": "box",
+   "position": {
+    "x": 95,
+    "y": 50
+   },
+   "data": {
+    "label": "Service",
+    "kind": "service",
+    "sub": "selector: app: market-web",
+    "width": 190
+   }
+  },
+  {
+   "id": "poda",
+   "type": "box",
+   "position": {
+    "x": 95,
+    "y": 180
+   },
+   "data": {
+    "label": "Pod ×2",
+    "kind": "service",
+    "sub": "Running · app: market-web",
+    "width": 190
+   }
+  },
+  {
+   "id": "epa",
+   "type": "box",
+   "position": {
+    "x": 95,
+    "y": 310
+   },
+   "data": {
+    "label": "Endpoints",
+    "kind": "database",
+    "sub": "Pod IP 2개",
+    "width": 190
+   }
+  },
+  {
+   "id": "svcb",
+   "type": "box",
+   "position": {
+    "x": 515,
+    "y": 50
+   },
+   "data": {
+    "label": "Service",
+    "kind": "service",
+    "sub": "selector: app: market-web-old",
+    "width": 190
+   }
+  },
+  {
+   "id": "podb",
+   "type": "box",
+   "position": {
+    "x": 515,
+    "y": 180
+   },
+   "data": {
+    "label": "Pod ×2",
+    "kind": "service",
+    "sub": "Running · app: market-web",
+    "width": 190
+   }
+  },
+  {
+   "id": "epb",
+   "type": "box",
+   "position": {
+    "x": 515,
+    "y": 310
+   },
+   "data": {
+    "label": "Endpoints",
+    "kind": "external",
+    "sub": "비어 있음",
+    "width": 190
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "svca",
+   "target": "poda",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "일치"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "poda",
+   "target": "epa",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "등록"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "svcb",
+   "target": "podb",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "blocked": true,
+    "label": "불일치"
+   }
+  }
+ ]
+}

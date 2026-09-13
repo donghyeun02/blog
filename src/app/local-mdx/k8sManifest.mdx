@@ -1,13 +1,12 @@
+import StudioDiagram from '@/components/studio/StudioDiagram';
+
 5일차는 클러스터 위에 처음으로 애플리케이션을 얹는 날이었다. Deployment로 Pod를 띄우고 Service로 통로를 낸다.
 
 닷새 중에 아무것도 안 막힌 날은 이날이 처음이었다. 앞선 날들은 뭔가 안 되는 데서 시작하곤 했는데, 이날은 YAML을 쓰고 `apply`하니까 그냥 됐다.
 
 그래서 좀 이상했다. 강의 자료는 유독 한 곳을 반복해서 경고했기 때문이다.
 
-<figure className="diagram">
-  <img src="/diagrams/k8s-selector.svg" alt="Service는 Label로 Pod를 고른다. 한 글자가 다르면 Endpoints가 빈다" />
-  <figcaption>Service는 Label로 Pod를 고른다. 한 글자가 다르면 Endpoints가 빈다</figcaption>
-</figure>
+<StudioDiagram doc="k8s-selector" ratio={1.873} caption="Service는 Label로 Pod를 고른다. 한 글자가 다르면 Endpoints가 빈다" />
 
 ---
 

@@ -1,3 +1,5 @@
+import StudioDiagram from '@/components/studio/StudioDiagram';
+
 K3s 서버 두 대를 만들고 설치 스크립트를 돌렸다. 양쪽 다 같은 명령이었다.
 
 ```bash
@@ -12,10 +14,7 @@ kubectl get nodes
 
 한 대만 나왔다. 두 번째 서버에서도 똑같이 쳐봤다. 거기서도 한 대만 나왔다. 자기 자신만.
 
-<figure className="diagram">
-  <img src="/diagrams/k3s-split.svg" alt="K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다" />
-  <figcaption>K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다</figcaption>
-</figure>
+<StudioDiagram doc="k3s-split" ratio={2.904} caption="K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다" />
 
 이날 배운 것과 이 상황을 내가 어떻게 이해했는지 정리해둔다.
 
@@ -58,10 +57,7 @@ K3s에서는 두 역할을 **server**와 **agent**라고 부른다.
 
 server에는 agent의 구성요소가 같이 들어 있고 agent에는 server의 구성요소가 없다. 그래서 server 한 대만으로도 클러스터가 돌아간다.
 
-<figure className="diagram">
-  <img src="/diagrams/day4.svg" alt="4일차 구성도 — Server와 Agent의 구성요소 비대칭" />
-  <figcaption>4일차 구성도 — Server와 Agent의 구성요소 비대칭</figcaption>
-</figure>
+<StudioDiagram doc="day4" ratio={1.191} caption="4일차 구성도 — Server와 Agent의 구성요소 비대칭" />
 
 이게 내 문제의 원인이었다.
 

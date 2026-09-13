@@ -1,0 +1,95 @@
+{
+ "id": "k3s-split",
+ "title": "K3S_URL 없이 설치하면 서버 두 대가 각자 클러스터가 된다",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 784,
+   "height": 270,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "c1",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 20
+   },
+   "zIndex": -1,
+   "width": 360,
+   "height": 230,
+   "data": {
+    "label": "클러스터 1",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "c2",
+   "type": "area",
+   "position": {
+    "x": 400,
+    "y": 20
+   },
+   "zIndex": -1,
+   "width": 360,
+   "height": 230,
+   "data": {
+    "label": "클러스터 2",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "s1",
+   "type": "icon",
+   "position": {
+    "x": 125,
+    "y": 74
+   },
+   "data": {
+    "iconId": "server",
+    "label": "k3s.service",
+    "sub": "srv-kr1 · server"
+   }
+  },
+  {
+   "id": "s2",
+   "type": "icon",
+   "position": {
+    "x": 515,
+    "y": 74
+   },
+   "data": {
+    "iconId": "server",
+    "label": "k3s.service",
+    "sub": "agt-kr2 · server로 깔림"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "s2",
+   "target": "s1",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": true,
+    "blocked": true,
+    "label": "연결을 시도한 적이 없다"
+   }
+  }
+ ]
+}

@@ -1,0 +1,160 @@
+{
+ "id": "alb-health",
+ "title": "헬스체크가 깨졌을 때",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -50
+   },
+   "zIndex": -2,
+   "width": 744,
+   "height": 380,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "diff",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 190
+   },
+   "zIndex": -1,
+   "width": 720,
+   "height": 130,
+   "data": {
+    "label": "같은 시점에 두 쪽이 다르게 보인다",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "user",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 30
+   },
+   "data": {
+    "label": "사용자",
+    "kind": "client"
+   }
+  },
+  {
+   "id": "alb",
+   "type": "icon",
+   "position": {
+    "x": 260,
+    "y": 0
+   },
+   "data": {
+    "iconId": "application-load-balancer",
+    "label": "ALB",
+    "sub": "헬스체크 경로가 틀림"
+   }
+  },
+  {
+   "id": "nodes",
+   "type": "icon",
+   "position": {
+    "x": 560,
+    "y": 0
+   },
+   "data": {
+    "iconId": "server",
+    "label": "노드 · Pod",
+    "sub": "전부 Running"
+   }
+  },
+  {
+   "id": "k",
+   "type": "box",
+   "position": {
+    "x": 40,
+    "y": 236
+   },
+   "data": {
+    "label": "kubectl get pods",
+    "kind": "service",
+    "sub": "전부 Running · 문제 없음",
+    "width": 300
+   }
+  },
+  {
+   "id": "c",
+   "type": "box",
+   "position": {
+    "x": 380,
+    "y": 236
+   },
+   "data": {
+    "label": "콘솔 · 로드밸런서 상태",
+    "kind": "external",
+    "sub": "모든 노드 비정상",
+    "width": 300
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "user",
+   "target": "alb",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "HTTP"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "alb",
+   "target": "nodes",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "blocked": true,
+    "label": "보낼 곳이 없다"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "alb",
+   "target": "user",
+   "sourceHandle": "t",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 3,
+    "dashed": true,
+    "label": "503"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  }
+ ]
+}

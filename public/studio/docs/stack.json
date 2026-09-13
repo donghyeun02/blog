@@ -1,0 +1,200 @@
+{
+ "id": "stack",
+ "title": "실습에서 쌓아 올린 층",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 544,
+   "height": 582,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "l0",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "data": {
+    "label": "노출과 확장",
+    "kind": "service",
+    "sub": "NodePort · Ingress · ALB · HPA — 6일차",
+    "width": 520
+   }
+  },
+  {
+   "id": "l1",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 100
+   },
+   "data": {
+    "label": "K3s · NKS Pod",
+    "kind": "service",
+    "sub": "Deployment · Service · Label — 4~6일차",
+    "width": 520
+   }
+  },
+  {
+   "id": "l2",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 200
+   },
+   "data": {
+    "label": "Docker Container",
+    "kind": "service",
+    "sub": "bridge · Overlay UDP 4789 — 3일차",
+    "width": 520
+   }
+  },
+  {
+   "id": "l3",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 300
+   },
+   "data": {
+    "label": "Server",
+    "kind": "service",
+    "sub": "ACG · 서버 NIC에서 검사 — 2일차",
+    "width": 520
+   }
+  },
+  {
+   "id": "l4",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 400
+   },
+   "data": {
+    "label": "Subnet",
+    "kind": "service",
+    "sub": "NACL · Subnet 경계에서 검사 — 1일차",
+    "width": 520
+   }
+  },
+  {
+   "id": "l5",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 500
+   },
+   "data": {
+    "label": "VPC",
+    "kind": "service",
+    "sub": "Route Table · IGW · NAT · Peering — 1일차",
+    "width": 520
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "l5",
+   "target": "l4",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 1
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "l4",
+   "target": "l3",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 2
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "l3",
+   "target": "l2",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 3
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "l2",
+   "target": "l1",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 4
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e5",
+   "type": "flow",
+   "source": "l1",
+   "target": "l0",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 5
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  }
+ ]
+}

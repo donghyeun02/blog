@@ -1,0 +1,269 @@
+{
+ "id": "day3",
+ "title": "3일차 — Overlay 평면과 실제 VPC 평면",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 774,
+   "height": 550,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "ovl",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 750,
+   "height": 130,
+   "data": {
+    "label": "Overlay  campus-market-net",
+    "variant": "zone"
+   }
+  },
+  {
+   "id": "vpc",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 200
+   },
+   "zIndex": -1,
+   "width": 750,
+   "height": 330,
+   "data": {
+    "label": "cnp-s01-wld-vpc  10.60.0.0/16",
+    "variant": "vpc"
+   }
+  },
+  {
+   "id": "n1",
+   "type": "area",
+   "position": {
+    "x": 15,
+    "y": 228
+   },
+   "zIndex": -1,
+   "width": 352,
+   "height": 286,
+   "data": {
+    "label": "KR-1  10.60.0.0/24 · Swarm Manager",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "n2",
+   "type": "area",
+   "position": {
+    "x": 383,
+    "y": 228
+   },
+   "zIndex": -1,
+   "width": 352,
+   "height": 286,
+   "data": {
+    "label": "KR-2  10.60.1.0/24 · Swarm Worker",
+    "variant": "subnet"
+   }
+  },
+  {
+   "id": "b1",
+   "type": "area",
+   "position": {
+    "x": 30,
+    "y": 262
+   },
+   "zIndex": -1,
+   "width": 322,
+   "height": 144,
+   "data": {
+    "label": "bridge · 호스트 안에서 끝난다",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "b2",
+   "type": "area",
+   "position": {
+    "x": 398,
+    "y": 262
+   },
+   "zIndex": -1,
+   "width": 322,
+   "height": 144,
+   "data": {
+    "label": "bridge · 호스트 안에서 끝난다",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "webO",
+   "type": "icon",
+   "position": {
+    "x": 144,
+    "y": 26
+   },
+   "data": {
+    "iconId": "server",
+    "label": "web",
+    "sub": "nginx 80"
+   }
+  },
+  {
+   "id": "apiO",
+   "type": "icon",
+   "position": {
+    "x": 514,
+    "y": 26
+   },
+   "data": {
+    "iconId": "server",
+    "label": "api",
+    "sub": "node 3000"
+   }
+  },
+  {
+   "id": "web",
+   "type": "icon",
+   "position": {
+    "x": 145,
+    "y": 290
+   },
+   "data": {
+    "iconId": "server",
+    "label": "web 컨테이너",
+    "sub": "docker0"
+   }
+  },
+  {
+   "id": "api",
+   "type": "icon",
+   "position": {
+    "x": 513,
+    "y": 290
+   },
+   "data": {
+    "iconId": "server",
+    "label": "api 컨테이너",
+    "sub": "docker0"
+   }
+  },
+  {
+   "id": "eth1",
+   "type": "box",
+   "position": {
+    "x": 126,
+    "y": 428
+   },
+   "data": {
+    "label": "eth0",
+    "kind": "service",
+    "sub": "10.60.0.x",
+    "width": 130
+   }
+  },
+  {
+   "id": "eth2",
+   "type": "box",
+   "position": {
+    "x": 494,
+    "y": 428
+   },
+   "data": {
+    "label": "eth0",
+    "kind": "service",
+    "sub": "10.60.1.x",
+    "width": 130
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "webO",
+   "target": "apiO",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "label": "이름으로 부른다 · api:3000"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "web",
+   "target": "eth1",
+   "sourceHandle": "b",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 1
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "eth1",
+   "target": "eth2",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "VXLAN · UDP 4789"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "eth2",
+   "target": "api",
+   "sourceHandle": "t",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 3
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  }
+ ]
+}

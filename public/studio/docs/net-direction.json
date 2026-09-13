@@ -1,0 +1,204 @@
+{
+ "id": "net-direction",
+ "title": "Internet Gateway와 NAT Gateway",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 774,
+   "height": 290,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "p1",
+   "type": "area",
+   "position": {
+    "x": 0,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 350,
+   "height": 230,
+   "data": {
+    "label": "Internet Gateway — Public Subnet",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "p2",
+   "type": "area",
+   "position": {
+    "x": 380,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 370,
+   "height": 230,
+   "data": {
+    "label": "NAT Gateway — Private Subnet",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "i1",
+   "type": "icon",
+   "position": {
+    "x": 25,
+    "y": 66
+   },
+   "data": {
+    "iconId": "internet",
+    "label": "인터넷"
+   }
+  },
+  {
+   "id": "s1",
+   "type": "icon",
+   "position": {
+    "x": 233,
+    "y": 66
+   },
+   "data": {
+    "iconId": "server",
+    "label": "공인 서버"
+   }
+  },
+  {
+   "id": "i2",
+   "type": "icon",
+   "position": {
+    "x": 392,
+    "y": 66
+   },
+   "data": {
+    "iconId": "internet",
+    "label": "인터넷"
+   }
+  },
+  {
+   "id": "nat",
+   "type": "icon",
+   "position": {
+    "x": 519,
+    "y": 66
+   },
+   "data": {
+    "iconId": "nat-gateway",
+    "label": "NAT"
+   }
+  },
+  {
+   "id": "s2",
+   "type": "icon",
+   "position": {
+    "x": 646,
+    "y": 66
+   },
+   "data": {
+    "iconId": "server",
+    "label": "사설 서버"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "i1",
+   "target": "s1",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 1,
+    "label": "들어온다"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "s1",
+   "target": "i1",
+   "sourceHandle": "b",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "나간다"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "s2",
+   "target": "nat",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": true,
+    "step": 1
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "nat",
+   "target": "i2",
+   "sourceHandle": "l",
+   "targetHandle": "r",
+   "data": {
+    "animated": true,
+    "step": 2
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e5",
+   "type": "flow",
+   "source": "i2",
+   "target": "s2",
+   "sourceHandle": "b",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 3,
+    "blocked": true,
+    "label": "먼저 들어올 수 없다"
+   }
+  }
+ ]
+}
