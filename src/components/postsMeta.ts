@@ -197,4 +197,13 @@ export const postsMeta: PostMeta[] = [
     date: '2026.08',
     listed: false,
   },
+  {
+    title: 'AI를 잘 쓴다는 건 뭘까',
+    path: '/post/skillKit',
+    slug: 'skillKit',
+    summary:
+      '글투를 숫자로 재고 판정을 코드에 맡겨 윤문 스킬을 만들며 알게 된, AI를 잘 쓴다는 것의 의미',
+    category: 'Dev',
+    date: '2026.09',
+  },
 ];

@@ -379,8 +379,27 @@ def overall():
     d.edge('alb', 'p2', 'b', 't', step=6)
     return d
 
+# ── skill-kit 글 ─────────────────────────────────────────────────
+def gyeol_flow():
+    """위 줄은 코드, 아래 줄은 AI. 흐름이 두 줄을 오가며 판정은 늘 코드 쪽에서 난다."""
+    d = Doc('gyeol-flow', 'gyeol — 고치는 AI와 판정하는 코드')
+    d.area('code', 'plain', '코드 — 재고 판정한다', 150, 0, 860, 150)
+    d.area('ai', 'plain', 'AI — 고친다', 150, 200, 420, 150)
+    d.box('draft', 'client', '초안', 0, 45, sub='AI가 쓴 글')
+    d.box('profile', 'service', '계량', 180, 45, sub='profile.py')
+    d.box('gate', 'service', '게이트', 520, 45, sub='verify_gates.py')
+    d.box('deliver', 'external', '결과 전달', 820, 45, sub='경고면 걸린 축을 알린다')
+    d.box('rewrite', 'service', '윤문', 320, 245, sub='rewriter')
+    d.edge('draft', 'profile', 'r', 'l', step=1)
+    d.edge('profile', 'rewrite', 'b', 'l', step=2, label='이탈 축')
+    d.edge('rewrite', 'gate', 'r', 'b', step=3)
+    d.edge('gate', 'deliver', 'r', 'l', step=4, label='통과 · 경고')
+    d.edge('gate', 'rewrite', 'l', 't', step=4, blocked=True, label='중단 · 롤백')
+    return d
+
+
 DIAGRAMS = [day1, net_direction, net_layers, ssh_hang, day2, scrape_path, docker_isolated, day3,
-            k3s_split, day4, k8s_selector, day6, nodeport_ports, alb_health, stack, overall]
+            k3s_split, day4, k8s_selector, day6, nodeport_ports, alb_health, stack, overall, gyeol_flow]
 
 
 def main():

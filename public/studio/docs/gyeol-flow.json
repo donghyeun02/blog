@@ -1,0 +1,209 @@
+{
+ "id": "gyeol-flow",
+ "title": "gyeol — 고치는 AI와 판정하는 코드",
+ "updatedAt": 0,
+ "nodes": [
+  {
+   "id": "frame",
+   "type": "area",
+   "position": {
+    "x": -12,
+    "y": -10
+   },
+   "zIndex": -2,
+   "width": 1034,
+   "height": 370,
+   "selectable": false,
+   "draggable": false,
+   "data": {
+    "label": "",
+    "variant": "ghost"
+   }
+  },
+  {
+   "id": "code",
+   "type": "area",
+   "position": {
+    "x": 150,
+    "y": 0
+   },
+   "zIndex": -1,
+   "width": 860,
+   "height": 150,
+   "data": {
+    "label": "코드 — 재고 판정한다",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "ai",
+   "type": "area",
+   "position": {
+    "x": 150,
+    "y": 200
+   },
+   "zIndex": -1,
+   "width": 420,
+   "height": 150,
+   "data": {
+    "label": "AI — 고친다",
+    "variant": "plain"
+   }
+  },
+  {
+   "id": "draft",
+   "type": "box",
+   "position": {
+    "x": 0,
+    "y": 45
+   },
+   "data": {
+    "label": "초안",
+    "kind": "client",
+    "sub": "AI가 쓴 글"
+   }
+  },
+  {
+   "id": "profile",
+   "type": "box",
+   "position": {
+    "x": 180,
+    "y": 45
+   },
+   "data": {
+    "label": "계량",
+    "kind": "service",
+    "sub": "profile.py"
+   }
+  },
+  {
+   "id": "gate",
+   "type": "box",
+   "position": {
+    "x": 520,
+    "y": 45
+   },
+   "data": {
+    "label": "게이트",
+    "kind": "service",
+    "sub": "verify_gates.py"
+   }
+  },
+  {
+   "id": "deliver",
+   "type": "box",
+   "position": {
+    "x": 820,
+    "y": 45
+   },
+   "data": {
+    "label": "결과 전달",
+    "kind": "external",
+    "sub": "경고면 걸린 축을 알린다"
+   }
+  },
+  {
+   "id": "rewrite",
+   "type": "box",
+   "position": {
+    "x": 320,
+    "y": 245
+   },
+   "data": {
+    "label": "윤문",
+    "kind": "service",
+    "sub": "rewriter"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "type": "flow",
+   "source": "draft",
+   "target": "profile",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 1
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e2",
+   "type": "flow",
+   "source": "profile",
+   "target": "rewrite",
+   "sourceHandle": "b",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 2,
+    "label": "이탈 축"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e3",
+   "type": "flow",
+   "source": "rewrite",
+   "target": "gate",
+   "sourceHandle": "r",
+   "targetHandle": "b",
+   "data": {
+    "animated": true,
+    "step": 3
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e4",
+   "type": "flow",
+   "source": "gate",
+   "target": "deliver",
+   "sourceHandle": "r",
+   "targetHandle": "l",
+   "data": {
+    "animated": true,
+    "step": 4,
+    "label": "통과 · 경고"
+   },
+   "markerEnd": {
+    "type": "arrowclosed",
+    "width": 16,
+    "height": 16,
+    "color": "#1D1D1F"
+   }
+  },
+  {
+   "id": "e5",
+   "type": "flow",
+   "source": "gate",
+   "target": "rewrite",
+   "sourceHandle": "l",
+   "targetHandle": "t",
+   "data": {
+    "animated": true,
+    "step": 4,
+    "blocked": true,
+    "label": "중단 · 롤백"
+   }
+  }
+ ]
+}
