@@ -132,7 +132,8 @@ export const postsMeta: PostMeta[] = [
     title: '1일차 (VPC, Subnet, Route Table)',
     path: '/post/ncpNetwork',
     slug: 'ncpNetwork',
-    summary: '서버를 만들기 전에 길부터 깔았다 — VPC와 Subnet, Route Table, NAT Gateway, VPC Peering',
+    summary:
+      '서버를 만들기 전에 길부터 깔았다 — VPC와 Subnet, Route Table, NAT Gateway, VPC Peering',
     category: 'Dev',
     date: '2026.08',
     listed: false,
@@ -161,13 +162,14 @@ export const postsMeta: PostMeta[] = [
     title: '4일차 (K3s, Server와 Agent)',
     path: '/post/k3sAgentJoin',
     slug: 'k3sAgentJoin',
-    summary: 'K3S_URL 하나로 server와 agent가 갈린다 — 옵션을 빼먹고 클러스터를 두 개 만든 날',
+    summary:
+      'K3S_URL 하나로 server와 agent가 갈린다 — 옵션을 빼먹고 클러스터를 두 개 만든 날',
     category: 'Dev',
     date: '2026.08',
     listed: false,
   },
   {
-    title: '네이버 클라우드 심화 과정 회고',
+    title: '네이버클라우드 아카데미 심화 과정 회고',
     path: '/post/ncpProfessional',
     slug: 'ncpProfessional',
     summary:
