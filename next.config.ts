@@ -50,10 +50,11 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async rewrites() {
+  async redirects() {
     return [
-      // /minigames → public/minigames.html (정적 게임 클라이언트)
-      { source: '/minigames', destination: '/minigames.html' },
+      // 홈과 같은 목록을 보여주던 옛 경로. 예전에 공유된 링크가 죽지 않게 홈으로 보낸다.
+      { source: '/blog', destination: '/', permanent: true },
+      { source: '/blog/:category', destination: '/', permanent: true },
     ];
   },
 };

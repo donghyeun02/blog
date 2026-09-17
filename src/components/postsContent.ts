@@ -25,8 +25,6 @@ export const postsContent: Record<
   ncpProfessional: () => import('@/app/local-mdx/ncpProfessional.mdx'),
   nft: () => import('@/app/local-mdx/nft.mdx'),
   nodeVersion: () => import('@/app/local-mdx/nodeVersion.mdx'),
-  sample: () => import('@/app/local-mdx/sample.mdx'),
-  smartContract: () => import('@/app/local-mdx/smartContract.mdx'),
   'trust-your-server': () => import('@/app/local-mdx/trust-your-server.mdx'),
   windowEthereum: () => import('@/app/local-mdx/windowEthereum.mdx'),
   k8sManifest: () => import('@/app/local-mdx/k8sManifest.mdx'),
