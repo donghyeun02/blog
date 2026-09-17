@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
+import { Handle, Position, type Node, type NodeProps } from '@xyflow/react';
 import LogicAndGate from './LogicGates/LogicAndGate';
 import LogicOrGate from './LogicGates/LogicOrGate';
 import LogicNotGate from './LogicGates/LogicNotGate';
@@ -13,6 +13,9 @@ import LogicBufferGate from './LogicGates/LogicBufferGate';
 import HalfAdder from './LogicGates/HalfAdder';
 import FullAdder from './LogicGates/FullAdder';
 
+// 게이트 노드의 data에는 포트별 비트 값(0 또는 1)만 담긴다.
+type GateNode = Node<Record<string, number>>;
+
 const handleStyle = {
   background: '#fff',
   border: '2px solid #aaa',
@@ -22,7 +25,7 @@ const handleStyle = {
   zIndex: 2,
 };
 
-export function LogicAndGateNode({ data }: NodeProps) {
+export function LogicAndGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -55,7 +58,7 @@ export function LogicAndGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicOrGateNode({ data }: NodeProps) {
+export function LogicOrGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -88,7 +91,7 @@ export function LogicOrGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicNotGateNode({ data }: NodeProps) {
+export function LogicNotGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -115,7 +118,7 @@ export function LogicNotGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicXorGateNode({ data }: NodeProps) {
+export function LogicXorGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -148,7 +151,7 @@ export function LogicXorGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicNandGateNode({ data }: NodeProps) {
+export function LogicNandGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -181,7 +184,7 @@ export function LogicNandGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicNorGateNode({ data }: NodeProps) {
+export function LogicNorGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -214,7 +217,7 @@ export function LogicNorGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicXnorGateNode({ data }: NodeProps) {
+export function LogicXnorGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -247,7 +250,7 @@ export function LogicXnorGateNode({ data }: NodeProps) {
   );
 }
 
-export function LogicBufferGateNode({ data }: NodeProps) {
+export function LogicBufferGateNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -274,7 +277,7 @@ export function LogicBufferGateNode({ data }: NodeProps) {
   );
 }
 
-export function HalfAdderNode({ data }: NodeProps) {
+export function HalfAdderNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{
@@ -313,7 +316,7 @@ export function HalfAdderNode({ data }: NodeProps) {
   );
 }
 
-export function FullAdderNode({ data }: NodeProps) {
+export function FullAdderNode({ data }: NodeProps<GateNode>) {
   return (
     <div
       style={{

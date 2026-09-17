@@ -1,4 +1,9 @@
-import { getBezierPath, EdgeProps, Position } from 'reactflow';
+import {
+  getBezierPath,
+  Position,
+  type Edge,
+  type EdgeProps,
+} from '@xyflow/react';
 
 export default function CustomEdge({
   id,
@@ -7,7 +12,7 @@ export default function CustomEdge({
   targetX,
   targetY,
   data,
-}: EdgeProps) {
+}: EdgeProps<Edge<{ active?: number }>>) {
   // 베지어 곡선으로 더 자연스러운 연결선 생성
   const [edgePath] = getBezierPath({
     sourceX,
@@ -44,17 +49,6 @@ export default function CustomEdge({
           animation: isActive ? 'dashmove 1s linear infinite' : 'none',
         }}
       />
-      {/* 출력용: SVG path를 시각적으로 확인할 수 있도록 title 추가 */}
-      <title>{edgePath}</title>
-      <style>
-        {`
-          @keyframes dashmove {
-            to {
-              stroke-dashoffset: -14;
-            }
-          }
-        `}
-      </style>
     </g>
   );
 }

@@ -215,6 +215,29 @@
   }
 }
 
+/* ── React Flow (로직게이트 위젯·스튜디오 공통) ─────────────────
+   @xyflow/react는 엣지마다 svg를 따로 만들고 그 부모의 폭이 0이다. 위의 전역
+   svg { max-width: 100% }가 걸리면 엣지 svg도 폭 0이 되어 선이 그려지지 않는다. */
+.react-flow svg {
+  max-width: none;
+}
+
+/* 입력·출력 노드 안쪽 틀. 노드마다 <style>로 넣던 것을 한 번만 둔다. */
+.custom-node {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+}
+
+/* 1이 흐르는 엣지의 점선 애니메이션. 엣지마다 <style>로 넣던 것을 한 번만 둔다. */
+@keyframes dashmove {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
 .react-flow__node {
   background: none !important;
   border: none !important;

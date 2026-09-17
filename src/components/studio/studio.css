@@ -734,11 +734,6 @@ textarea.studio-input {
 }
 
 /* ── 전역 리셋과의 충돌 ────────────────────────────────── */
-/* 전역의 svg { max-width: 100% } 때문에 폭이 0인 뷰포트 레이어 안의 선 svg가
-   폭 0이 되고, SVG는 폭이 0이면 그리지 않는다. 캔버스 안에서만 되돌린다. */
-.studio-canvas svg {
-  max-width: none;
-}
 /* 예전 논리회로 위젯용 전역 .react-flow__handle 규칙이 크기·색을 덮어써서 여기서 다시 잡는다. */
 .studio-canvas .react-flow__handle.studio-handle {
   border-radius: 50% !important;

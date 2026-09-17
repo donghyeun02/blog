@@ -111,11 +111,6 @@
 }
 
 /* ── 전역 리셋과의 충돌 ────────────────────────────────── */
-/* 전역 svg { max-width: 100% }가 선 레이어를 폭 0으로 만들어서 되돌린다. */
-.studio-viewer svg {
-  max-width: none;
-}
-
 /* 글 본문의 .prose img가 위아래 여백·테두리를 붙여 아이콘 노드가 부풀어서 되돌린다. */
 .studio-viewer .studio-icon-img {
   width: 44px;

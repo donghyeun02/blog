@@ -1,16 +1,18 @@
 'use client';
 
 import React, { useCallback, useState, useMemo } from 'react';
-import ReactFlow, {
+import {
+  ReactFlow,
   Controls,
   addEdge,
   useEdgesState,
   useNodesState,
-  Edge,
-  Connection,
-  Node,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+  type Edge,
+  type Connection,
+  type Node,
+  type OnSelectionChangeParams,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 import InputNode from './LogicGates/InputNode';
 import OutputNode from './LogicGates/OutputNode';
 import CustomEdge from './CustomEdge';
@@ -54,6 +56,9 @@ const nodeTypes = {
   fullAdder: FullAdderNode,
 };
 
+// 렌더마다 새 객체를 만들면 React Flow가 경고하고 엣지를 다시 그린다.
+const edgeTypes = { animated: CustomEdge };
+
 function calculateNodeValues(
   nodes: Node[],
   edges: Edge[],
@@ -68,7 +73,8 @@ function calculateNodeValues(
   const nodeMultiOutputs: Record<string, Record<string, number>> = {};
   nodes.forEach((node) => {
     if (node.type === 'inputCustom') {
-      nodeOutputs[node.id] = inputValues[node.id] ?? node.data.value ?? 0;
+      nodeOutputs[node.id] =
+        inputValues[node.id] ?? (node.data.value as number | undefined) ?? 0;
     }
     if (node.type === 'halfAdder' || node.type === 'fullAdder') {
       nodeMultiOutputs[node.id] = {};
@@ -393,7 +399,7 @@ export default function LogicGateSimulator({
   };
 
   // 노드 선택 핸들러
-  const onSelectionChange = useCallback((params: { nodes: Node[] }) => {
+  const onSelectionChange = useCallback((params: OnSelectionChangeParams) => {
     setSelectedNodes(params.nodes.map((n) => n.id));
   }, []);
 
@@ -545,7 +551,7 @@ export default function LogicGateSimulator({
           onConnect={onConnect}
           onSelectionChange={onSelectionChange}
           nodeTypes={nodeTypes}
-          edgeTypes={{ animated: CustomEdge }}
+          edgeTypes={edgeTypes}
           fitView
           snapToGrid
           snapGrid={[20, 20]}
