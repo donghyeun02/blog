@@ -2,24 +2,28 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 import SiteLayout from '@/components/SiteLayout';
 import Script from 'next/script';
+import { SITE_URL } from '@/utils/site';
 
 export const metadata: Metadata = {
+  // metadataBase가 있어야 아래 상대 주소가 정본 주소로 펼쳐지고 canonical이 붙는다.
+  metadataBase: new URL(SITE_URL),
   title: 'donghyeun02',
   description:
     '개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다.',
   keywords:
     'donghyeun02, 웹개발, 백엔드, CS, 기술 블로그, 개발, Next.js, TypeScript, MDX',
   authors: [{ name: 'donghyeun02' }],
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'donghyeun02',
     description:
       '개발자 donghyeun02의 기술 블로그. 웹 개발, 백엔드, CS 학습 과정을 공유합니다.',
     type: 'website',
-    url: 'https://donghyeun02.com/',
+    url: '/',
     siteName: 'donghyeun02',
     images: [
       {
-        url: 'https://donghyeun02.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'donghyeun02 블로그 썸네일',

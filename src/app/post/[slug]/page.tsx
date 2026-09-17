@@ -26,11 +26,12 @@ export async function generateMetadata({
   return {
     title: `${post.title} | donghyeun02`,
     description: post.summary,
+    alternates: { canonical: `/post/${slug}` },
     openGraph: {
       title: post.title,
       description: post.summary,
       type: 'article',
-      url: `https://donghyeun02.com/post/${slug}`,
+      url: `/post/${slug}`,
       siteName: 'donghyeun02',
     },
   };
