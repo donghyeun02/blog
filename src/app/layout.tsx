@@ -23,9 +23,7 @@ export const metadata: Metadata = {
     siteName: 'donghyeun02',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
+        url: 'https://donghyeun-blog-images.s3.us-east-1.amazonaws.com/profile.jpg',
         alt: 'donghyeun02 블로그 썸네일',
       },
     ],
