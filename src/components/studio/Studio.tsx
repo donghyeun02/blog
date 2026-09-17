@@ -69,10 +69,10 @@ function freshDoc(template: TemplateId): StudioDoc {
   return { id: newId('d'), updatedAt: Date.now(), ...buildTemplate(template) };
 }
 
-// 처음 들어오면 가장 최근 도면을 열고, 없으면 움직임이 바로 보이는 요청 흐름 예시로 시작한다.
+// 처음 들어오면 가장 최근 도면을 열고, 없으면 네이버 클라우드 활용 예시 첫 장으로 시작한다.
 function initialDoc(): StudioDoc {
   const latest = listDocs()[0];
-  return (latest && loadDoc(latest.id)) || freshDoc('flow');
+  return (latest && loadDoc(latest.id)) || freshDoc('ncp-autoscaling');
 }
 
 // 글 속 도면의 "스튜디오에서 열기"는 /studio?open=<도면 이름>으로 들어온다.

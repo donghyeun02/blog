@@ -1,0 +1,810 @@
+{
+  "id": "ncp-hybrid",
+  "title": "Hybrid Cloud Hosting",
+  "nodes": [
+    {
+      "id": "ncp",
+      "type": "area",
+      "position": {
+        "x": 148,
+        "y": 276
+      },
+      "zIndex": -1,
+      "width": 470,
+      "height": 590,
+      "data": {
+        "label": "NAVER Cloud Platform",
+        "variant": "vpc"
+      }
+    },
+    {
+      "id": "dc",
+      "type": "area",
+      "position": {
+        "x": 942,
+        "y": 276
+      },
+      "zIndex": -1,
+      "width": 326,
+      "height": 590,
+      "data": {
+        "label": "NBP Data Center",
+        "variant": "vpc"
+      }
+    },
+    {
+      "id": "storage",
+      "type": "area",
+      "position": {
+        "x": 174,
+        "y": 712
+      },
+      "zIndex": -1,
+      "width": 418,
+      "height": 138,
+      "data": {
+        "label": "Storage",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "web",
+      "type": "area",
+      "position": {
+        "x": 188,
+        "y": 412
+      },
+      "zIndex": -1,
+      "width": 404,
+      "height": 138,
+      "data": {
+        "label": "Web Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "app",
+      "type": "area",
+      "position": {
+        "x": 188,
+        "y": 562
+      },
+      "zIndex": -1,
+      "width": 404,
+      "height": 138,
+      "data": {
+        "label": "APP Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "sec",
+      "type": "area",
+      "position": {
+        "x": 682,
+        "y": 79
+      },
+      "zIndex": -1,
+      "width": 307,
+      "height": 141,
+      "data": {
+        "label": "Security",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "servers",
+      "type": "area",
+      "position": {
+        "x": 968,
+        "y": 412
+      },
+      "zIndex": -1,
+      "width": 274,
+      "height": 138,
+      "data": {
+        "label": "Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "dbs",
+      "type": "area",
+      "position": {
+        "x": 968,
+        "y": 712
+      },
+      "zIndex": -1,
+      "width": 274,
+      "height": 138,
+      "data": {
+        "label": "DB Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "ext",
+      "type": "area",
+      "position": {
+        "x": 1065,
+        "y": 1053
+      },
+      "zIndex": -1,
+      "width": 209.5,
+      "height": 104,
+      "data": {
+        "label": "External Applications",
+        "variant": "vpc"
+      }
+    },
+    {
+      "id": "adminL",
+      "type": "box",
+      "position": {
+        "x": 64,
+        "y": -31
+      },
+      "data": {
+        "label": "Admin",
+        "kind": "client"
+      }
+    },
+    {
+      "id": "sslvpn",
+      "type": "icon",
+      "position": {
+        "x": 84,
+        "y": 122
+      },
+      "data": {
+        "iconId": "ssl-vpn",
+        "label": "SSL VPN"
+      }
+    },
+    {
+      "id": "users",
+      "type": "box",
+      "position": {
+        "x": 298,
+        "y": -31
+      },
+      "data": {
+        "label": "Users",
+        "kind": "client"
+      }
+    },
+    {
+      "id": "internet",
+      "type": "icon",
+      "position": {
+        "x": 500,
+        "y": -28
+      },
+      "data": {
+        "iconId": "internet",
+        "label": "Internet"
+      }
+    },
+    {
+      "id": "ddos",
+      "type": "icon",
+      "position": {
+        "x": 708,
+        "y": 122
+      },
+      "data": {
+        "iconId": "basic-security",
+        "label": "Anti-DDoS"
+      }
+    },
+    {
+      "id": "ids",
+      "type": "box",
+      "position": {
+        "x": 831,
+        "y": 119
+      },
+      "data": {
+        "label": "IDS",
+        "kind": "service"
+      }
+    },
+    {
+      "id": "lb",
+      "type": "icon",
+      "position": {
+        "x": 333,
+        "y": 302
+      },
+      "data": {
+        "iconId": "load-balancer",
+        "label": "Load Balancer"
+      }
+    },
+    {
+      "id": "web1",
+      "type": "icon",
+      "position": {
+        "x": 214,
+        "y": 452
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "web2",
+      "type": "icon",
+      "position": {
+        "x": 474,
+        "y": 452
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "app1",
+      "type": "icon",
+      "position": {
+        "x": 214,
+        "y": 602
+      },
+      "data": {
+        "iconId": "server",
+        "label": "APP"
+      }
+    },
+    {
+      "id": "app2",
+      "type": "icon",
+      "position": {
+        "x": 474,
+        "y": 602
+      },
+      "data": {
+        "iconId": "server",
+        "label": "APP"
+      }
+    },
+    {
+      "id": "objst",
+      "type": "icon",
+      "position": {
+        "x": 200,
+        "y": 752
+      },
+      "data": {
+        "iconId": "object-storage",
+        "label": "Object Storage"
+      }
+    },
+    {
+      "id": "block",
+      "type": "icon",
+      "position": {
+        "x": 333,
+        "y": 752
+      },
+      "data": {
+        "iconId": "block-storage",
+        "label": "Block Storage"
+      }
+    },
+    {
+      "id": "nas",
+      "type": "icon",
+      "position": {
+        "x": 474,
+        "y": 752
+      },
+      "data": {
+        "iconId": "nas",
+        "label": "NAS"
+      }
+    },
+    {
+      "id": "adminR",
+      "type": "box",
+      "position": {
+        "x": 1104,
+        "y": -31
+      },
+      "data": {
+        "label": "Admin",
+        "kind": "client"
+      }
+    },
+    {
+      "id": "tunnel",
+      "type": "box",
+      "position": {
+        "x": 1099,
+        "y": 119
+      },
+      "data": {
+        "label": "Secure tunnel",
+        "kind": "external"
+      }
+    },
+    {
+      "id": "ipsec",
+      "type": "icon",
+      "position": {
+        "x": 1124,
+        "y": 302
+      },
+      "data": {
+        "iconId": "managed-ipsec-vpn",
+        "label": "IPSec VPN"
+      }
+    },
+    {
+      "id": "srv1",
+      "type": "icon",
+      "position": {
+        "x": 994,
+        "y": 452
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Server"
+      }
+    },
+    {
+      "id": "srv2",
+      "type": "icon",
+      "position": {
+        "x": 1124,
+        "y": 452
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Server"
+      }
+    },
+    {
+      "id": "firewall",
+      "type": "box",
+      "position": {
+        "x": 974,
+        "y": 599
+      },
+      "data": {
+        "label": "Fire Wall",
+        "kind": "service"
+      }
+    },
+    {
+      "id": "db1",
+      "type": "icon",
+      "position": {
+        "x": 994,
+        "y": 752
+      },
+      "data": {
+        "iconId": "server",
+        "label": "DB"
+      }
+    },
+    {
+      "id": "db2",
+      "type": "icon",
+      "position": {
+        "x": 1124,
+        "y": 752
+      },
+      "data": {
+        "iconId": "server",
+        "label": "DB"
+      }
+    },
+    {
+      "id": "dedicated",
+      "type": "box",
+      "position": {
+        "x": 1095,
+        "y": 929
+      },
+      "data": {
+        "label": "Dedicated line",
+        "kind": "external"
+      }
+    },
+    {
+      "id": "payment",
+      "type": "box",
+      "position": {
+        "x": 1091,
+        "y": 1079
+      },
+      "data": {
+        "label": "Payment Gateway",
+        "kind": "external"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "type": "flow",
+      "source": "users",
+      "target": "internet",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "data": {
+        "animated": true,
+        "step": 1
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "flow",
+      "source": "internet",
+      "target": "ddos",
+      "sourceHandle": "b",
+      "targetHandle": "l",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e3",
+      "type": "flow",
+      "source": "internet",
+      "target": "lb",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 2
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e4",
+      "type": "flow",
+      "source": "internet",
+      "target": "srv1",
+      "sourceHandle": "r",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 2
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e5",
+      "type": "flow",
+      "source": "lb",
+      "target": "web1",
+      "sourceHandle": "l",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 3
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e6",
+      "type": "flow",
+      "source": "lb",
+      "target": "web2",
+      "sourceHandle": "r",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 3
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e7",
+      "type": "flow",
+      "source": "web1",
+      "target": "app1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 4
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e8",
+      "type": "flow",
+      "source": "web2",
+      "target": "app2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 4
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e9",
+      "type": "flow",
+      "source": "app1",
+      "target": "objst",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "flow",
+      "source": "app1",
+      "target": "block",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e11",
+      "type": "flow",
+      "source": "app2",
+      "target": "nas",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "flow",
+      "source": "srv1",
+      "target": "firewall",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 3
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e13",
+      "type": "flow",
+      "source": "firewall",
+      "target": "db1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 4
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e14",
+      "type": "flow",
+      "source": "db2",
+      "target": "dedicated",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e15",
+      "type": "flow",
+      "source": "dedicated",
+      "target": "payment",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 6
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e16",
+      "type": "flow",
+      "source": "web2",
+      "target": "srv1",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "data": {
+        "animated": false,
+        "dashed": true,
+        "label": "Private Subnet"
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e17",
+      "type": "flow",
+      "source": "adminL",
+      "target": "sslvpn",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e18",
+      "type": "flow",
+      "source": "sslvpn",
+      "target": "web1",
+      "sourceHandle": "b",
+      "targetHandle": "l",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e19",
+      "type": "flow",
+      "source": "adminR",
+      "target": "tunnel",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e20",
+      "type": "flow",
+      "source": "tunnel",
+      "target": "ipsec",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e21",
+      "type": "flow",
+      "source": "ipsec",
+      "target": "srv2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    }
+  ]
+}

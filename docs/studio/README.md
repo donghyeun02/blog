@@ -18,6 +18,19 @@ PPTX(zip)의 슬라이드 XML에서 그림 좌표와 그 아래 글상자 좌표
 - 출처: 네이버 클라우드 「서비스 아이콘 및 활용 예시」(2025.02.17), © NAVER Cloud Corp. 편집기 팔레트와
   아이콘을 쓴 글 속 도면의 왼쪽 아래에 출처를 표시한다.
 
+## 새 도면 예시
+
+```bash
+python3 docs/studio/build_examples.py
+```
+
+「서비스 아이콘 및 활용 예시」 PPTX 20~23쪽의 활용 예시 네 장(Auto Scaling 가용성 확보,
+E-Commerce 소규모, Hybrid Cloud Hosting, IoT Analysis Platform)을 편집기의 '새 도면' 예시로 옮긴다.
+슬라이드 좌표를 2.5배로 키워 쓰고, 슬라이드 그림은 스튜디오 아이콘과 모양으로 대조해 골랐다.
+카탈로그에 없는 것(Users, IDS·IPS·WAF, Kafka, Spark, Cassandra, 결제 대행 등)은 상자로 둔다.
+
+- 결과: `src/components/studio/examples/*.json` (`templates.ts`가 불러온다)
+
 ## 글에 들어가는 도면
 
 ```bash

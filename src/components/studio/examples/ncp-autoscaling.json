@@ -1,0 +1,716 @@
+{
+  "id": "ncp-autoscaling",
+  "title": "Auto Scaling 가용성 확보",
+  "nodes": [
+    {
+      "id": "vpc",
+      "type": "area",
+      "position": {
+        "x": 155,
+        "y": 96
+      },
+      "zIndex": -1,
+      "width": 1045.5,
+      "height": 920,
+      "data": {
+        "label": "VPC",
+        "variant": "vpc"
+      }
+    },
+    {
+      "id": "web",
+      "type": "area",
+      "position": {
+        "x": 181,
+        "y": 232
+      },
+      "zIndex": -1,
+      "width": 801,
+      "height": 138,
+      "data": {
+        "label": "Web Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "app",
+      "type": "area",
+      "position": {
+        "x": 448,
+        "y": 532
+      },
+      "zIndex": -1,
+      "width": 541.0,
+      "height": 138,
+      "data": {
+        "label": "APP Servers",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "sec",
+      "type": "area",
+      "position": {
+        "x": -105,
+        "y": -116
+      },
+      "zIndex": -1,
+      "width": 521.5,
+      "height": 141,
+      "data": {
+        "label": "Security Monitoring",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "db",
+      "type": "area",
+      "position": {
+        "x": 434,
+        "y": 862
+      },
+      "zIndex": -1,
+      "width": 425.0,
+      "height": 138,
+      "data": {
+        "label": "Cloud DB",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "static",
+      "type": "area",
+      "position": {
+        "x": 1240,
+        "y": 82
+      },
+      "zIndex": -1,
+      "width": 173.0,
+      "height": 288,
+      "data": {
+        "label": "Static Resources",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "storage",
+      "type": "area",
+      "position": {
+        "x": 890,
+        "y": 862
+      },
+      "zIndex": -1,
+      "width": 284.5,
+      "height": 138,
+      "data": {
+        "label": "Storage",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "cache",
+      "type": "area",
+      "position": {
+        "x": 184,
+        "y": 862
+      },
+      "zIndex": -1,
+      "width": 203.0,
+      "height": 138,
+      "data": {
+        "label": "Cache",
+        "variant": "plain"
+      }
+    },
+    {
+      "id": "secmon",
+      "type": "icon",
+      "position": {
+        "x": -79,
+        "y": -73
+      },
+      "data": {
+        "iconId": "securitymonitoring",
+        "label": "Security Monitoring"
+      }
+    },
+    {
+      "id": "ddos",
+      "type": "icon",
+      "position": {
+        "x": 110,
+        "y": -73
+      },
+      "data": {
+        "iconId": "basic-security",
+        "label": "Anti-DDoS"
+      }
+    },
+    {
+      "id": "ids",
+      "type": "box",
+      "position": {
+        "x": 233,
+        "y": -76
+      },
+      "data": {
+        "label": "IDS · IPS · WAF",
+        "kind": "service"
+      }
+    },
+    {
+      "id": "users",
+      "type": "box",
+      "position": {
+        "x": 584,
+        "y": -76
+      },
+      "data": {
+        "label": "Users",
+        "kind": "client"
+      }
+    },
+    {
+      "id": "lb1",
+      "type": "icon",
+      "position": {
+        "x": 593,
+        "y": 122
+      },
+      "data": {
+        "iconId": "load-balancer",
+        "label": "Load Balancer"
+      }
+    },
+    {
+      "id": "asWeb",
+      "type": "icon",
+      "position": {
+        "x": 207,
+        "y": 272
+      },
+      "data": {
+        "iconId": "auto-scaling",
+        "label": "Auto Scaling"
+      }
+    },
+    {
+      "id": "web1",
+      "type": "icon",
+      "position": {
+        "x": 344,
+        "y": 272
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "web2",
+      "type": "icon",
+      "position": {
+        "x": 474,
+        "y": 272
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "web3",
+      "type": "icon",
+      "position": {
+        "x": 734,
+        "y": 272
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "web4",
+      "type": "icon",
+      "position": {
+        "x": 864,
+        "y": 272
+      },
+      "data": {
+        "iconId": "server",
+        "label": "Web"
+      }
+    },
+    {
+      "id": "lb2",
+      "type": "icon",
+      "position": {
+        "x": 593,
+        "y": 422
+      },
+      "data": {
+        "iconId": "load-balancer",
+        "label": "Load Balancer"
+      }
+    },
+    {
+      "id": "app1",
+      "type": "icon",
+      "position": {
+        "x": 474,
+        "y": 572
+      },
+      "data": {
+        "iconId": "server",
+        "label": "APP"
+      }
+    },
+    {
+      "id": "app2",
+      "type": "icon",
+      "position": {
+        "x": 734,
+        "y": 572
+      },
+      "data": {
+        "iconId": "server",
+        "label": "APP"
+      }
+    },
+    {
+      "id": "asApp",
+      "type": "icon",
+      "position": {
+        "x": 857,
+        "y": 572
+      },
+      "data": {
+        "iconId": "auto-scaling",
+        "label": "Auto Scaling"
+      }
+    },
+    {
+      "id": "lb3",
+      "type": "icon",
+      "position": {
+        "x": 593,
+        "y": 722
+      },
+      "data": {
+        "iconId": "load-balancer",
+        "label": "Load Balancer"
+      }
+    },
+    {
+      "id": "redis",
+      "type": "icon",
+      "position": {
+        "x": 210,
+        "y": 902
+      },
+      "data": {
+        "iconId": "cloud-dbfor-redis",
+        "label": "Cloud DB for Redis"
+      }
+    },
+    {
+      "id": "master",
+      "type": "icon",
+      "position": {
+        "x": 460,
+        "y": 902
+      },
+      "data": {
+        "iconId": "cloud-db",
+        "label": "Master (write)"
+      }
+    },
+    {
+      "id": "slave1",
+      "type": "icon",
+      "position": {
+        "x": 597,
+        "y": 902
+      },
+      "data": {
+        "iconId": "cloud-db",
+        "label": "Slave (read)"
+      }
+    },
+    {
+      "id": "slave2",
+      "type": "icon",
+      "position": {
+        "x": 727,
+        "y": 902
+      },
+      "data": {
+        "iconId": "cloud-db",
+        "label": "Slave (read)"
+      }
+    },
+    {
+      "id": "nas",
+      "type": "icon",
+      "position": {
+        "x": 916,
+        "y": 902
+      },
+      "data": {
+        "iconId": "nas",
+        "label": "NAS"
+      }
+    },
+    {
+      "id": "block",
+      "type": "icon",
+      "position": {
+        "x": 1035,
+        "y": 902
+      },
+      "data": {
+        "iconId": "block-storage",
+        "label": "Block Storage"
+      }
+    },
+    {
+      "id": "cdn",
+      "type": "icon",
+      "position": {
+        "x": 1280,
+        "y": 122
+      },
+      "data": {
+        "iconId": "cdn",
+        "label": "CDN"
+      }
+    },
+    {
+      "id": "objst",
+      "type": "icon",
+      "position": {
+        "x": 1266,
+        "y": 272
+      },
+      "data": {
+        "iconId": "object-storage",
+        "label": "Object Storage"
+      }
+    },
+    {
+      "id": "basic",
+      "type": "icon",
+      "position": {
+        "x": 1266,
+        "y": 662
+      },
+      "data": {
+        "iconId": "basic-security",
+        "label": "Basic Security"
+      }
+    },
+    {
+      "id": "mon",
+      "type": "icon",
+      "position": {
+        "x": 1280,
+        "y": 812
+      },
+      "data": {
+        "iconId": "monitoring",
+        "label": "Monitoring"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "type": "flow",
+      "source": "users",
+      "target": "lb1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 1
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "flow",
+      "source": "users",
+      "target": "cdn",
+      "sourceHandle": "r",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 1
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e3",
+      "type": "flow",
+      "source": "ids",
+      "target": "users",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e4",
+      "type": "flow",
+      "source": "lb1",
+      "target": "web2",
+      "sourceHandle": "l",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 2
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e5",
+      "type": "flow",
+      "source": "lb1",
+      "target": "web3",
+      "sourceHandle": "r",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 2
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e6",
+      "type": "flow",
+      "source": "web2",
+      "target": "lb2",
+      "sourceHandle": "b",
+      "targetHandle": "l",
+      "data": {
+        "animated": true,
+        "step": 3
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e7",
+      "type": "flow",
+      "source": "web3",
+      "target": "lb2",
+      "sourceHandle": "b",
+      "targetHandle": "r",
+      "data": {
+        "animated": true,
+        "step": 3
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e8",
+      "type": "flow",
+      "source": "web4",
+      "target": "objst",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "data": {
+        "animated": false,
+        "dashed": true
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e9",
+      "type": "flow",
+      "source": "lb2",
+      "target": "app1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 4
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "flow",
+      "source": "lb2",
+      "target": "app2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 4
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e11",
+      "type": "flow",
+      "source": "app1",
+      "target": "redis",
+      "sourceHandle": "l",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "flow",
+      "source": "app1",
+      "target": "master",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e13",
+      "type": "flow",
+      "source": "app2",
+      "target": "lb3",
+      "sourceHandle": "b",
+      "targetHandle": "r",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e14",
+      "type": "flow",
+      "source": "lb3",
+      "target": "slave1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 6
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e15",
+      "type": "flow",
+      "source": "lb3",
+      "target": "slave2",
+      "sourceHandle": "r",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 6
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    },
+    {
+      "id": "e16",
+      "type": "flow",
+      "source": "app2",
+      "target": "nas",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "data": {
+        "animated": true,
+        "step": 5
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 16,
+        "height": 16,
+        "color": "#1D1D1F"
+      }
+    }
+  ]
+}
