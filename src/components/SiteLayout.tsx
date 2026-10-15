@@ -24,8 +24,11 @@ export default function SiteLayout({
             <Link className="ext" href="/log">
               로그
             </Link>
+            <Link className="ext" href="/resume">
+              About
+            </Link>
             <Link className="ext" href="/about">
-              소개
+              Blog
             </Link>
           </nav>
         </header>

@@ -66,9 +66,14 @@ const LINKS = [
     href: 'https://github.com/donghyeun02',
   },
   {
-    label: 'Email',
-    value: 'donghyeun02@gmail.com',
-    href: 'mailto:donghyeun02@gmail.com',
+    label: '협업 문의',
+    value: 'contact@naegoworks.com',
+    href: 'mailto:contact@naegoworks.com',
+  },
+  {
+    label: '사업자',
+    value: 'naegoworks.com',
+    href: 'https://naegoworks.com',
   },
 ] as const;
 
@@ -80,7 +85,7 @@ export default function AboutPage() {
           ← 홈
         </Link>
         <div className="label mt-[1.5lh]">
-          <h2>소개</h2>
+          <h2>블로그 소개</h2>
           <span className="label-meta">about</span>
         </div>
         <p className="text-[15px] leading-[1.85] text-[#3C3C43]">

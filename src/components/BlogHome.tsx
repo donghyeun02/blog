@@ -88,6 +88,26 @@ export default function BlogHome() {
           </Link>
         </nav>
 
+        {/* 협업 문의는 개인 메일이 아니라 사업자 메일로 받는다. */}
+        <p className="mb-0 mt-[0.6lh] text-[13px] leading-snug text-[#6E6E73]">
+          협업 문의{' '}
+          <a
+            href="mailto:contact@naegoworks.com"
+            className="text-[#1D1D1F] underline underline-offset-2 transition-[color] duration-150 hover:text-[#6E6E73]"
+          >
+            contact@naegoworks.com
+          </a>
+          <span aria-hidden="true"> · </span>
+          <a
+            href="https://naegoworks.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#1D1D1F] underline underline-offset-2 transition-[color] duration-150 hover:text-[#6E6E73]"
+          >
+            naegoworks.com ↗
+          </a>
+        </p>
+
         {/* 스튜디오 입구. 무엇을 그릴 수 있는 곳인지가 한눈에 보인다. */}
         <div className="mt-[1.4lh]">
           <StudioStrip />
