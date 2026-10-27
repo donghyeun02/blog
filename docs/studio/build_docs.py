@@ -398,8 +398,23 @@ def gyeol_flow():
     return d
 
 
+# ── 작당모의 재접속 루프 글 ──────────────────────────────────────
+def jakdang_loop():
+    """같은 코드를 쓰는 앱 두 개가 서버에 번갈아 붙으며 서로를 쫓아낸다."""
+    d = Doc('jakdang-loop', '같은 코드를 쓰는 앱 두 개가 서로를 쫓아낸다')
+    d.box('server', 'service', '릴레이 서버', 250, 0, sub='코드 하나에 연결 하나', width=220)
+    d.area('pc', 'plain', '윈도우 PC 한 대 — 같은 프로필, 같은 코드', 0, 170, 720, 220)
+    d.box('appA', 'client', '작당모의 A', 40, 230, sub='끊기면 1초 뒤 다시', width=200)
+    d.box('appB', 'client', '작당모의 B', 480, 300, sub='끊기면 1초 뒤 다시', width=200)
+    d.edge('appA', 'server', 't', 'l', step=1, label='hello')
+    d.edge('appB', 'server', 't', 'r', step=2, label='hello')
+    d.edge('server', 'appA', 'b', 'r', step=2, blocked=True, label='A를 끊음')
+    d.edge('server', 'appB', 'b', 'l', step=3, blocked=True, label='B를 끊음')
+    return d
+
+
 DIAGRAMS = [day1, net_direction, net_layers, ssh_hang, day2, scrape_path, docker_isolated, day3,
-            k3s_split, day4, k8s_selector, day6, nodeport_ports, alb_health, stack, overall, gyeol_flow]
+            k3s_split, day4, k8s_selector, day6, nodeport_ports, alb_health, stack, overall, gyeol_flow, jakdang_loop]
 
 
 def main():

@@ -206,4 +206,13 @@ export const postsMeta: PostMeta[] = [
     category: 'Dev',
     date: '2026.09',
   },
+  {
+    title: '동시 접속 6명인데 하루 접속이 1만 번',
+    path: '/post/jakdangReconnect',
+    slug: 'jakdangReconnect',
+    summary:
+      '데스크톱 앱 작당모의를 운영하다 만난 재접속 무한 루프 — 멀쩡한 규칙 세 개가 만나 서로를 1초마다 쫓아냈다',
+    category: 'Dev',
+    date: '2026.10',
+  },
 ];

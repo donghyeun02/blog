@@ -26,6 +26,7 @@ export const postsContent: Record<
   nft: () => import('@/app/local-mdx/nft.mdx'),
   nodeVersion: () => import('@/app/local-mdx/nodeVersion.mdx'),
   skillKit: () => import('@/app/local-mdx/skillKit.mdx'),
+  jakdangReconnect: () => import('@/app/local-mdx/jakdangReconnect.mdx'),
   'trust-your-server': () => import('@/app/local-mdx/trust-your-server.mdx'),
   windowEthereum: () => import('@/app/local-mdx/windowEthereum.mdx'),
   k8sManifest: () => import('@/app/local-mdx/k8sManifest.mdx'),
