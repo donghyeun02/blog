@@ -122,7 +122,7 @@ export const ACTIVITIES: readonly TimelineItem[] = [
   {
     period: '2026.05',
     title: 'everything-claude-code 오픈소스 기여',
-    detail: 'prisma-patterns 스킬 PR merge',
+    detail: 'prisma-patterns 스킬, 메인테이너 통합 PR로 반영',
   },
   {
     period: '2024.08',
