@@ -1,81 +1,64 @@
-블록체인과 IPFS를 활용한 탈중앙화 블로그 플랫폼입니다.
+# donghyeun02.com
 
-## 주요 기능
+글 원본을 IPFS에 올리고 그 CID를 Polygon 컨트랙트에 기록하는 블로그에서 시작해, 직접 만든 도구를 하나씩 얹어 가는 개인 사이트입니다.
 
-- **IPFS 기반 콘텐츠 저장**: 블로그 글을 IPFS에 저장하여 분산화
-- **스마트컨트랙트 기반 메타데이터 관리**: 글의 CID를 이더리움 스마트컨트랙트에 등록
-- **반응형 디자인**: 모바일과 데스크톱에 최적화된 UI
-- **카테고리별 분류**: CS, Backend, Blockchain, Java, Go, Dev 카테고리 지원
-- **다양한 뷰 모드**: 카드형과 썸네일형 뷰 지원
+→ [donghyeun02.com](https://www.donghyeun02.com)
+
+## 이 레포에서 볼 만한 것
+
+| | 무엇 | 결과 |
+|---|---|---|
+| 하드닝 사이클 | 레드팀이 찾고 검증된 것만 블루팀이 고치는 `/harden` 사이클을 이 사이트에 돌렸습니다. 고치기 전에 제안서부터 남깁니다. | 보안 점수 **62 → 99** · [점수표](docs/hardening/scoreboard.md) · [제안서](docs/hardening/proposals) · [글](https://www.donghyeun02.com/post/hardening) |
+| 인터랙티브 위젯 | 논리 게이트·HTTP 흐름 같은 위젯을 글 안에 넣고, 위젯을 지연 로딩합니다. | 글 페이지 JS **476KB → 176KB** |
+| 다이어그램 스튜디오 | 구성도·ERD·흐름도를 그리는 `/studio` 편집기. 글 안의 도면도 같은 렌더러를 읽기 전용으로 씁니다. | 글 속 도면 **17장**을 움직이는 도면으로 교체 · [문서](docs/studio/README.md) |
+| 무결성 검증 | 글 원본은 IPFS(Pinata)에, CID는 Polygon 컨트랙트에 기록합니다. | `/contract/registry`에서 확인 |
+
+## 하드닝 기록
+
+| Cycle | Date | Dim | Score | Δ |
+|---|---|---|---|---|
+| 1 | 2026-06-04 | security | 62 → 99 | +37 |
+
+1회차에 고친 것: 경로 탈출(C), 공개 접두사 시크릿(M), XSS 싱크(M), 보안 헤더(M), 죽은 코드(L). CSP는 런타임 검증이 필요해 다음 사이클로 넘겼습니다. 자세한 내용은 [점수표](docs/hardening/scoreboard.md)에 있습니다.
 
 ## 기술 스택
 
-### Frontend
+- **Next.js 16** (App Router) · **React 19** · **TypeScript** · **MDX**
+- **React Flow** (다이어그램 스튜디오)
+- **IPFS** (Pinata) · **Polygon** · **Ethers.js**
+- **Vercel**
 
-- **Next.js 14** (App Router)
-- **React 18** (TypeScript)
-- **Tailwind CSS** (스타일링)
-- **MDX** (마크다운 + JSX)
+## 실행
 
-### Blockchain & Web3
+```bash
+npm install
+npm run dev          # 개발 서버
+npm run type-check   # tsc
+npm run lint         # ESLint
+npm run build
+```
 
-- **Ethers.js** (이더리움 연동)
-- **MetaMask** (지갑 연결)
-- **IPFS** (분산 저장소)
-- **Sepolia Testnet** (스마트컨트랙트 배포)
+블록체인 조회에는 `NEXT_PUBLIC_POLYGON_RPC_URL`이 필요합니다.
 
-### 개발 도구
-
-- **TypeScript** (타입 안정성)
-- **ESLint** (코드 품질)
-- **Vercel** (배포)
-
-## 📁 프로젝트 구조
+## 구조
 
 ```
 src/
-├── app/                    # Next.js App Router
-│   ├── post/[slug]/       # 블로그 포스트 페이지
-│   │   ├── ClientMdxLoader.tsx  # MDX 로더 (리팩토링 완료)
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/            # React 컴포넌트
-│   ├── BlogHome.tsx      # 블로그 홈 (리팩토링 완료)
-│   ├── BlogRegistryUI.tsx # 블록체인 연동 UI (리팩토링 완료)
-│   ├── DynamicMdxViewer.tsx
-│   ├── mdx-components.tsx
-│   ├── postsMeta.ts      # 포스트 메타데이터 (타입 통합)
-│   └── [기타 컴포넌트들]
-├── contracts/            # 스마트컨트랙트 관련
-│   └── blogRegistry.ts   # 블로그 레지스트리 컨트랙트
-├── types/               # TypeScript 타입 정의 (신규)
-│   ├── index.ts         # 공통 타입 정의
-│   └── LogicGates.ts
-├── utils/               # 유틸리티 함수 (신규)
-│   ├── blockchain.ts    # 블록체인 연동 유틸리티
-│   ├── styles.ts        # 스타일 유틸리티
-│   └── metadata.ts
-└── styles/              # 글로벌 스타일
-    └── globals.css
+  app/
+    post/[slug]/      글 페이지
+    posts/  log/  about/  resume/
+    studio/           다이어그램 편집기
+    contract/registry CID 무결성 확인
+  components/
+    mdx/              글 안 인터랙티브 위젯
+    studio/           편집기·뷰어·노드
+  utils/blockchain.ts Polygon 조회
+docs/
+  hardening/          하드닝 점수표와 사이클별 제안서
+  studio/             아이콘·예시 생성 스크립트
+scripts/              MDX 다운로드 등
 ```
 
-## 블록체인 연동
-
-### IPFS 연동
-
-- Pinata IPFS 서비스 사용
-- CID 기반 콘텐츠 조회
-- 분산 저장소 활용
-
-## 다음 단계
-
-- [ ] 무결성 검증 로직 구현
-- [ ] 사용자 인증 시스템
-- [ ] 댓글 시스템
-- [ ] SEO 최적화
-- [ ] 성능 모니터링
-
-## 📄 라이선스
+## 라이선스
 
 MIT License
